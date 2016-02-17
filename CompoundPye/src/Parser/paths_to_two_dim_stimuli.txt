@@ -1,0 +1,2 @@
+/home/ilyas/workspace/DetectorModel/v0.93/CompoundPye/src/Surroundings/Stimuli/two_dim_sine.py
+/home/ilyas/workspace/DetectorModel/v0.93/CompoundPye/src/Surroundings/Stimuli/two_dim_box.py

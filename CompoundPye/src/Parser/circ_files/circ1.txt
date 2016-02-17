@@ -1,0 +1,39 @@
+arrangement=column
+variable tau=0.5
+variable RC=0.2
+column_components{
+correlator_OFF	-	0.05,tau	power_law	4	2,2
+correlator_ON	-	0.05,tau	power_law	4	2,1
+high_pass_ON	HighpassFilter2	RC,tau	sigmoid	0,20,5	0,1
+high_pass_ON_long	HighpassFilter2	RC,tau*10	sigmoid	0,30,5	0,2
+low_pass	LowpassFilter2	RC,tau	sigmoid	0,20,5	0,0
+high_pass_OFF	HighpassFilter2	RC,tau	sigmoid	0,-20,5	1,1
+high_pass_OFF_long	HighpassFilter2	RC,tau*10	sigmoid	0,-30,5	1,2
+}
+
+receiver{
+high_pass_ON
+high_pass_OFF
+high_pass_OFF_long
+high_pass_ON_long
+}
+
+column_connections{
+high_pass_ON	1.0	correlator_ON
+high_pass_OFF	1.0	correlator_OFF
+}
+
+between_next_neighbour_components{
+subtraction_ON	-	0.01,tau	identity	-	0,0
+subtraction_OFF	-	0.01,tau	identity	-	0,0
+}
+
+next_neighbour_connections{
+high_pass_ON_long	1.0	correlator_ON
+high_pass_OFF_long	1.0	correlator_OFF
+correlator_ON	l1.0,r-1.0	subtraction_ON
+correlator_OFF	l1.0,r-1.0	subtraction_OFF
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

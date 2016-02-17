@@ -1,0 +1,2 @@
+/home/ilyas/workspace/DetectorModel/v0.93/CompoundPye/src/Sensors/sensor.py
+/home/ilyas/workspace/DetectorModel/v0.93/CompoundPye/src/Sensors/photoreceptor.py

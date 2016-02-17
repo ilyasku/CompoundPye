@@ -1,0 +1,5 @@
+graft CompoundPye/src/OmmatidialMap
+include *.txt
+graft CompoundPye/Documentation
+include *.html
+include MANIFEST.in
