@@ -176,7 +176,7 @@ if __name__=="__main__":
                 t+=dt
                 i+=1
         
-            #print "I run through the while loop!"
+            #print "I ran through the while loop!"
 
             f_out.close()
 
@@ -196,7 +196,7 @@ if __name__=="__main__":
 
             sys.stdout.write("done with v="+str(v_i)+"\n")
 
-            #print "I run through the function!"
+            #print "I ran through the function!"
 
             return True
             
