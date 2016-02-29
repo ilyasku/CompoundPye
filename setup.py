@@ -3,7 +3,7 @@ Run this to install.
 Modified from https://wiki.python.org/moin/Distutils/Tutorial.
 """
 
-from distutils.core import setup
+from setuptools import setup
 
 #This is a list of files to install, and where
 #(relative to the 'root' dir, where setup.py is)
@@ -35,7 +35,7 @@ setup(name = "CompoundPye",
                   'CompoundPye.src.Sensors',
                   'CompoundPye.src.Surroundings',
                   'CompoundPye.src.Surroundings.Stimuli'],
-      package_data={'':['*.mat','*.pkl']},
+      package_data={'':['*.mat','*.pkl','*.npy']},
       scripts=['CompoundPye/executables/cp_GUI.py',
                'CompoundPye/executables/cp_non_GUI_wrapper.py',
                'CompoundPye/executables/cp_analyze_set_of_simulations.py',

@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: CompoundPye
+Version: 0.93.8
+Summary: Modelling and simulation framework for neural nets of compound eyes.
+Home-page: https://github.com/ilyasku/CompoundPye
+Author: Ilyas Kuhlemann
+Author-email: ilyasp.ku@gmail.com
+License: Creative Commons Attribution-ShareAlike 4.0 International License
+Description: Modelling and simulation framework for neural nets of compound eyes.
+Platform: UNKNOWN
