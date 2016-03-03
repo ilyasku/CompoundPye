@@ -496,7 +496,6 @@ CompoundPye/src/Graph/__init__.py
 CompoundPye/src/Graph/sensors.py
 CompoundPye/src/Graph/sensors_old.py
 CompoundPye/src/OmmatidialMap/#__init__.py#
-CompoundPye/src/OmmatidialMap/#read_droso.py#
 CompoundPye/src/OmmatidialMap/SphereCoord.mat
 CompoundPye/src/OmmatidialMap/SphereCoordB.mat
 CompoundPye/src/OmmatidialMap/SphereCoordCalli.mat
@@ -505,7 +504,10 @@ CompoundPye/src/OmmatidialMap/accpAngle.mat
 CompoundPye/src/OmmatidialMap/accpAngleGaussFit.mat
 CompoundPye/src/OmmatidialMap/accptAngleGaussFit.sfit
 CompoundPye/src/OmmatidialMap/animation.gif
+CompoundPye/src/OmmatidialMap/droso_gauss_coeffs.npy
+CompoundPye/src/OmmatidialMap/droso_sphere_coords_spheric.npy
 CompoundPye/src/OmmatidialMap/read_droso.py
+CompoundPye/src/OmmatidialMap/read_droso_mat.py
 CompoundPye/src/OmmatidialMap/SensorFiles/map_phi_-1.57079632679,0_theta_0.785398163397,2.35619449019.txt
 CompoundPye/src/OmmatidialMap/SensorFiles/map_phi_-3.14159265359,3.14159265359_theta_0,3.14159265359.txt
 CompoundPye/src/OmmatidialMap/SensorFiles/map_phi_0.970796326795,2.17079632679_theta_1.32079632679,1.82079632679.txt

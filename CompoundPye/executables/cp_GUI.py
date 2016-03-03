@@ -222,6 +222,9 @@ NO WAY TO SAVE VIDEOSURROUNDINGS IMPLEMENTED SO FAR!!!!
             pickle.dump(self.GUI.values,f,pickle.HIGHEST_PROTOCOL)
 
 
+        self.GUI.tab_list[2].editor.save_file(str(self.GUI.values['output']['dir'])+'/components.txt')
+        self.GUI.tab_list[3].editor.editor.do_save(str(self.GUI.values['output']['dir'])+'/sensors.txt')
+
         #for stim in self.surroundings.stimuli:
             #print stim.intensities
         
