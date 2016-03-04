@@ -464,6 +464,7 @@ CompoundPye/Documentation/html/search/variables_9.js
 CompoundPye/executables/cp_GUI.py
 CompoundPye/executables/cp_analyze_set_of_simulations.py
 CompoundPye/executables/cp_analyze_single_simulation.py
+CompoundPye/executables/cp_get_circuit_info.py
 CompoundPye/executables/cp_non_GUI_wrapper.py
 CompoundPye/executables/cp_replace_T4_T5_inhibitory_with_LPis.py
 CompoundPye/src/__init__.py
@@ -500,6 +501,7 @@ CompoundPye/src/OmmatidialMap/SphereCoord.mat
 CompoundPye/src/OmmatidialMap/SphereCoordB.mat
 CompoundPye/src/OmmatidialMap/SphereCoordCalli.mat
 CompoundPye/src/OmmatidialMap/__init__.py
+CompoundPye/src/OmmatidialMap/__init__.pyc
 CompoundPye/src/OmmatidialMap/accpAngle.mat
 CompoundPye/src/OmmatidialMap/accpAngleGaussFit.mat
 CompoundPye/src/OmmatidialMap/accptAngleGaussFit.sfit
@@ -507,6 +509,7 @@ CompoundPye/src/OmmatidialMap/animation.gif
 CompoundPye/src/OmmatidialMap/droso_gauss_coeffs.npy
 CompoundPye/src/OmmatidialMap/droso_sphere_coords_spheric.npy
 CompoundPye/src/OmmatidialMap/read_droso.py
+CompoundPye/src/OmmatidialMap/read_droso.pyc
 CompoundPye/src/OmmatidialMap/read_droso_mat.py
 CompoundPye/src/OmmatidialMap/SensorFiles/map_phi_-1.57079632679,0_theta_0.785398163397,2.35619449019.txt
 CompoundPye/src/OmmatidialMap/SensorFiles/map_phi_-3.14159265359,3.14159265359_theta_0,3.14159265359.txt
