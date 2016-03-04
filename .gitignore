@@ -1,5 +1,7 @@
 # distributions created with distutils
 /dist/
+/CompoundPye.egg-info/
+
 
 # Contents not ready for publication yet
 /CompoundPye/_workspace/
