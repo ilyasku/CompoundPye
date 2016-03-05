@@ -40,7 +40,8 @@ setup(name = "CompoundPye",
                'CompoundPye/executables/cp_non_GUI_wrapper.py',
                'CompoundPye/executables/cp_analyze_set_of_simulations.py',
                'CompoundPye/executables/cp_analyze_single_simulation.py',
-               'CompoundPye/executables/cp_replace_T4_T5_inhibitory_with_LPis.py'],
+               'CompoundPye/executables/cp_replace_T4_T5_inhibitory_with_LPis.py',
+               'CompoundPye/executables/cp_get_circuit_info.py'],
       long_description = """Modelling and simulation framework for neural nets of compound eyes.""" ,
       license="Creative Commons Attribution-ShareAlike 4.0 International License"
 ) 
