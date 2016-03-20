@@ -12,6 +12,8 @@ Provides the basic Surroundings class, which handles the surroundings of the age
 '''
 CHANGELOG
 
+20.03.2016: REMAKE
+
 05.06.2015: v0.6 -> v0.7
 
 05.06.2015: added function Surroundings.init_stim
