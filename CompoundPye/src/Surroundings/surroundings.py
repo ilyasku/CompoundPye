@@ -24,7 +24,7 @@ CHANGELOG
 import numpy as np
 from PIL import Image
 
-from Stimuli import stimulus
+from .Stimuli import stimulus
 
 class Surroundings:
     """
@@ -50,10 +50,12 @@ class Surroundings:
         self.intensities=np.zeros(self.n_pixel+[intensity_dim])
         self.intensities_shape=self.intensities.shape
         ## conversion factor radian -> pixel
+        '''
         self.conversion=np.zeros(self.ndim)
         for i in range(0,self.ndim):
             self.conversion[i]=self.n_pixel[i]/(2.0-i)/np.pi
-            
+        '''
+ 
         self.stimuli=[]
 
         self.background=background
@@ -67,10 +69,10 @@ class Surroundings:
             
     def add_stimulus(self,stimulus_class,object_params,object_params_dict):
         """
-        Adds a new Stimulus to the list of stimuli.
-        @param stimulus_class A class to create the new Stimulus-object.
-        @param object_params List of parameters to pass on to the constructor of the class.
-        @param object_params_dict Dictionary of keyword-parameters to pass on to the constructor of the class.
+Adds a new Stimulus to the list of stimuli.
+@param stimulus_class A class to create the new Stimulus-object.
+@param object_params List of parameters to pass on to the constructor of the class.
+@param object_params_dict Dictionary of keyword-parameters to pass on to the constructor of the class.
         """
         new_stimulus=stimulus_class(*object_params,**object_params_dict)
         self.stimuli.append(new_stimulus)
@@ -91,29 +93,17 @@ class Surroundings:
         px_start=[int(starting_point[0]*self.intensities.shape[0]),int(starting_point[1]*self.intensities.shape[1])]
         px_velocity=[int(velocity[0]*self.intensities.shape[0]),int(velocity[1]*self.intensities.shape[1])]
 
-
-        if px_spatial_extend[0]<im.size[0] and px_spatial_extend[1]<im.size[1]:
-            im=im.resize(px_spatial_extend,Image.ANTIALIAS)
-        elif spatial_extend[0]>im.size[0] and spatial_extend[1]>im.size[1]:
-            im=im.resize(px_spatial_extend,Image.BICUBIC)
-        else:
-            im=im.resize(px_spatial_extend)
-
-        if self.intensity_dim==1:
-            #a=np.zeros(list(spatial_extend)+[1])
-            a=np.zeros(px_spatial_extend+[1])
-            a[:,:,0]=np.array(im.transpose(Image.ROTATE_90))/255.
-        else:
-            a=np.array(im.transpose(Image.ROTATE_90))/255.
-
-        stim=stimulus.Stimulus(self.intensity_dim,px_spatial_extend,px_start,px_velocity)
-        stim.intensities=a
+        stim=stimulus.ImgStimulus(self.intensity_dim,im,px_spatial_extend,px_start,px_velocity)
 
         self.stimuli.append(stim)
             
 
 
     def init_stimuli(self):
+        """
+Update stimuli with zero time step (i.e., update surroundings with
+unmoving stimuli)
+        """
         self.update(0)
             
     def update(self,dt):
@@ -129,6 +119,7 @@ class Surroundings:
         elif self.ndim==2:
             self.update_two(dt)
 
+        # limit intensities to values between 0 and 1
         self.intensities[np.where(self.intensities<0)]=0
         self.intensities[np.where(self.intensities>1)]=1
             
@@ -188,14 +179,3 @@ class Surroundings:
                     
                     self.intensities[:overshoot0+1,stim.index_in_space[1]:,:]+=stim.intensities[stim.intensities.shape[0]-overshoot0-1:,:-overshoot1-1,:]
                     self.intensities[:overshoot0+1,:overshoot1+1,:]+=stim.intensities[stim.intensities.shape[0]-overshoot0-1:,stim.intensities.shape[1]-overshoot1-1:,:]
-                                     
-                                     
-                
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-            
