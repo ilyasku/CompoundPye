@@ -193,6 +193,8 @@ class RunGUI:
 
         self.surroundings.init_stimuli()
         
+        
+
         if True:
 
             import matplotlib.pyplot as plt

@@ -78,35 +78,3 @@ class ImgStimulus(Stimulus):
         Stimulus.__init__(self,intensity_dim,spatial_extend,starting_point,velocity)
         self.intensities=a
 
-
-class RenderStimulus(Stimulus):
-
-    def __init__(self,intensity_dim,function,spatial_extend,starting_point,t_offset=0,function_args=[],function_kwargs={}):
-        self.function=function
-        self.args=function_args
-        self.kwargs=function_kwargs
-        self.t=t_offset
-        Stimulus.__init__(self,intensity_dim,spatial_extend,starting_point,np.zeros(len(spatial_extend)))
-        if len(self.spatial_extend)==1:
-            self.xy_grid=np.arange(self.intensities.shape[0])
-            #self.update=self.update_one
-        else: #len(self.spatial_extend)==2:
-            self.xy_grid=np.meshgrid(np.arange(self.intensities.shape[0]),np.arange(self.intensities.shape[1]))
-            #self.update=self.update_two
-
-    def update(self,dt):
-        if len(self.spatial_extend)==1:
-            self.update_one(dt)
-        else:
-            self.update_two(dt)
-        #self.t=self.t+dt
-        #self.intensities=self.function(self.t,self.xy_grid,**self.kwargs)
-
-    def update_one(self,dt):
-        self.t=self.t+dt
-        self.intensities[:,0]=self.function(self.t,self.xy_grid,*self.args,**self.kwargs)
-
-    def update_two(self,dt):
-        self.t=self.t+dt
-        self.intensities[:,:,0]=self.function(self.t,self.xy_grid,*self.args,**self.kwargs)
-        
