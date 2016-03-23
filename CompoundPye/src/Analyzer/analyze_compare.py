@@ -46,7 +46,7 @@ class AnalyzeCompare:
 
         self.name_of_loaded_neuron=None
 
-    def get_max_min_lines(self,neuron_name='tangential HS',skip=0.4):
+    def get_max_min_lines(self,neuron_name='tangential HS',skip=0.8):
         """
         Reads maximum, minimum, and mean response of one cell for each simulation.
         These values (usually only mean) can be used to plot tuning curves. The default parameter changing among simulations is stimulus speed. Thus, speed tuning curves can be generated this way.
@@ -223,8 +223,7 @@ class AnalyzeCompare:
         return line,m
 
 
-    def plot_mean_resp(self,ax,neuron_name,scale='normal',plot_kwargs={'linestyle':'dashed','color':'blue','marker':'x','markersize':6,'mec':'black','mfc':'black','mew':3},min_max_speeds=[-360,360]):
-        m=self.get_max_min_lines(neuron_name)
+    def plot_mean_resp(self,ax,neuron_name,scale='normal',plot_kwargs={'linestyle':'dashed','color':'blue','marker':'x','markersize':6,'mec':'black','mfc':'black','mew':3},min_max_speeds=[-360,360],skip=0.8):
         """
         Plots a tuning curve using mean responses (AnalyzeCompare.mean_lines).
         @param ax Axis object in which to plot.
@@ -234,6 +233,9 @@ class AnalyzeCompare:
         @param normalize_0_to_1 If True, data will be linearly stretched and shifted to cover values between 0 and 1.
         @param min_max_speeds List of lower and upper speed boundaries, if you wish to inlcude only stimuli in a certain interval.
         """
+
+        m=self.get_max_min_lines(neuron_name,skip)
+
         means=[]
 
         for i in range(len(self.max_lines)):

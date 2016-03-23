@@ -5,11 +5,12 @@
 Run this to analyze a set of simulations conducted with the non_GUI_wrapper.py
 """
 
-from CompoundPye.Analyzer.analyze_compare import *
+from CompoundPye.src.Analyzer.analyze_compare import *
 
 memory_friendly=False
 _scale='normal'
 neuron_indices=[-1]
+skip=0.6
 if len(sys.argv)>2:
     if sys.argv.count('-log'):
         _scale='log'
@@ -19,6 +20,9 @@ if len(sys.argv)>2:
 
     if sys.argv.count('--memory-friendly'):
         memory_friendly=True
+
+    if sys.argv.count('--skip'):
+        skip=float(sys.argv[sys.argv.index('--skip')+1])
 
 
 ac=AnalyzeCompare(sys.argv[1],memory_friendly)
@@ -42,6 +46,7 @@ for i in neuron_indices:
     else:
         name=ac.ana_objects[0].get_neuron_names()[i]
 
+    '''
     f,ax=plt.subplots(1,1)
     count=0
     for ind in random_inds:
@@ -53,20 +58,22 @@ for i in neuron_indices:
     ax.set_title(name)
 
     f.show()
+    '''
 
-
-    f_max,ax_max=plt.subplots(1,1)
-    f_abs_max,ax_abs_max=plt.subplots(1,1)
+    #f_max,ax_max=plt.subplots(1,1)
+    #f_abs_max,ax_abs_max=plt.subplots(1,1)
     f_mean,ax_mean=plt.subplots(1,1)
 
-    ac.plot_max_resp(ax_max,name,scale=_scale)
-    ac.plot_min_resp(ax_max,name,scale=_scale)
-    ac.plot_abs_max_resp(ax_abs_max,name,scale=_scale)
-    ac.plot_mean_resp(ax_mean,name,scale=_scale)
+    #ac.plot_max_resp(ax_max,name,scale=_scale)
+    #ac.plot_min_resp(ax_max,name,scale=_scale)
+    #ac.plot_abs_max_resp(ax_abs_max,name,scale=_scale)
+    ac.plot_mean_resp(ax_mean,name,scale=_scale,skip=skip)
 
-    ax_mean.set_title('mean')
+    #f_max.show()
+    #f_abs_max.show()
+    #f_mean.show()
 
-    f_max.show()
-    f_abs_max.show()
-    f_mean.show()
+ax_mean.set_title('mean')
+ax_mean.grid()
 
+plt.show()
