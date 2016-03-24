@@ -44,6 +44,8 @@ class Sensor:
         self.value=0
         self.normalize=normalize
         
+
+        self.receptive_field_set=False
         self.receptive_field=None
         self.filter=None
         self.normalization_factor=1.
@@ -75,7 +77,7 @@ class Sensor:
         @note The actual calculation happens in separate one or two dimensional update-functions.
         """
         
-        if self.receptive_field==None:
+        if self.receptive_field_set==False:
             print 'WARNING: Sensor not set! (It does not know where to look for inputs.)'
         else:     
             if self.receptive_field.shape[0]==1:
@@ -146,6 +148,8 @@ class Sensor:
         for i in range(0,self.receptive_field.shape[0]):
             self.receptive_field[i]=max(self.receptive_field[i],0)
         
+
+        self.receptive_field_set=True
         #print '------------set receptive field-----------------'
         
         #print 'center:'
