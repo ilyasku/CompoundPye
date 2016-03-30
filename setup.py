@@ -10,7 +10,7 @@ from setuptools import setup
 #You could be more specific.
 
 setup(name = "CompoundPye",
-      version = "0.93.8",
+      version = "0.93.9",
       description = "Modelling and simulation framework for neural nets of compound eyes.",
       author = "Ilyas Kuhlemann",
       author_email = "ilyasp.ku@gmail.com",
