@@ -10,6 +10,3 @@ Provides Circuit-objects, which handle the complete network of Component-objects
 from ..settings import cv
 
 import circuit
-
-if cv==True:
-    import circuit_array

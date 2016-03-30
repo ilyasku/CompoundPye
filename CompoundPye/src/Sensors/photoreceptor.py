@@ -107,7 +107,5 @@ def M_DWM(input,current_values,dt,time_const_lp1=0.00169,time_const_lp2=0.0718,t
     return nonlin1,[lp1_0,lp1_1,lp1],lp2,lp3,nonlin
 
 def low_pass(input,current_value,time_const,dt):
-    #print dt
-    #print time_const
     alpha=dt/(time_const+dt)
     return current_value*(1-alpha)+alpha*input
