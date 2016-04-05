@@ -26,7 +26,8 @@ f_handle=sys.stdout
 def evaluate_arg(arg,circ_object):
 
     arg_dict={'-i':run_interactive,'--interactive':run_interactive,
-              '--count':count, '--functions':get_functions}
+              '--count':count, '--functions':get_functions,
+              '--tau':get_time_consts,'--time-const':get_time_consts}
 
     if arg_dict.keys().count(arg):
         arg_dict[arg](circ_object)
@@ -46,6 +47,21 @@ def evaluate_tuple(arg,arg_follow,circ_object):
 
     else:
         return evaluate_arg(arg,circ_object)
+
+
+
+def get_time_consts(circ_object):
+    comps={}
+
+    for c in circ_object.components:
+        if comps.keys().count(c.label):
+            pass
+        else:
+            comps[c.label]=[c.activation_func,c.param,c.time_const_input,c.time_const_output]
+
+    for label in comps:
+        f_handle.write(label+":\n\ttau_input: "+str(comps[label][2]).split()[1]+
+                       '\n\ttau_output: '+str(comps[label][3])+'\n\n')
 
 
 def get_connections(component_name,circ_object):
