@@ -16,3 +16,4 @@ import linear_input_filter as lif
 import component
 
 import transfer_functions
+import array_transfer_functions

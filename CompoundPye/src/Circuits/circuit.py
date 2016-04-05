@@ -9,14 +9,14 @@ Holds the basic Circuit class.
 
 import numpy as np
 from scipy.sparse import csr_matrix,lil_matrix
-
+from ..Components import array_transfer_functions
 
 class Circuit:
     """
     Basic Circuit class that handles a network of components and sensors and their updating at each time step.
     """   
      
-    def __init__(self,list_of_components,list_of_sensors,debug=False):
+    def __init__(self,list_of_components,list_of_sensors,debug=[]):
         """
         Initializes a Circuit-object.
         Creates the weight matrices that represent the connections between components (and sensors).
@@ -67,7 +67,7 @@ class Circuit:
             for j in range(0,len(self.sensors[i].connections)):
                 sensors_weight_matrix[self.sensors[i].connections[j].target.index_in_circuit_list][i]=self.sensors[i].connections[j].weight
                 
-        if self.debug:
+        if self.debug.count("Circuit.create_weight_matrices"):
             print '-------debugging output-----------------'
             print '-------function: Circuit.create_weight_matrices()-------'
             print 'components_weight_matrix:'
@@ -112,7 +112,7 @@ class Circuit:
         for i in range(0,self.n_comp):
             self.components[i].update(inputs[i],dt)
         
-        if self.debug:
+        if self.debug.count("Circuit.update"):
             print '-------debugging output-----------------'
             print '-------function: Circuit.update()-------'
             print 'sensor_values:'
@@ -151,7 +151,7 @@ Current limitations:
   specified on initialization of a CircuitArray object.
     """
     
-    def __init__(self,list_of_components,list_of_sensors,debug=False,mode='photoreceptor'):
+    def __init__(self,list_of_components,list_of_sensors,debug=[],mode='photoreceptor'):
         
         Circuit.__init__(self,list_of_components,list_of_sensors,debug)
 
@@ -186,6 +186,8 @@ Current limitations:
         for i in range(len(self.components)):
             self.component_outputs_array[i]=self.components[i].get_output()
             self.component_values_array[i]=self.components[i].value
+
+        self.assign_component_update_indices()
         # -----------------------------------------------------------------------------
 
     def update(self,dt,intensities):
@@ -194,14 +196,59 @@ Current limitations:
 
         # update sensors ... the old way
         for i in range(len(self.sensors)):
-            self.sensor_inputs_array[i]=self.sensors[i]._compute_input_two_dim(intensities)
+            self.sensor_inputs_array[i]=self.sensors[i]._compute_input_two_dim(intensities)/self.sensors[i].normalization_factor
         
         self.M_DWM_for_arrays(dt,self.photoreceptor_time_consts_lp3)
+
+        if self.debug.count("CircuitArray.update"):
+            print("----- debug output of CircuitArray.update ------")
+            print("current DWM values:")
+            print(self.current_DWM_values)
+            print("sensor values:")
+            print(self.sensor_values_array)
+            print("------------------------------------------------")
         
         self.component_inputs_array=self.sensors_weight_matrix.dot(self.sensor_values_array)+self.components_weight_matrix.dot(self.component_outputs_array)
 
-        self.component_outputs_array=self.update_components(dt)
+        self.update_components(dt)
 
+
+    def update_components(self,dt):
+        for activation_func in self.component_function_indices.keys():
+            f=array_transfer_functions.assign_functions_dict[activation_func.func_name]
+            inds=self.component_function_indices[activation_func]
+            self.component_outputs_array[inds]=f(self.component_inputs_array[inds],self.component_function_args[activation_func])
+
+    def assign_component_update_indices(self):
+        import inspect
+        self.component_function_indices={}
+        self.component_function_args={}
+        args_and_defaults={}
+        for i in range(len(self.components)):
+            f=self.components[i].activation_func
+            if args_and_defaults.keys().count(f):
+                args=self.components[i].param[:]
+                diff=args_and_defaults[f][0]-len(args)
+                for j in range(diff):
+                    args.append(args_and_defaults[f][1][len(args_and_defaults[f][1])-diff+j])
+                self.component_function_args[f].append(args)
+                self.component_function_indices[f].append(i)
+                
+            else:
+                arg_spec=inspect.getargspec(f)
+
+                args_and_defaults[f]=[len(arg_spec.args)-1,arg_spec.defaults]
+
+                args=self.components[i].param[:]
+                diff=args_and_defaults[f][0]-len(args)
+                for j in range(diff):
+                    args.append(args_and_defaults[f][1][len(args_and_defaults[f][1])-diff+j])
+
+                self.component_function_args[f]=[args]
+                self.component_function_indices[f]=[i]
+
+        for func in self.component_function_args.keys():
+            self.component_function_args[func]=np.array(self.component_function_args[func])
 
     def M_DWM_for_arrays(self,dt,time_const_lp3,time_const_lp1=0.00169,time_const_lp2=0.0718,k1=0.689,k2=9.07):
         

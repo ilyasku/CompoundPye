@@ -48,7 +48,7 @@ class Photoreceptor(SensorWiener):
     def __init__(self,time_const_lp3=3.0,time_const=0.0,normalize=False,debug=[]):     
         SensorWiener.__init__(self, M_DWM_Wiener,[], time_const,normalize, debug)
         
-        self.current_DWM_values=[[0,0,1],1,1,1]
+        self.current_DWM_values=[[0.0,0.0,1.0],1.0,1.0,1.0]
         
         self.time_const_lp3=time_const_lp3
 
@@ -57,20 +57,21 @@ class Photoreceptor(SensorWiener):
         sensor.Sensor.update(self,intensities)
         if self.debug.count('Photoreceptor.update'):
             print '--- debugging Photoreceptor.update() ---'
-            print self.value
+            print("value = "+str(self.value))
         output=M_DWM(self.value, self.current_DWM_values, self.dt,time_const_lp3=self.time_const_lp3)
         self.value=output[0]
         self.current_DWM_values=output[1:]
         
-        if self.debug.count('Photoreceptor.update'):
-            print output
-            print '---------------------------------'
         
         self.history[1:]=self.history[:-1]
         self.history[0]=self.value
         
         self.value=(self.history*self.wiener).sum()*self.dt#*self.history.shape[0]
         
+        if self.debug.count('Photoreceptor.update'):
+            print("DWM output:")
+            print output
+            print '---------------------------------'
         
         
         
@@ -82,10 +83,25 @@ def M_DWM_Wiener(dt,A=3.13*10**-6,tau=0.000535,n=11):
     return filter
         
         
-def M_DWM(input,current_values,dt,time_const_lp1=0.00169,time_const_lp2=0.0718,time_const_lp3=0.1,k1=0.689,k2=9.07):
-    '''
-    @param needs to contain the current values of the low-pass filters and the first nonlinearity. ([lp1,lp2,nonlin])
-    '''
+def M_DWM(input,current_values,dt,time_const_lp1=0.00169,time_const_lp2=0.0718,time_const_lp3=3.0,k1=0.689,k2=9.07):
+    """
+    @param input Intensity (float of domain [0,1]) that the sensor receives.
+    @param current_values List/tuple of M_DWM values of previous function call.
+    @param dt Time step.
+    @param time_const_lp1 [float] Time constant of first low-pass filter.
+    @param time_const_lp2 [float] Time constant of second low-pass filter.
+    @param time_const_lp3 [float] Time constant of third low-pass filter.
+    @param k1 [float] Constant of first nonlinearity.
+    @param k2 [float] Constant of output nonlinearity. 
+    @return Tuple of outputs of the different components. 
+    Contains 5 items:
+    1. Output of the filter.
+    2. List of 3 outputs of the first low-pass filter (third order?).
+    3. Output of second lp filter.
+    4. Output of third lp filter.
+    5. Output of first nonlinearity.
+    Items 2-5 serve as parameter current_values for next function call.
+    """
     lp1_0=low_pass(input,current_values[0][0],time_const_lp1,dt)
     lp1_1=low_pass(lp1_0,current_values[0][1],time_const_lp1,dt)
     lp1=low_pass(lp1_1,current_values[0][2],time_const_lp1,dt)
@@ -95,13 +111,10 @@ def M_DWM(input,current_values,dt,time_const_lp1=0.00169,time_const_lp2=0.0718,t
     lp2=low_pass(lp1,div1,time_const_lp2,dt)
     
     div2=div1/current_values[3]
-    #print 'div1='+str(div1)
-    #print 'div2='+str(div2)
 
     lp3=low_pass(div2,current_values[2],time_const_lp3,dt)
     nonlin=k1*np.exp(k2*lp3)
-    #print nonlin
-    #print exp_lp3
+
     nonlin1=div2/(1+div2)
     
     return nonlin1,[lp1_0,lp1_1,lp1],lp2,lp3,nonlin
