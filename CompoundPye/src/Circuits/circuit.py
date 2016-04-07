@@ -177,6 +177,10 @@ Current limitations:
             self.photoreceptor_time_consts_lp3[i]=self.sensors[i].time_const_lp3
 
             #self.sensor_receptive_field_coords[i,:]=self.sensors[i].receptive_field
+
+        self.wiener=None
+        self.history=None
+        self.created_filter=False
         # -----------------------------------------------------------------------------
 
         # -------------- create arrays containing component properties ----------------
@@ -193,6 +197,9 @@ Current limitations:
     def update(self,dt,intensities):
         """
         """
+
+        if self.created_filter==False:
+            self.create_wiener_and_history(dt)
 
         # update sensors ... the old way
         for i in range(len(self.sensors)):
@@ -266,14 +273,27 @@ Current limitations:
         nonlin=k1*np.exp(k2*lp3)
 
         nonlin1=div2/(1+div2)
-
-        self.sensor_values_array[:]=nonlin1
+        
+        self.history[:,1:]=self.history[:,:-1]
+        self.history[:,0]=nonlin1
+        self.sensor_values_array=(self.wiener*self.history).sum(1)*dt
         self.current_DWM_values[:,0]=lp1_0
         self.current_DWM_values[:,1]=lp1_1
         self.current_DWM_values[:,2]=lp1
         self.current_DWM_values[:,3]=lp2
         self.current_DWM_values[:,4]=lp3
         self.current_DWM_values[:,5]=nonlin
+
+
+    def create_wiener_and_history(self,dt,A=3.13*10**-6,tau=0.000535,n=11):
+        t_end=0.025
+        steps=np.arange(0,t_end/dt)
+        filter=A*(steps*dt/tau)**n*np.exp(-steps*dt/tau)
+        self.wiener=np.ones((self.sensor_inputs_array.shape[0],filter.shape[0]))
+        for i in range(self.wiener.shape[0]):
+            self.wiener[i,:]=filter
+        self.history=np.zeros_like(self.wiener)
+        self.created_filter=True
 
     def get_sensor_values(self):
         return self.sensor_values_array
