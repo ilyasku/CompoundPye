@@ -60,7 +60,8 @@ def get_time_consts(circ_object):
             comps[c.label]=[c.activation_func,c.param,c.time_const_input,c.time_const_output]
 
     for label in comps:
-        f_handle.write(label+":\n\ttau_input: "+str(comps[label][2]).split()[1]+
+        print len(comps[label])
+        f_handle.write(label+":\n\ttau_input: "+str(comps[label][2])+
                        '\n\ttau_output: '+str(comps[label][3])+'\n\n')
 
 
