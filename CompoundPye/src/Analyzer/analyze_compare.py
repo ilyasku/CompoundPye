@@ -223,7 +223,7 @@ class AnalyzeCompare:
         return line,m
 
 
-    def plot_mean_resp(self,ax,neuron_name,scale='normal',plot_kwargs={'linestyle':'dashed','color':'blue','marker':'x','markersize':6,'mec':'black','mfc':'black','mew':3},min_max_speeds=[-360,360],skip=0.8):
+    def plot_mean_resp(self,ax,neuron_name,scale='normal',plot_kwargs={'linestyle':'dashed','color':'blue','marker':'x','markersize':6,'mec':'black','mfc':'black','mew':3},min_max_speeds=[-360,360],skip=0.8,normalize=False):
         """
         Plots a tuning curve using mean responses (AnalyzeCompare.mean_lines).
         @param ax Axis object in which to plot.
@@ -239,12 +239,11 @@ class AnalyzeCompare:
         means=[]
 
         for i in range(len(self.max_lines)):
-            if abs(self.max_lines[i])>abs(self.min_lines[i]):
-                means.append(self.mean_lines[i])
-            else:
-                means.append(self.mean_lines[i])
+            means.append(self.mean_lines[i])
 
         means=np.array(means)
+        if normalize:
+            means=means/np.abs(means).max()
 
         ind=np.where(((self.speeds*360<min_max_speeds[1]) & (self.speeds*360>=min_max_speeds[0])))[0]
 

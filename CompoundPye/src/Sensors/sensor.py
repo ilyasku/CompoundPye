@@ -191,33 +191,9 @@ class Sensor:
             self.value=self.value/self.normalization_factor
         
     
-    def _update_two_dim(self,intensities):
-        """
-        Updates the sensory information that the Sensor provides (two-dimensional surroundings).
+    def _compute_input_two_dim(self,intensities):
         
-        As input one has to provide the intensities of a Surrounding-object. The actual input to this sensor is then calculated using the angles stored in Sensor.receptive_field .
-        Before that is possible, though, one has to set what the Sensor can see, preferably using the function MotionDetectorModel.Surroundings.one_dim.OneDim.set_sensor or similar functions of more dimensional Surrounding-objects.
-        @param intensities Intensities stored in a Surrounding-object (see MotionDetectorModel.Surroundings.one_dim.OneDim.intensities).
-        """
-
-        #print 'v0.6'
-        #print 'filter:'
-        #print self.filter.shape
-        #print 'receptive field:'
-        #print self.receptive_field
-        #print 'intensities:'
-        #print intensities.shape
-        
-        if self.debug.count('Sensor.update'):
-            print '----------------------------------------------------------------'
-            print 'enter function Sensor._update_two_dim'
         if len(intensities.shape)==3:
-
-
-            #print 'excerpt'
-            #print intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],
-                              #int(self.receptive_field[1]):int(self.receptive_field[1])+self.filter.shape[1],0].shape
-
 
             field=intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],
                               int(self.receptive_field[1]):int(self.receptive_field[1])+self.filter.shape[1],0]*self.filter
@@ -226,7 +202,24 @@ class Sensor:
                               int(self.receptive_field[1]):int(self.receptive_field[1])+self.filter.shape[1]]*self.filter
             
         
-        self.value=field.sum()
+        return field.sum()
+
+
+    def _update_two_dim(self,intensities):
+        """
+        Updates the sensory information that the Sensor provides (two-dimensional surroundings).
+        
+        As input one has to provide the intensities of a Surrounding-object. The actual input to this sensor is then calculated using the angles stored in Sensor.receptive_field .
+        Before that is possible, though, one has to set what the Sensor can see, preferably using the function MotionDetectorModel.Surroundings.one_dim.OneDim.set_sensor or similar functions of more dimensional Surrounding-objects.
+        @param intensities Intensities stored in a Surrounding-object (see MotionDetectorModel.Surroundings.one_dim.OneDim.intensities).
+        """
+        
+        if self.debug.count('Sensor.update'):
+            print '----------------------------------------------------------------'
+            print 'enter function Sensor._update_two_dim'
+
+        self.value=self._compute_input_two_dim(intensities)
+
         if self.normalize:
             self.value=self.value/self.normalization_factor
         if self.debug.count('Sensor.update'):
