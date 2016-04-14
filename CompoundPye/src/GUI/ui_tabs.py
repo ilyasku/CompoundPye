@@ -20,7 +20,7 @@ import sensor_editor as se
 
 import stimuli_editor as stim
 
-
+QtGui.QToolTip.setFont(QtGui.QFont('SansSerif',13))
 
 
 class TabOutput(QtGui.QWidget):
@@ -169,6 +169,13 @@ class TabSystem(QtGui.QWidget):
         frame.setLayout(hbox)
         frame.setStyleSheet("background-color: rgb(0,0,0); margin:5px; border:1px solid rgb(255, 255, 255); ")
         '''
+
+        self.setStyleSheet("""QToolTip { 
+background-color: green; 
+color: white; 
+border: black solid 1px}""")
+
+
         #-------------------------------------
         
         hbox_grid=QtGui.QHBoxLayout()
@@ -180,6 +187,11 @@ class TabSystem(QtGui.QWidget):
         lbl_dt=QtGui.QLabel('time step dt =')
         line_edit_dt=QtGui.QLineEdit()
         lbl_s0=QtGui.QLabel('s')
+
+        
+        line_edit_dt.setToolTip('I test tool <span style="color: red"> tips</span>, <b> yo</b> !')
+
+        lbl_dt.setToolTip('non-fancy')
 
         line_edit_dt.setText(str(self.parent_GUI.values['system_values']['dt']))
 
@@ -328,16 +340,24 @@ class TabSurroundings(QtGui.QWidget):
 
         btn_surroundings_trafo.clicked.connect(self.create_projection_pop_up)
 
+
+
+
         radio_deg=QtGui.QRadioButton("spatial values in degree",self)
         radio_fraction=QtGui.QRadioButton("spatial values in fraction of shown surroundings",self)
 
-        radio_deg.toggled.connect(lambda: self.set_spatial_unit("degree"))
-        radio_fraction.toggled.connect(lambda: self.set_spatial_unit("fraction"))
+        radio_deg.toggled.connect(lambda: self.set_spatial_unit('degree'))
+        radio_fraction.toggled.connect(lambda: self.set_spatial_unit('fraction'))
 
         if self.parent_GUI.values['surroundings_values']['spatial_unit']=='degree':
-            radio_deg.toggle()
+            #radio_deg.toggle()
+            radio_deg.setChecked(True)
         else:
-            radio_fraction.toggle()
+            #radio_fraction.toggle()
+            radio_fraction.setChecked(True)
+
+        ## tmp
+        self.radio_fraction=radio_fraction
 
         self.grid=QtGui.QGridLayout()
 
@@ -367,6 +387,19 @@ class TabSurroundings(QtGui.QWidget):
 
 
     def set_spatial_unit(self,unit):
+
+
+        if unit=='degree' and not self.radio_fraction.isChecked():
+            msg=QtGui.QMessageBox.information(self, "Not implemented yet!", "You'll have to do with fractional\nspatial values for now!", "Too bad.")
+            #self.radio_fraction.toggle()
+            self.radio_fraction.setChecked(True)
+        elif unit=="fraction":
+            pass
+
+
+        # The following block becomes useful only after conversion is fully implemented. 
+        # Otherwise, just use the above one, that doesn't allow a conversion!
+        '''
         if unit!=self.parent_GUI.values['surroundings_values']['spatial_unit']:
             if unit=="fraction" or unit=="degree":
                 self.parent_GUI.values['surroundings_values']['spatial_unit']=unit
@@ -379,6 +412,7 @@ class TabSurroundings(QtGui.QWidget):
                     self.convert_units(unit)
                 else:
                     pass
+        '''
                 
         
     def convert_units(self,unit):
