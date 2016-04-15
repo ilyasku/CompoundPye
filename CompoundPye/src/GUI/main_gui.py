@@ -64,6 +64,13 @@ class Main_GUI(QtGui.QWidget):
         Initializes the graphical Qt-objects of the GUI; this function is called automatically when a new Main_GUI-object is initialized.
         """
 
+        self.setStyleSheet("""QToolTip { 
+        background-color: blue; 
+        color: white; 
+        border: black solid 1px;
+        font-weight: bold;}""")
+
+
         self.resize(1360,720)
         self.center()
         self.setWindowTitle('ParameterGUI')

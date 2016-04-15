@@ -20,7 +20,11 @@ import sensor_editor as se
 
 import stimuli_editor as stim
 
-QtGui.QToolTip.setFont(QtGui.QFont('SansSerif',13))
+import help_widget
+
+
+import os
+here=os.path.dirname(os.path.abspath(__file__))
 
 
 class TabOutput(QtGui.QWidget):
@@ -44,6 +48,7 @@ class TabOutput(QtGui.QWidget):
         """
         Initializes all Widgets (labels,buttons,etc.) that are shown in this tab.
         """
+
         vbox=QtGui.QVBoxLayout()
         self.setLayout(vbox)
 
@@ -114,6 +119,13 @@ class TabOutput(QtGui.QWidget):
 
         vbox.addStretch(1)
 
+
+        # ------ HELP buttons -----------
+        hw=help_widget.HelpWidget(here+'/help_texts/tab_output.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        vbox.addWidget(hw)
+
+
+
     def set_value(self,key,value):
         """
         Sets the value for the given key in the parent GUI's values-dictionary.
@@ -170,12 +182,6 @@ class TabSystem(QtGui.QWidget):
         frame.setStyleSheet("background-color: rgb(0,0,0); margin:5px; border:1px solid rgb(255, 255, 255); ")
         '''
 
-        self.setStyleSheet("""QToolTip { 
-background-color: green; 
-color: white; 
-border: black solid 1px}""")
-
-
         #-------------------------------------
         
         hbox_grid=QtGui.QHBoxLayout()
@@ -189,9 +195,8 @@ border: black solid 1px}""")
         lbl_s0=QtGui.QLabel('s')
 
         
-        line_edit_dt.setToolTip('I test tool <span style="color: red"> tips</span>, <b> yo</b> !')
-
-        lbl_dt.setToolTip('non-fancy')
+        #line_edit_dt.setToolTip('I test tool <span style="color: white"> tips</span>, <b> yo</b> !')
+        #lbl_dt.setToolTip('non-fancy')
 
         line_edit_dt.setText(str(self.parent_GUI.values['system_values']['dt']))
 
@@ -200,6 +205,10 @@ border: black solid 1px}""")
         grid.addWidget(lbl_dt,0,0)
         grid.addWidget(line_edit_dt,0,1)
         grid.addWidget(lbl_s0,0,2)
+
+        for w in [lbl_dt,line_edit_dt,lbl_s0]:
+            w.setToolTip("""<b>Set time step of the simulation.</b>""")
+
 
         #----------------------------------------------
 
@@ -216,6 +225,14 @@ border: black solid 1px}""")
         grid.addWidget(line_edit_relax,1,1)
         grid.addWidget(lbl_s1,1,2)
 
+        for w in  [lbl_relax,line_edit_relax,lbl_s1]:
+            w.setToolTip("""<b>Set duration of relaxation prior to the actual simulation.<br>
+Depending on the selcted relaxation type, this might be very similar <br>
+to running an actual simulation, but with static stimuli. <br>
+If time and disk space allows for it, I would recommend <br>
+to forgo relaxation and instead increase simulation time.</b>""")
+
+
         #----------------------------------------------
 
         #--------------- relaxation intensity ---------
@@ -230,6 +247,9 @@ border: black solid 1px}""")
         grid.addWidget(lbl_int,2,0)
         grid.addWidget(line_edit_int,2,1)
         grid.addWidget(lbl_s2,2,2)
+
+        for w in [lbl_int,line_edit_int,lbl_s2]:
+            w.setToolTip("<b>In case you run a simulation, specify intensity shown to all sensors here.</b>")
         
 
         #----------------------------------------------
@@ -249,6 +269,11 @@ border: black solid 1px}""")
         grid.addWidget(lbl_relax_type,3,0)
         grid.addWidget(combo,3,1,1,2)
 
+        for w in [lbl_relax_type,combo]:
+            w.setToolTip("""<b>Select type of relaxation calculation.<br>
+<u>simple_photoreceptor</u>: use one receptor for relexation calculation (using relaxation intensity), apply same values to all photoreceptors afterwards (fast).<br>
+<u>none</u>: skip relaxation.<br>
+<u>normal</u>: run relaxation for all photoreceptors, using static surroundings (slow).</b>""")
         #----------------------------------------------
 
 
@@ -263,6 +288,10 @@ border: black solid 1px}""")
         grid.addWidget(le_sim_time,4,1)
         grid.addWidget(lbl_unit,4,2)
 
+        for w in [lbl_sim_time,le_sim_time,lbl_unit]:
+            w.setToolTip("""<b>Specify time span to be simulated.</b>""")
+
+
         le_sim_time.editingFinished.connect(lambda: self.set_value('sim_time',le_sim_time.text()))
 
         # ---------------------------------------------
@@ -274,14 +303,10 @@ border: black solid 1px}""")
 
         self.setLayout(vbox)
 
+        # ------ HELP buttons -----------
+        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        vbox.addWidget(hw)
 
-    '''
-    def count_up(self):
-        self.count+=1
-        #self.statusBar().showMessage(str(self.count))
-        self.lbl.setText(str(self.count))
-        #self.lbl.move(max(150,np.random.random()*self.frameGeometry().width()),50)
-    '''
 
     def read_combo(self,s):
         """
@@ -384,6 +409,11 @@ class TabSurroundings(QtGui.QWidget):
         self.current_combo_str='dummy str for UI initialization'
 
         self.read_combo(init_str)
+
+        # ------ HELP buttons -----------
+        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        self.grid.addWidget(hw,8,0,1,5)
+
 
 
     def set_spatial_unit(self,unit):
@@ -709,6 +739,16 @@ class TabCircuit(QtGui.QWidget):
 
         self.grid.addWidget(self.editor,0,1,9,5)
 
+        #vbox=QtGui.QVBoxLayout()
+        #vbox.addLayout(self.grid)
+        #self.setLayout(vbox)
+
+        # ------ HELP buttons -----------
+        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        self.grid.addWidget(hw,9,0,1,6)
+        #vbox.addWidget(hw)
+
+
     def do_load(self):
         """
         Pops up a file dialog for the user to load a circuit-file (text-file).
@@ -755,10 +795,19 @@ class TabSensors(QtGui.QWidget):
         Initializes all Widgets (labels,buttons,etc.) that are shown in this tab.
         """
 
-        vbox=QtGui.QVBoxLayout()
+        #vbox=QtGui.QVBoxLayout()
         self.editor=se.EditorWidget(self)
-        vbox.addWidget(self.editor)
-        self.setLayout(vbox)
+        #vbox.addWidget(self.editor)
+        #self.setLayout(vbox)
+
+        grid=QtGui.QGridLayout()
+        grid.addWidget(self.editor,0,0,9,5)
+        self.setLayout(grid)
+
+        # ------ HELP buttons -----------
+        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        #vbox.addWidget(hw)
+        grid.addWidget(hw,9,0,1,1)
 
 
 # ---------------------------------------------------------------------------------------------------
