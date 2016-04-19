@@ -65,7 +65,7 @@ class Main_GUI(QtGui.QWidget):
         """
 
         self.setStyleSheet("""QToolTip { 
-        background-color: blue; 
+        background-color: rgb(20,20,240); 
         color: white; 
         border: black solid 1px;
         font-weight: bold;}""")
