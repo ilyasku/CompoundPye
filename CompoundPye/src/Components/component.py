@@ -28,7 +28,8 @@ The Component uses the input to update its internal value/membrane potential (se
         Initializes a Component-object.
         @param activation_function Transfer function that is to be used to generate the Component's output Component.output from its internal value Component.value .
         @param function_parameters List of parameters for the Component's transfer function Component.activation_func .
-        @param time_const Time constant, see Component.time_const .
+        @param time_const_input Time constant for updating input.
+        @param time_const_output Time constant for updating output.
         @param debug Set False, if you don't want to see debugging output, set True if you want to see debugging output.
         """
         
