@@ -15,6 +15,11 @@ from PyQt4 import QtCore,QtGui
 ## @todo understand that warning: "RuntimeWarning: PyOS_InputHook is not available for interactive use of PyGTK set_interactive(1)" which appeared after i added this import:
 from ...src.Parser import *
 
+import help_widget
+
+import os
+here=os.path.dirname(os.path.abspath(__file__))
+
 list_of_comps=creator.comp_dict.keys()
 list_of_tfs=creator.transf_func_dict.keys()
 
@@ -269,8 +274,10 @@ class CompWidget(QtGui.QWidget):
 
         self.btn_add_connection=QtGui.QPushButton('connections')
         self.btn_add_connection.clicked.connect(self.create_popup_connections)
+        self.btn_add_connection.setToolTip("click to edit connections")
         self.btn_name=QtGui.QPushButton(self.values['name'])
         self.btn_name.clicked.connect(self.create_popup_neuron)
+        self.btn_name.setToolTip("click to edit properties")
         self.btn_remove=QtGui.QPushButton('remove')
         self.btn_remove.clicked.connect(self.remove)
         
@@ -343,7 +350,7 @@ class PopupNeuron(QtGui.QWidget):
         """
         global list_of_comps
 
-        self.resize(1000,400)
+        self.resize(900,400)
 
         vbox=QtGui.QVBoxLayout()
         self.setLayout(vbox)        
@@ -437,6 +444,12 @@ class PopupNeuron(QtGui.QWidget):
         hbox=QtGui.QHBoxLayout()
         vbox.addLayout(hbox)
         
+        #hw=help_widget.HelpWidget("Turn to the wiki page for help!","https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        #wiki_btn=help_widget.WikiBtnOnly("https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        wiki_btn=help_widget.WikiBtn("https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        hbox.addWidget(wiki_btn)
+        hbox.addStretch(1)
+
         btn_cancel=QtGui.QPushButton('cancel')
         btn_done=QtGui.QPushButton('done')
 

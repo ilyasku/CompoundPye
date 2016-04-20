@@ -14,6 +14,17 @@ color: white;
 font-weight: bold;"""
 
 
+
+class WikiBtn(QtGui.QPushButton):
+
+    def __init__(self,wiki_url):
+        super(WikiBtn,self).__init__("wiki page")
+
+        self.setStyleSheet(style_wiki_button)
+        self.setIcon(QtGui.QIcon(here+"/icons/GitHub-Mark-Light.png"))
+        self.clicked.connect(lambda: webbrowser.open(wiki_url))
+
+
 class HelpWidget(QtGui.QWidget):
 
     def __init__(self,hlp_text_file,wiki_url):

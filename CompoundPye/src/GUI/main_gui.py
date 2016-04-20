@@ -87,6 +87,7 @@ class Main_GUI(QtGui.QWidget):
             
             self.tabs.addTab(self.tab_list[i],self.tab_names[i])
 
+
         hbox=QtGui.QHBoxLayout()
         
 
