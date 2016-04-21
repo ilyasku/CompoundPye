@@ -28,17 +28,30 @@ def get_comp_dict():
     @return Dictionary with class names as keys and their source files as values.
     """    
     d={}
+    doc_strings={}
     for _file in pt.paths_to_component_objects:
         f=open(pt.here+_file,'r')
         py_lines=f.readlines()
-        for row in py_lines:
+        for i in range(len(py_lines)):
+            row=py_lines[i]
             if row:
                 if len(row)>5:
                     if row[:5]=='class':
                         name=row[5:].split('(')[0].split(':')[0].lstrip()
                         fpath=pt.here+_file
                         d[name]=fpath
-    return d
+                        '''
+                        if py_lines[i+1].count('"""'):
+                            count=0
+                            doc_str=""
+                            for j in range(i+1,len(py_lines)):
+                                doc_str=doc_str+py_lines[j]
+                                count=count+py_lines[j].count('"')
+                                if count>=6:
+                                    break
+                            doc_strings[name]=doc_str.lstrip().rstrip()'''
+                            
+    return d#,doc_strings
 
 def get_transf_func_dict():
     """

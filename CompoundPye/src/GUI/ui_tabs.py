@@ -64,6 +64,12 @@ class TabOutput(QtGui.QWidget):
         hbox_out.addWidget(lbl_out)
         hbox_out.addWidget(self.le_out)
         hbox_out.addWidget(btn_browse)
+
+        for w in [lbl_out,self.le_out]:
+            w.setToolTip("""Set where to save the output.
+Either type the (absolute) path here, or use the 'browse' button to the right.""")
+        btn_browse.setToolTip("""Use file browser to specify output path.""")
+        
         # --------------------------------
         
         # ------ line edits to specify which output to store ------
@@ -73,6 +79,13 @@ class TabOutput(QtGui.QWidget):
         le_n_by_index=QtGui.QLineEdit()
         le_n_by_index.setText(self.parent_GUI.values['output']['n_by_index'])
         le_n_by_index.editingFinished.connect(lambda: self.set_value('n_by_index',le_n_by_index.text()))
+
+        for w in [lbl_n_by_index,le_n_by_index]:
+            w.setToolTip("""In Python syntax, specify a list of neuron indices, of which you want to store the output.<br>
+With the exception of very small simulations, it will be very hard to figure out which indices are assigned to neurons.<br>
+Thus, a more comfortable way might be to use the next row, where you can specify by name of which neurons you want to store the output.<br>
+On the other hand, that might result in a huge amount of data, e.g. if you specify a neuron type that is present in each column (and if you have a few hundred columns).<br><br>
+<u>example:</u> [0,1,12,13,14]""")
 
         hbox_n_by_index.addWidget(lbl_n_by_index)
         hbox_n_by_index.addWidget(le_n_by_index)
@@ -84,6 +97,11 @@ class TabOutput(QtGui.QWidget):
         le_n_by_label.setText(self.parent_GUI.values['output']['n_by_label'])
         le_n_by_label.editingFinished.connect(lambda: self.set_value('n_by_label',le_n_by_label.text()))
 
+        for w in [lbl_n_by_label,le_n_by_label]:
+            w.setToolTip("""In Python syntax, specify a list of neuron labels, of which you want to store the output.<br>
+BEWARE: This might result in a huge amount of data, e.g. if you specify a neuron type that is present in each column (and if you have a few hundred columns).<br><br>
+<u>example:</u> ['HS','T4','T5']""")
+
         hbox_n_by_label.addWidget(lbl_n_by_label)
         hbox_n_by_label.addWidget(le_n_by_label)
 
@@ -94,6 +112,10 @@ class TabOutput(QtGui.QWidget):
         le_s_by_index.setText(self.parent_GUI.values['output']['s_by_index'])
         le_s_by_index.editingFinished.connect(lambda: self.set_value('s_by_index',le_s_by_index.text()))
 
+        for w in [lbl_s_by_index,le_s_by_index]:
+            w.setToolTip("""In Python syntax, specify a list of sensor indices, of which you want to store the output.<br><br>
+            <u>example:</u> [0,1,5]""")
+
         hbox_s_by_index.addWidget(lbl_s_by_index)
         hbox_s_by_index.addWidget(le_s_by_index)
 
@@ -103,6 +125,12 @@ class TabOutput(QtGui.QWidget):
         le_intensities_interval=QtGui.QLineEdit()
         le_intensities_interval.setText(self.parent_GUI.values['output']['intensities_interval'])
         le_intensities_interval.editingFinished.connect(lambda: self.set_value('intensities_interval',le_intensities_interval.text()))
+
+        for w in [lbl_intensities_interval,le_intensities_interval]:
+            w.setToolTip("""Intensities of surroundings is only stored every x steps.<br>
+This is only for you to check whether the intensities look as you wanted them to.<br>
+Specify integer x here.<br><br>
+<u>example:</u> 3000""")
 
         hbox_intensities_interval.addWidget(lbl_intensities_interval)
         hbox_intensities_interval.addWidget(le_intensities_interval)
@@ -304,7 +332,7 @@ to forgo relaxation and instead increase simulation time.</b>""")
         self.setLayout(vbox)
 
         # ------ HELP buttons -----------
-        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        hw=help_widget.HelpWidget(here+'/help_texts/tab_system.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
         vbox.addWidget(hw)
 
 
@@ -345,16 +373,21 @@ class TabSurroundings(QtGui.QWidget):
         label=QtGui.QLabel('surroundings')
         
         combo=QtGui.QComboBox()
-        #combo.addItem('choose ...')
+
         combo.addItem('one dimensional array')
         combo.addItem('two dimensional array')
         combo.addItem('video input')
 
         combo.activated[str].connect(self.read_combo)
 
-        #self.parent_GUI.values['surroundings_values']['current_selected']='two dimensional array'
-
-        
+        for w in [label,combo]:
+            w.setToolTip("""Select basic structure of your simulated surroundings.<br>
+<u>one dimensional array:</u> This is currently quite experimental. Better use one of the other options!<br>
+<u>two dimentional array:</u> This is the 'normal' and 'intuitive mode'.<br>
+    Will use two dimensional surroundings (planar projection of the agent's (spheric) surroundings).<br>
+<u>video input:</u> Allows for specification of a video as surroundings (two-dimensional image information).<br>
+    Resolution in pixel will be set to match the video's resolution.
+""")
 
         self.current_combo_str=self.parent_GUI.values['surroundings_values']['current_selected']
         
@@ -362,9 +395,7 @@ class TabSurroundings(QtGui.QWidget):
         combo.setCurrentIndex(index)
 
         btn_surroundings_trafo=QtGui.QPushButton("set properties of 2D projection")
-
         btn_surroundings_trafo.clicked.connect(self.create_projection_pop_up)
-
 
 
 
@@ -484,6 +515,10 @@ class TabSurroundings(QtGui.QWidget):
                 line_edit1.setText(str(self.parent_GUI.values['surroundings_values']['px_x']))
                 line_edit2.setText(str(self.parent_GUI.values['surroundings_values']['px_y']))
 
+                lbl.setToolTip("Set size of simulated surroundings in pixel.")
+                line_edit1.setToolTip("Size of x-direction (horizontal) in pixel.")
+                line_edit2.setToolTip("Size of y-direction (vertical) in pixel.")
+
                 self.surr_param_hbox.addWidget(lbl)
                 self.surr_param_hbox.addWidget(line_edit1)
                 self.surr_param_hbox.addWidget(lblx)
@@ -505,6 +540,11 @@ class TabSurroundings(QtGui.QWidget):
                 line_edit.setFrame(True)
                 line_edit.setText(str(self.parent_GUI.values['surroundings_values']['px_x']))
                 
+                
+                lbl.setToolTip("Set size of simulated surroundings in pixel.")
+                line_edit.setToolTip("Size in pixel.")
+
+
 
                 self.surr_param_hbox.addWidget(lbl)
                 self.surr_param_hbox.addWidget(line_edit)
@@ -531,6 +571,10 @@ class TabSurroundings(QtGui.QWidget):
                 self.line_edit_video_file.setText(self.parent_GUI.values['surroundings_values']['input_video'])
                 browse=QtGui.QPushButton('browse')
 
+                for w in [lbl,self.line_edit_video_file]:
+                    w.setToolTip("Specify (absolute) path to video file. You can also use the 'browse' button to the right.")
+                browse.setToolTip("Browse for a video file to use as input.")
+
                 grid.addWidget(lbl,0,0,1,1)
                 grid.addWidget(self.line_edit_video_file,0,1,1,5)
                 grid.addWidget(browse,0,6,1,1)
@@ -542,6 +586,10 @@ class TabSurroundings(QtGui.QWidget):
 
                 lbl_end=QtGui.QLabel(';  end at')
                 video_end_t=QtGui.QLineEdit()
+
+                for w in [lbl_start,video_start_t,lbl_unit1, lbl_unit2, lbl_end,video_end_t]:
+                    w.setToolTip("""CURRENTLY NOT IMPLEMENTED<br>
+Idea: Specify which time span to use of given video file.""")
 
                 grid.addWidget(lbl_start,1,0)
                 grid.addWidget(video_start_t,1,1)

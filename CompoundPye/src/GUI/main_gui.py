@@ -23,6 +23,7 @@ home=os.path.expanduser("~")
 import pickle
 
 from ui_tabs import *
+from styles import *
 
 class Main_GUI(QtGui.QWidget):
     """
@@ -64,11 +65,7 @@ class Main_GUI(QtGui.QWidget):
         Initializes the graphical Qt-objects of the GUI; this function is called automatically when a new Main_GUI-object is initialized.
         """
 
-        self.setStyleSheet("""QToolTip { 
-        background-color: blue; 
-        color: white; 
-        border: black solid 1px;
-        font-weight: bold;}""")
+        self.setStyleSheet(blue_tooltips)
 
 
         self.resize(1360,720)
@@ -86,6 +83,7 @@ class Main_GUI(QtGui.QWidget):
         for i in range(0,len(self.tab_list)):
             
             self.tabs.addTab(self.tab_list[i],self.tab_names[i])
+
 
         hbox=QtGui.QHBoxLayout()
         

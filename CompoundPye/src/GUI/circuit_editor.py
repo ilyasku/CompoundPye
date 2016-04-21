@@ -15,6 +15,12 @@ from PyQt4 import QtCore,QtGui
 ## @todo understand that warning: "RuntimeWarning: PyOS_InputHook is not available for interactive use of PyGTK set_interactive(1)" which appeared after i added this import:
 from ...src.Parser import *
 
+import help_widget
+from styles import *
+
+import os
+here=os.path.dirname(os.path.abspath(__file__))
+
 list_of_comps=creator.comp_dict.keys()
 list_of_tfs=creator.transf_func_dict.keys()
 
@@ -269,8 +275,10 @@ class CompWidget(QtGui.QWidget):
 
         self.btn_add_connection=QtGui.QPushButton('connections')
         self.btn_add_connection.clicked.connect(self.create_popup_connections)
+        self.btn_add_connection.setToolTip("click to edit connections")
         self.btn_name=QtGui.QPushButton(self.values['name'])
         self.btn_name.clicked.connect(self.create_popup_neuron)
+        self.btn_name.setToolTip("click to edit properties")
         self.btn_remove=QtGui.QPushButton('remove')
         self.btn_remove.clicked.connect(self.remove)
         
@@ -341,9 +349,12 @@ class PopupNeuron(QtGui.QWidget):
         """
         Initializes all Widgets (labels,buttons,etc.) that are shown in this tab.
         """
+
+        self.setStyleSheet(blue_tooltips)
+
         global list_of_comps
 
-        self.resize(1000,400)
+        self.resize(900,400)
 
         vbox=QtGui.QVBoxLayout()
         self.setLayout(vbox)        
@@ -363,23 +374,24 @@ class PopupNeuron(QtGui.QWidget):
 
         # ----------- comp object --------------
         lbl_comp_obj=QtGui.QLabel('component object')
-        combo_comp_obj=QtGui.QComboBox()
+        self.combo_comp_obj=QtGui.QComboBox()
         for comp in list_of_comps:
-            combo_comp_obj.addItem(comp)
-        index=combo_comp_obj.findText(self.new_values['component_object'])
-        combo_comp_obj.setCurrentIndex(index)
-        combo_comp_obj.activated[str].connect(self.read_combo_comp)
+            self.combo_comp_obj.addItem(comp)
+        index=self.combo_comp_obj.findText(self.new_values['component_object'])
+        self.combo_comp_obj.setCurrentIndex(index)
+        self.combo_comp_obj.activated[str].connect(self.read_combo_comp)
         grid.addWidget(lbl_comp_obj,1,0)
-        grid.addWidget(combo_comp_obj,1,1)
+        grid.addWidget(self.combo_comp_obj,1,1)
         # --------------------------------------
         # ------------ object args -------------
         lbl_obj_args=QtGui.QLabel('object arguments\n(comma separated, keywords possible)')
-        le_obj_args=QtGui.QLineEdit()
-        le_obj_args.setText(self.new_values['object_args'])
-        le_obj_args.editingFinished.connect(lambda: self.set_value('object_args',le_obj_args.text()))
+        self.le_obj_args=QtGui.QLineEdit()
+        self.le_obj_args.setText(self.new_values['object_args'])
+        self.le_obj_args.editingFinished.connect(lambda: self.set_value('object_args',self.le_obj_args.text()))
         grid.addWidget(lbl_obj_args,2,0)
-        grid.addWidget(le_obj_args,2,1)
+        grid.addWidget(self.le_obj_args,2,1)
         # --------------------------------------
+        self.update_comp_tooltip(self.new_values['component_object'])
 
         # ----------- transfer function --------
         lbl_tf=QtGui.QLabel('transfer function')
@@ -437,6 +449,12 @@ class PopupNeuron(QtGui.QWidget):
         hbox=QtGui.QHBoxLayout()
         vbox.addLayout(hbox)
         
+        #hw=help_widget.HelpWidget("Turn to the wiki page for help!","https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        #wiki_btn=help_widget.WikiBtnOnly("https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        wiki_btn=help_widget.WikiBtn("https://github.com/ilyasku/CompoundPye/wiki/GUI#output")
+        hbox.addWidget(wiki_btn)
+        hbox.addStretch(1)
+
         btn_cancel=QtGui.QPushButton('cancel')
         btn_done=QtGui.QPushButton('done')
 
@@ -504,7 +522,37 @@ class PopupNeuron(QtGui.QWidget):
         """
         Read the combo specifying the Component-object to use and changes the entry in PopupNeuron.new_values accordingly.
         """
+        combo_str=str(combo_str)
         self.new_values['component_object']=combo_str
+        self.update_comp_tooltip(combo_str)
+    
+    def update_comp_tooltip(self,comp_str):
+        
+        exec("from "+creator.comp_dict[comp_str].rpartition('/')[-1].partition('.py')[0] + " import "+comp_str)
+        exec("doc_str="+comp_str+".__doc__")
+        exec("doc_str_init="+comp_str+".__init__.__doc__")
+
+        if doc_str_init:
+            doc_str_init=doc_str_init.lstrip().rstrip().replace('\n','<br>')
+        else:
+            sorry="""<u>SORRY, NO DOCSTRING FOUND!</u><br>
+But here's a list of the creator function's parameters:<br>"""
+            import inspect
+            exec("l=inspect.getargspec("+comp_str+".__init__)")
+            for i in range(1,len(l.args)):
+                arg=l.args[i]
+                if i>len(l.args)-len(l.defaults):
+                    arg=arg+" = "+str(l.defaults[i-(len(l.args)-len(l.defaults))])
+                sorry=sorry+"<br>"+arg
+            doc_str_init=sorry
+            
+
+        self.combo_comp_obj.setToolTip("Copy of docstring for class <u>"+comp_str+"</u>:<br><br>"+doc_str)
+        self.le_obj_args.setToolTip("Note, that you don't need to put in the first and second arguments,<br>as these will be filled in automatically using the below input of this window!<br>Furthermore, you don't need to care about any parameter named 'debug'.<br>Copy of docstring for class "+comp_str+"'s creator function:<br><br>"+doc_str_init )
+
+
+        
+
 
     def read_combo_tf(self,combo_str):
         """
