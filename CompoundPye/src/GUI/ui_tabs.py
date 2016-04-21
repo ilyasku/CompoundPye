@@ -370,6 +370,7 @@ class TabSurroundings(QtGui.QWidget):
 
         radio_deg=QtGui.QRadioButton("spatial values in degree",self)
         radio_fraction=QtGui.QRadioButton("spatial values in fraction of shown surroundings",self)
+        self.radio_fraction=radio_fraction
 
         radio_deg.toggled.connect(lambda: self.set_spatial_unit('degree'))
         radio_fraction.toggled.connect(lambda: self.set_spatial_unit('fraction'))
@@ -382,7 +383,7 @@ class TabSurroundings(QtGui.QWidget):
             radio_fraction.setChecked(True)
 
         ## tmp
-        self.radio_fraction=radio_fraction
+
 
         self.grid=QtGui.QGridLayout()
 
@@ -424,7 +425,7 @@ class TabSurroundings(QtGui.QWidget):
             #self.radio_fraction.toggle()
             self.radio_fraction.setChecked(True)
         elif unit=="fraction":
-            pass
+            self.parent_GUI.values['surroundings_values']['spatial_unit']="fraction"
 
 
         # The following block becomes useful only after conversion is fully implemented. 
