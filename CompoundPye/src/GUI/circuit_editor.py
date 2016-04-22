@@ -395,27 +395,27 @@ class PopupNeuron(QtGui.QWidget):
 
         # ----------- transfer function --------
         lbl_tf=QtGui.QLabel('transfer function')
-        combo_tf=QtGui.QComboBox()
+        self.combo_tf=QtGui.QComboBox()
         for tf in list_of_tfs:
-            combo_tf.addItem(tf)
-        index=combo_tf.findText(self.new_values['transfer_func'])
-        combo_tf.setCurrentIndex(index)
-        combo_tf.activated[str].connect(self.read_combo_tf)
+            self.combo_tf.addItem(tf)
+        index=self.combo_tf.findText(self.new_values['transfer_func'])
+        self.combo_tf.setCurrentIndex(index)
+        self.combo_tf.activated[str].connect(self.read_self.combo_tf)
         #combo_tf.activated[str].connect(lambda: self.set_value('transfer_func',str))
 
         grid.addWidget(lbl_tf,3,0)
-        grid.addWidget(combo_tf,3,1)
+        grid.addWidget(self.combo_tf,3,1)
         # --------------------------------------
 
         # ------- function args ----------------
         
         lbl_fargs=QtGui.QLabel('function arguments\n(comma separated, keywords possible)')
-        le_fargs=QtGui.QLineEdit()
-        le_fargs.setText(self.new_values['func_args'])
-        le_fargs.editingFinished.connect(lambda: self.set_value('func_args',le_fargs.text()))
+        self.le_fargs=QtGui.QLineEdit()
+        self.le_fargs.setText(self.new_values['func_args'])
+        self.le_fargs.editingFinished.connect(lambda: self.set_value('func_args',self.le_fargs.text()))
 
         grid.addWidget(lbl_fargs,4,0)
-        grid.addWidget(le_fargs,4,1)
+        grid.addWidget(self.le_fargs,4,1)
         # --------------------------------------
 
 
@@ -551,14 +551,14 @@ But here's a list of the creator function's parameters:<br>"""
         self.le_obj_args.setToolTip("Note, that you don't need to put in the first and second arguments,<br>as these will be filled in automatically using the below input of this window!<br>Furthermore, you don't need to care about any parameter named 'debug'.<br>Copy of docstring for class "+comp_str+"'s creator function:<br><br>"+doc_str_init )
 
 
-        
-
-
     def read_combo_tf(self,combo_str):
         """
         Read the combo specifying the transfer-function to use and changes the entry in PopupNeuron.new_values accordingly.
         """
         self.new_values['transfer_func']=combo_str
+
+    def update_transferfunction_tooltip(self, tf_str):
+        pass
 
     def do_cancel(self):
         """
