@@ -16,9 +16,17 @@ import numpy as np
 
 class SensorWiener(sensor.Sensor):
     """
-    
+Van Hateren and Snippe's photoreceptor model relies on a Wiener filter; so this is a implementation of 
+the Wiener filter they used as Sensor object compatible with CompoundPye.
     """    
     def __init__(self,filter_func,func_params=[],time_const=0.0,normalize=False,debug=[]):
+        """ Constructor of SensorWiener .
+@param filter_func (Pointer to) filter function.
+@param func_param List of parameters to be passed on to the filter function.
+@param time_const Time constant used when updating.
+@param normalize Boolean, determining whether to normalize output or not.
+@param debug List of debug strings in case you want to see debugging output.
+        """
         sensor.Sensor.__init__(self,normalize=normalize,time_const=time_const,debug=debug)
         
         self.dt=None
@@ -44,8 +52,15 @@ class SensorWiener(sensor.Sensor):
         
         
 class Photoreceptor(SensorWiener):
-    
+    """ Implementation of van Hateren and Snippe's photoreceptor model as a CompoundPye sensor.
+    """
     def __init__(self,time_const_lp3=3.0,time_const=0.0,normalize=False,debug=[]):     
+        """ Constructor of class Photoreceptor .
+@param time_const_lp3 Time constant of low-pass filter LP3 (see https://github.com/ilyasku/CompoundPye/wiki)
+@param time_const Useless parameter here, included to use identical syntax in GUI ...
+@param normalize Boolean, determining whether to normalize output or not.
+@param debug List of debug strings in case you want to see debugging output.
+        """
         SensorWiener.__init__(self, M_DWM_Wiener,[], time_const,normalize, debug)
         
         self.current_DWM_values=[[0.0,0.0,1.0],1.0,1.0,1.0]

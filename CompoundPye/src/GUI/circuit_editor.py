@@ -400,13 +400,12 @@ class PopupNeuron(QtGui.QWidget):
             self.combo_tf.addItem(tf)
         index=self.combo_tf.findText(self.new_values['transfer_func'])
         self.combo_tf.setCurrentIndex(index)
-        self.combo_tf.activated[str].connect(self.read_self.combo_tf)
+        self.combo_tf.activated[str].connect(self.read_combo_tf)
         #combo_tf.activated[str].connect(lambda: self.set_value('transfer_func',str))
 
         grid.addWidget(lbl_tf,3,0)
         grid.addWidget(self.combo_tf,3,1)
         # --------------------------------------
-
         # ------- function args ----------------
         
         lbl_fargs=QtGui.QLabel('function arguments\n(comma separated, keywords possible)')
@@ -417,6 +416,7 @@ class PopupNeuron(QtGui.QWidget):
         grid.addWidget(lbl_fargs,4,0)
         grid.addWidget(self.le_fargs,4,1)
         # --------------------------------------
+        self.update_transferfunction_tooltip(self.new_values['transfer_func'])
 
 
 
@@ -536,7 +536,7 @@ class PopupNeuron(QtGui.QWidget):
             doc_str_init=doc_str_init.lstrip().rstrip().replace('\n','<br>')
         else:
             sorry="""<u>SORRY, NO DOCSTRING FOUND!</u><br>
-But here's a list of the creator function's parameters:<br>"""
+But here's a list of the constructor function's parameters:<br>"""
             import inspect
             exec("l=inspect.getargspec("+comp_str+".__init__)")
             for i in range(1,len(l.args)):
@@ -548,17 +548,38 @@ But here's a list of the creator function's parameters:<br>"""
             
 
         self.combo_comp_obj.setToolTip("Copy of docstring for class <u>"+comp_str+"</u>:<br><br>"+doc_str)
-        self.le_obj_args.setToolTip("Note, that you don't need to put in the first and second arguments,<br>as these will be filled in automatically using the below input of this window!<br>Furthermore, you don't need to care about any parameter named 'debug'.<br>Copy of docstring for class "+comp_str+"'s creator function:<br><br>"+doc_str_init )
+        self.le_obj_args.setToolTip("Note, that you don't need to put in the frist and second arguments,<br>as these will be filled in automatically using the below input of this window!<br>Furthermore, you don't need to care about any parameter named 'debug'.<br>Copy of docstring for class "+comp_str+"'s constructor function:<br><br>"+doc_str_init )
 
 
     def read_combo_tf(self,combo_str):
         """
         Read the combo specifying the transfer-function to use and changes the entry in PopupNeuron.new_values accordingly.
         """
+        combo_str=str(combo_str)
         self.new_values['transfer_func']=combo_str
 
+        self.update_transferfunction_tooltip(combo_str)
+
     def update_transferfunction_tooltip(self, tf_str):
-        pass
+        exec("from "+creator.transf_func_dict[tf_str].rpartition('/')[-1].partition('.py')[0]+ " import "+tf_str)
+        exec("doc_str="+tf_str+".__doc__")
+        #print doc_str
+        if not doc_str:
+            doc_str="""SORRY, NO DOCSTRING FOUND! """
+            
+        self.combo_tf.setToolTip("Copy of "+tf_str+"'s docstring:<br><br>"+doc_str)
+
+        param_tooltip="<ul>"
+        import inspect
+        exec("l=inspect.getargspec("+tf_str+")")
+        for i in range(1,len(l.args)):
+            arg="<li>"+l.args[i]
+            if i>len(l.args)-len(l.defaults):
+                arg=arg+" = "+str(l.defaults[i-(len(l.args)-len(l.defaults))])
+            arg=arg+"</li>"
+            param_tooltip=param_tooltip+"\n"+arg
+        param_tooltip="List of <u>"+tf_str+"'s</u> arguments:<br>"+param_tooltip+"</ul>"
+        self.le_fargs.setToolTip(param_tooltip)
 
     def do_cancel(self):
         """

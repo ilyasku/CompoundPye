@@ -12,7 +12,7 @@ This package provides a graphical editor for the user to add/remove/edit sensors
 from PyQt4 import QtCore,QtGui
 
 from ...src.Parser import *
-
+from styles import *
 
 import os
 #here=os.path.dirname(os.path.abspath(__file__))
@@ -52,18 +52,16 @@ class EditorWidget(QtGui.QWidget):
         
         btn_load.clicked.connect(self.do_load)
         btn_save.clicked.connect(self.do_save)
-
+        btn_load.setToolTip("Load sensor set-up from file.")
+        btn_save.setToolTip("Save sensor set-up to file.")
 
         btn_OmmatidialMap=QtGui.QPushButton('create photoreceptors\nusing ommatidial map')
         btn_OmmatidialMap.clicked.connect(self.do_create_ommatidial_map)
-
-
+        btn_OmmatidialMap.setToolTip("Create snesors using the predefined ommatidial map.")
 
         checkbox_neighbourhood_manually=QtGui.QCheckBox('determine neighbour-\nhood automatically')
         checkbox_neighbourhood_manually.stateChanged.connect(self.do_toggle_neighbourhood_mode)
-
-
-        
+        checkbox_neighbourhood_manually.setToolTip("If not checked, you will have to define \nmanually which sensors will count as neighbours.")
 
         layout_range=QtGui.QHBoxLayout()
 
@@ -74,6 +72,8 @@ class EditorWidget(QtGui.QWidget):
         s_range=self.range_line.sizeHint()
         s_range.setWidth(int(s_range.width()*0.7))
         self.range_line.setFixedSize(s_range)
+    
+        self.range_line.setToolTip("Maximum range in which sensors can count as neighbours.\nRange in relative extend of surroundings.")
         
         layout_range.addWidget(self.lbl_range)
         layout_range.addWidget(self.range_line,alignment=QtCore.Qt.AlignLeft)
@@ -88,6 +88,8 @@ class EditorWidget(QtGui.QWidget):
         s_max=self.max_n_line.sizeHint()
         s_max.setWidth(int(s_max.width()*0.7))
         self.max_n_line.setFixedSize(s_max)
+
+        self.max_n_line.setToolTip("Maximum number of neighbours per 'direction'.\nDirections are currently fixed at roughly left, right, up, down ...")
 
         layout_max_n.addWidget(self.lbl_max_n)
         layout_max_n.addWidget(self.max_n_line,alignment=QtCore.Qt.AlignLeft)
@@ -325,7 +327,7 @@ class SensorLine(QtGui.QWidget):
         self.index=index
 
         if initial_values==None:
-            self.values={'name':'new sensor '+str(len(self.parent_SA.sensors)),'filter':'gaussian','filter_args':'[1,1]','neighbourhood':'-','obj_args':'-','sensor':'-','x':'0.0','y':'0.0'}
+            self.values={'name':'new sensor '+str(len(self.parent_SA.sensors)),'filter':'gaussian','filter_args':'[1,1]','neighbourhood':'-','obj_args':'-','sensor':'Sensor','x':'0.0','y':'0.0'}
             
         else:
             self.values=initial_values
@@ -395,6 +397,9 @@ class SensorPopup(QtGui.QWidget):
         """
         Initializes all widgets (labels, buttons, etc.) displayed on this SensorPopup.
         """
+
+        self.setStyleSheet(blue_tooltips)
+
         grid=QtGui.QGridLayout()
         self.setLayout(grid)
 
@@ -413,28 +418,27 @@ class SensorPopup(QtGui.QWidget):
         # ------------------- sensor object -----------------------
 
         lbl_sensor=QtGui.QLabel('sensor object')
-        combo_sensor=QtGui.QComboBox()
+        self.combo_sensor=QtGui.QComboBox()
         for s in dict_of_sensors.keys():
-            combo_sensor.addItem(s)
-        index=combo_sensor.findText(self.copy_values['sensor'])
-        combo_sensor.setCurrentIndex(index)
-        combo_sensor.activated[str].connect(self.set_sensor)
+            self.combo_sensor.addItem(s)
+        index=self.combo_sensor.findText(self.copy_values['sensor'])
+        self.combo_sensor.setCurrentIndex(index)
+        self.combo_sensor.activated[str].connect(self.set_sensor)
 
         grid.addWidget(lbl_sensor,1,0)
-        grid.addWidget(combo_sensor,1,1,1,2)
+        grid.addWidget(self.combo_sensor,1,1,1,2)
         # ---------------------------------------------------------
-
         # ------------------ object args --------------------------
         
         lbl_obj_args=QtGui.QLabel('object arguments')
-        le_obj_args=QtGui.QLineEdit()
-        le_obj_args.setText(self.copy_values['obj_args'])
-        le_obj_args.editingFinished.connect(lambda: self.set_value('obj_args',le_obj_args.text()))
+        self.le_obj_args=QtGui.QLineEdit()
+        self.le_obj_args.setText(self.copy_values['obj_args'])
+        self.le_obj_args.editingFinished.connect(lambda: self.set_value('obj_args',self.le_obj_args.text()))
 
         grid.addWidget(lbl_obj_args,2,0)
-        grid.addWidget(le_obj_args,2,1,1,2)
-
+        grid.addWidget(self.le_obj_args,2,1,1,2)
         # ---------------------------------------------------------
+        self.update_sensor_tooltips(self.copy_values['sensor'])
 
 
         # --------------------- filter ----------------------------
@@ -529,7 +533,33 @@ class SensorPopup(QtGui.QWidget):
         """
         Read the Sensor-object from the pop-up's combo-box and set the value in SensorPopup.copy_values accordingly.
         """
+        s=str(s)
         self.copy_values['sensor']=s
+        self.update_sensor_tooltips(s)
+
+    def update_sensor_tooltips(self,sensor_str):
+        exec("from "+creator.sensor_dict[sensor_str].rpartition('/')[-1].partition('.py')[0]+ " import "+sensor_str)
+        exec("doc_str="+sensor_str+".__doc__")
+        exec("doc_str_init="+sensor_str+".__init__.__doc__")
+
+        if doc_str_init:
+            doc_str_init=doc_str_init.lstrip().rstrip().replace('\n','<br>')
+        else:
+            sorry="""<u>SORRY, NO DOCSTRING FOUND!</u><br>
+But here's a list of the constructor function's parameters:<br>"""
+            import inspect
+            exec("l=inspect.getargspec("+sensor_str+".__init__)")
+            for i in range(1,len(l.args)):
+                arg=l.args[i]
+                if i>len(l.args)-len(l.defaults):
+                    arg=arg+" = "+str(l.defaults[i-(len(l.args)-len(l.defaults))])
+                sorry=sorry+"<br>"+arg
+            doc_str_init=sorry
+
+
+        self.combo_sensor.setToolTip("Copy of docstring for class <u>"+sensor_str+"</u>:<br><br>"+doc_str)
+        self.le_obj_args.setToolTip("Copy of docstring for constructor of <u>"+sensor_str+"</u>:<br><br>"+doc_str_init)
+
 
     def set_filter(self,s):
         """
