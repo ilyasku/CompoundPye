@@ -332,7 +332,7 @@ to forgo relaxation and instead increase simulation time.</b>""")
         self.setLayout(vbox)
 
         # ------ HELP buttons -----------
-        hw=help_widget.HelpWidget(here+'/help_texts/tab_system.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        hw=help_widget.HelpWidget(here+'/help_texts/tab_system.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI#system")
         vbox.addWidget(hw)
 
 
@@ -443,7 +443,7 @@ class TabSurroundings(QtGui.QWidget):
         self.read_combo(init_str)
 
         # ------ HELP buttons -----------
-        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        hw=help_widget.HelpWidget(here+'/help_texts/tab_surroundings.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI#surroundings")
         self.grid.addWidget(hw,8,0,1,5)
 
 
@@ -793,7 +793,7 @@ class TabCircuit(QtGui.QWidget):
         #self.setLayout(vbox)
 
         # ------ HELP buttons -----------
-        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        hw=help_widget.HelpWidget(here+'/help_texts/tab_circuit.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI#circuit")
         self.grid.addWidget(hw,9,0,1,6)
         #vbox.addWidget(hw)
 
@@ -854,7 +854,7 @@ class TabSensors(QtGui.QWidget):
         self.setLayout(grid)
 
         # ------ HELP buttons -----------
-        hw=help_widget.HelpWidget('',"https://github.com/ilyasku/CompoundPye/wiki/GUI")
+        hw=help_widget.HelpWidget(here+'/help_texts/tab_sensors.html',"https://github.com/ilyasku/CompoundPye/wiki/GUI#sensors")
         #vbox.addWidget(hw)
         grid.addWidget(hw,9,0,1,1)
 
