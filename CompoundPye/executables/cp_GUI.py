@@ -239,9 +239,9 @@ NO WAY TO SAVE VIDEOSURROUNDINGS IMPLEMENTED SO FAR!!!!
 
         self.system=CP.system.System(self.circuit,self.surroundings,dt,relax_time,relax_intensity,relax_calculation)
     
-
-        with open(str(self.GUI.values['output']['dir'])+'/circuit_object_relaxed.pkl','wb') as f:
-            pickle.dump(self.circuit,f,pickle.HIGHEST_PROTOCOL)
+        if relax_time>0 and relax_calculation!='none':
+            with open(str(self.GUI.values['output']['dir'])+'/circuit_object_relaxed.pkl','wb') as f:
+                pickle.dump(self.circuit,f,pickle.HIGHEST_PROTOCOL)
 
         
 

@@ -41,9 +41,14 @@ def create_system(path,skip_relax=True):
     relax_mode=values['system_values']['relax_calculation']
 
     if skip_relax:
-        with open(path+'/circuit_object_relaxed.pkl','rb') as f:
-            circ=pickle.load(f)
-        relax_time=0.0
+        try:
+            with open(path+'/circuit_object_relaxed.pkl','rb') as f:
+                circ=pickle.load(f)
+            relax_time=0.0
+        except:
+            print("WARNING: COULD NOT FIND RELAXED CIRCUIT FILE\n TRYING TO RUN RELAXATION NOW."
+            with open(path+'/circuit_object.pkl','rb') as f:
+                circ=pickle.load(f)
     else:
         with open(path+'/circuit_object.pkl','rb') as f:
             circ=pickle.load(f)
