@@ -46,7 +46,7 @@ def create_system(path,skip_relax=True):
                 circ=pickle.load(f)
             relax_time=0.0
         except:
-            print("WARNING: COULD NOT FIND RELAXED CIRCUIT FILE\n TRYING TO RUN RELAXATION NOW."
+            print("WARNING: COULD NOT FIND RELAXED CIRCUIT FILE\n TRYING TO RUN RELAXATION NOW.")
             with open(path+'/circuit_object.pkl','rb') as f:
                 circ=pickle.load(f)
     else:
