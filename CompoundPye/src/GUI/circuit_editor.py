@@ -784,6 +784,11 @@ class PopupConnectionsTangential(QtGui.QWidget):
 
 
         hbox_btns=QtGui.QHBoxLayout()
+
+        hw = help_widget.HelpWidget(here+'/help_texts/connection_popup_tangential.html',"https://github.com/ilyasku/CompoundPye/wiki/Connection-Pop-ups#connections-of-tangential-cells")
+        hbox_btns.addWidget(hw)
+
+
         hbox_btns.addStretch(1)
 
         btn_cancel=QtGui.QPushButton('cancel')
