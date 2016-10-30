@@ -10,10 +10,7 @@ Provides functions that use input parsed with MotionDetector.Parser.sensor_parse
 """
 
 import sys
-#from CompoundPye.settings import *
-#from ..settings import *
 
-#from CompoundPye.src import ErrorHandling as EH
 from ...src import EH
 
 from ...src import Graph
@@ -24,7 +21,7 @@ import paths_to as pt
 
 def get_comp_dict():
     """
-    Creates a dictionary of possible MotionDetectorModel.Components.component.Component classes to use and where to find them (path to file).
+    Creates a dictionary of possible CompoundPye.Components.component.Component classes to use and where to find them (path to file).
     @return Dictionary with class names as keys and their source files as values.
     """    
     d={}
