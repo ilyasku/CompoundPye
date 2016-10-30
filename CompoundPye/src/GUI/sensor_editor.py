@@ -237,8 +237,8 @@ class EditorScrollArea(QtGui.QScrollArea):
                 new_dict['name']=key
                 sensors.append(new_dict)
         
-        print 'sensors:'
-        print sensors
+        #print 'sensors:'
+        #print sensors
         
         self.vbox=QtGui.QVBoxLayout()
         w.setLayout(self.vbox)
@@ -588,6 +588,7 @@ class PopupOmmatidialMap(QtGui.QWidget):
         self.phi=self.parent_EditorWidget.parent_Tab.parent_UI.values['surroundings_values']['projection_values']['horizontal'][:]
         self.theta=self.parent_EditorWidget.parent_Tab.parent_UI.values['surroundings_values']['projection_values']['vertical'][:]
 
+        self.animal = self.parent_EditorWidget.parent_Tab.parent_UI.values['animal']
 
         self.copy_values=self.parent_EditorWidget.parent_Tab.parent_UI.values['sensor_values']['ommatidia'].copy()
 
@@ -659,11 +660,33 @@ class PopupOmmatidialMap(QtGui.QWidget):
         
         checkbox_use_surroundings_values.toggle()
 
+
+        #########################################
+        # > some radio buttons                  #
+        #########################################
+        hbox_radio_buttons = QtGui.QHBoxLayout()
+        vbox.addLayout(hbox_radio_buttons)
+
+        #########################################
+        # >>      select eye (left/right/both)  #
+        #########################################
+        group_box_eye = QtGui.QGroupBox("select eye")
+        hbox_radio_buttons.addWidget(group_box_eye)
+
+        vbox_eye = QtGui.QVBoxLayout()
+        group_box_eye.setLayout(vbox_eye)
+
+        self.button_group_eye = QtGui.QButtonGroup(self)
+        
         radio_left=QtGui.QRadioButton("use left eye (phi around range [0,180])")
 
         radio_right=QtGui.QRadioButton("use right eye (phi around range [-180,0])")
         
         radio_both=QtGui.QRadioButton("use both eyes")
+
+        self.button_group_eye.addButton(radio_left)
+        self.button_group_eye.addButton(radio_right)
+        self.button_group_eye.addButton(radio_both)
 
         if self.copy_values['eyes']=='left':
             radio_left.toggle()
@@ -676,10 +699,54 @@ class PopupOmmatidialMap(QtGui.QWidget):
         radio_right.toggled.connect(self.set_right)
         radio_both.toggled.connect(self.set_both)
 
-        vbox.addWidget(radio_left)
-        vbox.addWidget(radio_right)
-        vbox.addWidget(radio_both)
+        vbox_eye.addWidget(radio_left)
+        vbox_eye.addWidget(radio_right)
+        vbox_eye.addWidget(radio_both)
 
+        #########################################
+        # >>  select animal (droso/calli/bee)   #
+        #########################################
+
+        group_box_animal = QtGui.QGroupBox("select animal")
+        hbox_radio_buttons.addWidget(group_box_animal)
+
+        vbox_animal = QtGui.QVBoxLayout()
+        group_box_animal.setLayout(vbox_animal)
+
+        self.button_group_animal = QtGui.QButtonGroup(self)
+        
+        radio_droso=QtGui.QRadioButton("Drosophila")
+
+        ## exclude calliphora for now ... ommatidial data not prepared yet
+        #radio_calli=QtGui.QRadioButton("Calliphora")
+        
+        radio_bee=QtGui.QRadioButton("Apis mellifera")
+
+        self.button_group_animal.addButton(radio_droso)
+        #self.button_group_animal.addButton(radio_calli)
+        self.button_group_animal.addButton(radio_bee)
+
+ 
+        if self.animal=='droso':
+            radio_droso.toggle()
+        #elif self.animal == 'calli':
+        #radio_calli.toggle()
+        else:
+            radio_bee.toggle()
+
+        radio_droso.toggled.connect(lambda: self.set_animal('droso'))
+        #radio_calli.toggled.connect(lambda: self.set_animal('calli'))
+        radio_bee.toggled.connect(lambda: self.set_animal('bee'))
+
+        vbox_animal.addWidget(radio_droso)
+        #vbox_animal.addWidget(radio_calli)
+        vbox_animal.addWidget(radio_bee)
+
+        
+        #########################################
+        #       buttons cancel/create           #
+        #########################################
+        
         hbox_buttons=QtGui.QHBoxLayout()
 
         btn_cancel=QtGui.QPushButton("cancel")
@@ -694,6 +761,9 @@ class PopupOmmatidialMap(QtGui.QWidget):
 
         vbox.addLayout(hbox_buttons)
 
+    def set_animal(self, animal):
+        self.animal = animal
+        
     def set_left(self):
         self.copy_values['eyes']='left'
 
@@ -705,23 +775,23 @@ class PopupOmmatidialMap(QtGui.QWidget):
 
     def set_border(self,value):
         self.copy_values['border']=value
-        print self.copy_values['border']
+        #print self.copy_values['border']
 
     def set_phi_min(self,value):
         self.phi[0]=value
-        print self.phi
+        #print self.phi
 
     def set_phi_max(self,value):
         self.phi[1]=value
-        print self.phi
+        #print self.phi
         
     def set_theta_min(self,value):
         self.theta[0]=value
-        print self.theta
+        #print self.theta
 
     def set_theta_max(self,value):
         self.theta[1]=value
-        print self.theta
+        #print self.theta
 
     def do_toggle_use_values(self):
 
@@ -755,10 +825,10 @@ class PopupOmmatidialMap(QtGui.QWidget):
 
     def do_create(self):
         
-        from ..OmmatidialMap import read_droso
+        from ..OmmatidialMap import read_ommatidia
         import numpy as np
 
-        s=read_droso.write_sphere_coords_spheric_to_sensor_file_buffer(np.array(self.phi)*np.pi/180.,np.array(self.theta)*np.pi/180.,self.copy_values['border'],self.copy_values['eyes'])
+        s=read_ommatidia.write_sphere_coords_spheric_to_sensor_file_buffer(np.array(self.phi)*np.pi/180.,np.array(self.theta)*np.pi/180.,self.copy_values['border'],self.copy_values['eyes'], animal = self.animal)
 
         f=open(home+"/.tmp_ommatidial_map.txt",'w')
         f.write(s)
@@ -769,6 +839,7 @@ class PopupOmmatidialMap(QtGui.QWidget):
         os.system("rm "+home+"/.tmp_ommatidial_map.txt")
 
         self.parent_EditorWidget.parent_Tab.parent_UI.values['sensor_values']['ommatidia']=self.copy_values
+        self.parent_EditorWidget.parent_Tab.parent_UI.values['animal'] = self.animal
 
         self.close()
 

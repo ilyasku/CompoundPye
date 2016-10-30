@@ -14,12 +14,16 @@ import numpy as np
 import os
 here=os.path.dirname(os.path.abspath(__file__))
 
-def write_sphere_coords_spheric_to_sensor_file_buffer(phi_range=[-np.pi,np.pi],theta_range=[0,np.pi], borders=0.0,eyes='both',fname_prefix=None):
-    _eyes=np.array(['left']*coords_shape[0]/2+['right']*coords_shape[0]/2, animal = 'droso')
+def write_sphere_coords_spheric_to_sensor_file_buffer(phi_range=[-np.pi,np.pi],theta_range=[0,np.pi], borders=0.0,eyes='both',fname_prefix=None, animal = 'droso'):
 
     sphere_coords_spheric=np.load(here+'/'+animal+'_sphere_coords_spheric.npy')
     gauss_coeffs_fit=np.load(here+'/'+animal+'_gauss_coeffs.npy')
     coords_shape = sphere_coords_spheric.shape
+
+    print("creating photoreceptors for %s" % animal)
+    
+    
+    _eyes=np.array(['left']*(coords_shape[0]/2)+['right']*(coords_shape[0]/2))
     
     if eyes=='both':
         photor_coords=sphere_coords_spheric
@@ -49,10 +53,13 @@ def write_sphere_coords_spheric_to_sensor_file_buffer(phi_range=[-np.pi,np.pi],t
         y_i=1-float(photor_coords[i,1]-theta_range[0])/(theta_range[1]-theta_range[0])
         coeffx=gauss_coeffs_fit[0]/180./((phi_range[1]-phi_range[0])/2./np.pi)
         coeffy=gauss_coeffs_fit[1]/180./((theta_range[1]-theta_range[0])/np.pi)
-        s_i=str(x_i)+'\t'+str(y_i)+'\t'+'s_'+str(i)+'\tPhotoreceptor\t'+'-\t'+'gaussian\t['+str(coeffx[0])+','+str(coeffy[0])+']\t'+_eyes[i]+'\n'
+        #print coeffx, coeffy
+        s_i=str(x_i)+'\t'+str(y_i)+'\t'+'s_'+str(i)+'\tPhotoreceptor\t'+'-\t'+'gaussian\t['+str(coeffx)+','+str(coeffy)+']\t'+_eyes[i]+'\n'
         s=s+s_i
         
     s=s+'}'
+
+    print("Number of photoreceptors created: %i" % photor_coords.shape[0])
 
     if fname_prefix==None:
         return s

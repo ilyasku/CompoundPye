@@ -49,9 +49,36 @@ sphere_coords=io.loadmat(here+"/SphereCoord.mat")["SphereCoord"]
 #sphere_coords=sphere_coords[:699]
 sphere_coords_spheric=transform_sphere_surface(sphere_coords)
 
+coords_shape = sphere_coords.shape
+
 gauss_coeffs_fit=optimize.curve_fit(gauss,accp_angle[:,0],accp_angle[:,1])
 
 
 if __name__=="__main__":
-    np.save(here+'/droso_sphere_coords_spheric.npy',sphere_coords_spheric)
-    np.save(here+'/droso_gauss_coeffs.npy',gauss_coeffs_fit)
+
+    save = False
+    if save:
+        np.save(here+'/droso_sphere_coords_spheric.npy',sphere_coords_spheric)
+        np.save(here+'/droso_gauss_coeffs.npy', np.array([gauss_coeffs_fit[0],gauss_coeffs_fit[0]]))
+
+
+    import matplotlib.pyplot as plt
+        
+    def test_spheric_coords():
+
+        f,ax=plt.subplots()
+        ax.plot(sphere_coords_spheric[:coords_shape[0]/2,0],sphere_coords_spheric[:coords_shape[0]/2,1],ls='',marker='x',mec='red')
+        ax.plot(sphere_coords_spheric[coords_shape[0]/2:,0],sphere_coords_spheric[coords_shape[0]/2:,1],ls='',marker='x',mec='green')
+        #ax.vlines([-np.pi,np.pi],0,np.pi,linestyles='solid',lw=5,color='black')
+        #ax.hlines([0,np.pi],-np.pi,np.pi,linestyles='solid',lw=5,color='black')
+        ax.grid()
+        ax.invert_yaxis()
+        f.show()
+
+        return f,ax
+
+
+    plot_spheric = True
+
+    if plot_spheric:
+        f_spheric,ax_spheric = test_spheric_coords()
