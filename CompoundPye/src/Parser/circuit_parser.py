@@ -156,6 +156,18 @@ def save_file(fname,arrangement,variables,neurons,connections,receiver):
 def parse_file(fname):
     """
     Parse circuit-data from file to several lists and dictionaries.
+    @param fname Name of circuit file.
+    @return Tuple of 5 items: 
+            (1) arrangement-keyword (currently only 'column' allowed)
+            (2) Dictionary of variables defined in circuit file header.
+            (3) Dictionary of components, separated into 4 categories:
+                (I) 'column_components' -> Components inside one columnd
+                (II) 'between_next_neighbour_components' -> Components considered to be
+                     inbetween two columns.
+                (III) 'tangential_components' -> Not in columns, global/tangential components.
+                (IV) ... Not in use currently
+            (4) Dictionary defining connections.
+            (5) List of components receiving input of photoreceptors.
     """
     f=open(fname,'r')
     complete_string=f.read()

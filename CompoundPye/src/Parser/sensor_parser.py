@@ -58,6 +58,11 @@ def parse_file(fname):
     """
     Parse a sensor file to several dictionaries.
     @param fname Name of the source file.
+    @return Tuple of four items:
+            (1) Settings defined in sensor file header.
+            (2) Variables defined in sensor file header.
+            (3) Defaults defined in sensor file header.
+            (4) List of lines (strings) defining sensors.
     """
     f=open(fname,'r')
     complete_string=f.read()

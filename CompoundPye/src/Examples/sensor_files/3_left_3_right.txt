@@ -1,0 +1,9 @@
+neighbours=x
+sensors{
+0.4	0.5	l_m	Photoreceptor	-	gaussian	[0.0155,0.0155]	left
+0.3845	0.5	l_l	Photoreceptor	-	gaussian	[0.0155,0.0155]	left
+0.4155	0.5	l_r	Photoreceptor	-	gaussian	[0.0155,0.0155]	left
+0.431	0.5155	r_m	Photoreceptor	-	gaussian	[0.0155,0.0155]	right
+0.4465	0.5155	r_r	Photoreceptor	-	gaussian	[0.0155,0.0155]	right
+0.4155	0.5155	r_l	Photoreceptor	-	gaussian	[0.0155,0.0155]	right
+}

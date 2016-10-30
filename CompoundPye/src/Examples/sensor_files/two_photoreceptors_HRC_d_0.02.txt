@@ -1,0 +1,5 @@
+neighbours=x
+sensors{
+0.4	0.5	sensor1	Photoreceptor	-	gaussian	[0.0155,0.0155]	-
+0.38	0.5	sensor0	Photoreceptor	-	gaussian	[0.0155,0.0155]	-
+}

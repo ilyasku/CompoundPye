@@ -9,7 +9,10 @@
 /CompoundPye/_tests_for_debugging/
 /CompoundPye/_tests_of_circuits/
 /CompoundPye/_PlotScripts/
-/CompoundPye/src/Examples/
+/CompoundPye/src/Examples/*.avi
+/CompoundPye/src/Examples/tunnel/
+/CompoundPye/src/Examples/circ_files/
+/CompoundPye/src/Examples/*.csv
 /CompoundPye/_old/
 
 *~

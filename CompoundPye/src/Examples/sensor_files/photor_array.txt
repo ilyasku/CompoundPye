@@ -1,0 +1,13 @@
+neighbours=x
+sensors{
+0.3	0.3	s_11	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.31416666	0.3	s_12	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.32833333	0.3	s_13	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.2915	0.3129839	s_21	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.30566666	0.3129839	s_22	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.3198333333	0.3129839	s_23	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.33399999999	0.3129839	s_24	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.3	0.32596792893	s_31	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.31416666	0.32596792893	s_32	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+0.32833333	0.32596792893	s_33	Photoreceptor	-	gaussian	[0.0158333,0.0158333]	-
+}

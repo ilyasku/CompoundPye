@@ -60,7 +60,7 @@ class RunGUI:
         """
 
 
-        # read a bunch of parameters from the GUI (MDM_GUI-object).
+        # read a bunch of parameters from the GUI (GUI-object).
         s_settings=self.GUI.tab_list[3].editor.editor.settings
         s_variables=self.GUI.tab_list[3].editor.editor.variables
         s_defaults=self.GUI.tab_list[3].editor.editor.defaults

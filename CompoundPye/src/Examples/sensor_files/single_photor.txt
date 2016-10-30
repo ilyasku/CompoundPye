@@ -1,0 +1,4 @@
+neighbours=x
+sensors{
+0.0	0.0	sensor0	Photoreceptor	-	pixel	-	-
+}

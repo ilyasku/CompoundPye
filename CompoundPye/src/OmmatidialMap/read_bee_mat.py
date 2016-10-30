@@ -54,6 +54,9 @@ sphere_coords=io.loadmat(here+"/SphereCoordB.mat")["sphCoordB"]
 #sphere_coords_spheric=transform_sphere_surface(sphere_coords)
 sphere_coords_spheric = sphere_coords[:,:2]
 sphere_coords_spheric[:,0] /= 2.
+## Furthermore, I want theta to range from 0 to pi rather than -pi/2 to pi/2
+# --> shift by +pi/2
+sphere_coords_spheric[:,1] += np.pi/2
 
 coords_shape = sphere_coords.shape
 
