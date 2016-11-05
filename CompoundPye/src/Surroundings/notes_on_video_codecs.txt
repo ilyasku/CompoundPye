@@ -1,0 +1,2 @@
+HFYU seems to be a fine lossless format.
+X264 worked well to convert from RGB to Gray

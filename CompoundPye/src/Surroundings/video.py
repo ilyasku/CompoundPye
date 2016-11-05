@@ -16,14 +16,23 @@ from gtk._gtk import Frame
 
 class VideoSurroundings(surroundings.Surroundings):
     
-    def __init__(self,video_file,intensity_dimension=1,show=False):
-        
-
+    def __init__(self,video_file,intensity_dimension=1,show=False, debug = False):
+            
         
         self.cap=cv2.VideoCapture(str(video_file))
         
         self.ret,self.first_frame=self.cap.read()
 
+        if debug:
+            s = ""
+            s += "Opening file `" + str(video_file) + "` for VideoSurroundings.\n"
+            s += "self.ret = " + str(self.ret) + "\n"
+            s += "self.first_frame = " + self.first_frame.__str__() + "\n"
+            
+            import sys
+            sys.stdout.write(s)
+
+        
         #w=int(self.cap.get(3))
         #h=int(self.cap.get(4))
 
@@ -69,8 +78,9 @@ class VideoSurroundings(surroundings.Surroundings):
             
             #print frame
             if self.intensity_dim==1:
-                print frame.shape
-                gray=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                #print frame.shape
+                #gray=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                gray = frame
 
 
             else:

@@ -49,11 +49,13 @@ class Circuit:
         for i in range(0,self.n_comp):
             self.components[i].index_in_circuit_list=i
 
-        components_weight_matrix=np.zeros((self.n_comp,self.n_comp))
+        #components_weight_matrix=np.zeros((self.n_comp,self.n_comp))
+        #components_weight_matrix = csr_matrix((self.n_comp, self.n_comp), dtype = np.float64)
+        components_weight_matrix = lil_matrix((self.n_comp, self.n_comp), dtype = np.float64)
         
         for i in range(0,self.n_comp):
             for j in range(0,len(self.components[i].connections)):
-                components_weight_matrix[self.components[i].connections[j].target.index_in_circuit_list][i]=self.components[i].connections[j].weight
+                components_weight_matrix[self.components[i].connections[j].target.index_in_circuit_list,i]=self.components[i].connections[j].weight
                 
         #create sensors_weight_matrix ...
         n_sens=len(self.sensors)
@@ -61,11 +63,12 @@ class Circuit:
         for i in range(0,n_sens):
             self.sensors[i].index_in_circuit_list=i
             
-        sensors_weight_matrix=np.zeros((self.n_comp,n_sens))
+        #sensors_weight_matrix=np.zeros((self.n_comp,n_sens))
+        sensors_weight_matrix=lil_matrix((self.n_comp,n_sens), dtype = np.float64)
             
         for i in range(0,n_sens):
             for j in range(0,len(self.sensors[i].connections)):
-                sensors_weight_matrix[self.sensors[i].connections[j].target.index_in_circuit_list][i]=self.sensors[i].connections[j].weight
+                sensors_weight_matrix[self.sensors[i].connections[j].target.index_in_circuit_list,i]=self.sensors[i].connections[j].weight
                 
         if self.debug.count("Circuit.create_weight_matrices"):
             print '-------debugging output-----------------'
@@ -76,6 +79,7 @@ class Circuit:
             print sensors_weight_matrix
             print '----------------------------------------'
             
+
         self.components_weight_matrix=csr_matrix(components_weight_matrix)
         self.sensors_weight_matrix=csr_matrix(sensors_weight_matrix)
 

@@ -139,6 +139,23 @@ def create_circ_lists_GUI_interface(px,s_settings,s_variables,s_defaults,sensors
 def create_circ_lists(px,s_settings,s_variables,s_defaults,sensors,arrangement,variables,components,connections,receiver,neighbour_kw_params={'manually':False,'range':0.0255,'max_n':6},show_nhood_plot=True):
     """
     Create circuit lists (a list of components and a list of sensors) with information from a circuit-file and a sensor-file.
+    @param px
+    @param s_settings
+    @param s_variables
+    @param s_defaults
+    @param sensors
+    @param arrangement
+    @param variables
+    @param components
+    @param connections
+    @param receiver
+    @param neighbour_kw_params
+    @param show_nhood_plot
+    @return Tuple of 2-4 items:
+            (1) A <list> of all created component objects.
+            (2) <list> of all created sensor objects.
+            (3) <np.ndarray> conntaining normalized (phi, theta) coordinates for all sensors.
+            (4) <np.ndarray> containing angles in radian between all sensors.
     """
     
     neighbourhood_manually=neighbour_kw_params['manually']
