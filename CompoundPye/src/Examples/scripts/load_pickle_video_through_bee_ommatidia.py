@@ -6,7 +6,7 @@ import sys, os
 import numpy as np
 
 HERE=os.path.dirname(os.path.abspath(__file__))
-
+DATA_PATH_PREFIX = "/home/ilyas/Data/CompoundPye/360video/apis/0s_to_0.1s/"
 
 DT = 0.0005
 RELAX_TIME = 0.0
@@ -117,9 +117,9 @@ for i in tqdm(range(t.shape[0])):
 
 sys.stdout.write("Saving arrays ...\n")
 
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/components.npy", components_output_array)
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/sensors.npy", sensors_output_array)
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/t.npy", t)
+np.save(DATA_PATH_PREFIX + "components.npy", components_output_array)
+np.save(DATA_PATH_PREFIX + "sensors.npy", sensors_output_array)
+np.save(DATA_PATH_PREFIX + "t.npy", t)
 
 
 del components_output_array
@@ -146,9 +146,9 @@ for i in range(len(neuron_save_indices)):
     directions.append(c.direction)
     labels.append(c.label)
 
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/component_positions.npy", component_positions)
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/component_directions.npy", np.array(directions))
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/component_labels.npy", np.array(labels))
+np.save(DATA_PATH_PREFIX + "component_positions.npy", component_positions)
+np.save(DATA_PATH_PREFIX + "component_directions.npy", np.array(directions))
+np.save(DATA_PATH_PREFIX + "component_labels.npy", np.array(labels))
 
 # >> sensors
 
@@ -159,7 +159,7 @@ for i in range(n_sensors_save):
     pos = pos / np.array(S.surroundings.n_pixel)
     sensor_positions[i,:] = pos
 
-np.save("/home/ilyas/Data/CompoundPye/Apis/video/sensor_positions.npy", sensor_positions)
+np.save(DATA_PATH_PREFIX + "sensor_positions.npy", sensor_positions)
 
 
 sys.stdout.write("Done.\n")
