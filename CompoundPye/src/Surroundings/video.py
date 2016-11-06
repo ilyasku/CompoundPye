@@ -80,7 +80,6 @@ class VideoSurroundings(surroundings.Surroundings):
             if self.intensity_dim==1:
                 #print frame.shape
                 gray=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                gray = frame
 
 
             else:
