@@ -4,7 +4,8 @@
 
 """
 @package CompoundPye.src.Components
-Provides Component and Connection classes, from which the user can build a circuit/network.
+Provides Component and Connection classes, from which the user can build
+a circuit/network.
 """
 
 import Connections

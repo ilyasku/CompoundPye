@@ -4,9 +4,9 @@
 
 """
 @package CompoundPye.src.Circuits
-Provides Circuit-objects, which handle the complete network of Component-objects (components or neurons).
+Provides Circuit-objects, which handle the complete network of
+Component-objects (components or neurons).
 """
-#from ...src import settings as _settings
 from ..settings import cv
 
 import circuit

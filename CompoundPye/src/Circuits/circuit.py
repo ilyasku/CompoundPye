@@ -8,68 +8,70 @@ Holds the basic Circuit class.
 """
 
 import numpy as np
-from scipy.sparse import csr_matrix,lil_matrix
+from scipy.sparse import csr_matrix, lil_matrix
 from ..Components import array_transfer_functions
+
 
 class Circuit:
     """
-    Basic Circuit class that handles a network of components and sensors and their updating at each time step.
-    """   
-     
-    def __init__(self,list_of_components,list_of_sensors,debug=[]):
+    Basic Circuit class that handles a network of components and sensors
+    and their updating at each time step.
+    """
+    def __init__(self, list_of_components, list_of_sensors, debug=[]):
         """
         Initializes a Circuit-object.
-        Creates the weight matrices that represent the connections between components (and sensors).
-        @param list_of_components Requires a list of components with predefined connections.
-        @param list_of_sensors Requires a list of sensors with predefined connections to one or more component.
+        Creates the weight matrices that represent the
+        connections between components (and sensors).
+        @param list_of_components Requires a list of
+        components with predefined connections.
+        @param list_of_sensors Requires a list of sensors with
+        predefined connections to one or more component.
         """
-        
-        self.components=list_of_components
-        self.components_weight_matrix=None
-        self.sensors=list_of_sensors
-        self.sensors_weight_matrix=None
-        
-        
-        self.debug=debug
-        
+        self.components = list_of_components
+        self.components_weight_matrix = None
+        self.sensors = list_of_sensors
+        self.sensors_weight_matrix = None
+        self.debug = debug
+
         self.create_weight_matrices()
-        
-        
+
     def create_weight_matrices(self):
         """
         Creates the weight matrices.
-        Creates the components_weight_matrix from connections between components.
-        Creates the sensors_weight_matrix from conncections from sensors to components.
+        Creates the components_weight_matrix
+        from connections between components.
+        Creates the sensors_weight_matrix from
+        conncections from sensors to components.
         """
-        
-        self.n_comp=len(self.components)
+        self.n_comp = len(self.components)
 
         #create components_weight_matrix ...
-        
-        for i in range(0,self.n_comp):
-            self.components[i].index_in_circuit_list=i
 
-        #components_weight_matrix=np.zeros((self.n_comp,self.n_comp))
-        #components_weight_matrix = csr_matrix((self.n_comp, self.n_comp), dtype = np.float64)
+        for i in range(0, self.n_comp):
+            self.components[i].index_in_circuit_list = i
+
+        # components_weight_matrix=np.zeros((self.n_comp,self.n_comp))
+        # components_weight_matrix = csr_matrix((self.n_comp, self.n_comp), dtype = np.float64)
         components_weight_matrix = lil_matrix((self.n_comp, self.n_comp), dtype = np.float64)
         
-        for i in range(0,self.n_comp):
-            for j in range(0,len(self.components[i].connections)):
-                components_weight_matrix[self.components[i].connections[j].target.index_in_circuit_list,i]=self.components[i].connections[j].weight
-                
+        for i in range(0, self.n_comp):
+            for j in range(0, len(self.components[i].connections)):
+                components_weight_matrix[self.components[i].connections[j].target.index_in_circuit_list, i] = \
+                    self.components[i].connections[j].weight
+
         #create sensors_weight_matrix ...
-        n_sens=len(self.sensors)
-        
-        for i in range(0,n_sens):
-            self.sensors[i].index_in_circuit_list=i
-            
-        #sensors_weight_matrix=np.zeros((self.n_comp,n_sens))
-        sensors_weight_matrix=lil_matrix((self.n_comp,n_sens), dtype = np.float64)
-            
-        for i in range(0,n_sens):
-            for j in range(0,len(self.sensors[i].connections)):
-                sensors_weight_matrix[self.sensors[i].connections[j].target.index_in_circuit_list,i]=self.sensors[i].connections[j].weight
-                
+        n_sens = len(self.sensors)
+
+        for i in range(0, n_sens):
+            self.sensors[i].index_in_circuit_list = i
+
+        # sensors_weight_matrix=np.zeros((self.n_comp,n_sens))
+        sensors_weight_matrix = lil_matrix((self.n_comp, n_sens), dtype = np.float64)
+
+        for i in range(0, n_sens):
+            for j in range(0, len(self.sensors[i].connections)):
+                sensors_weight_matrix[self.sensors[i].connections[j].target.index_in_circuit_list, i]=self.sensors[i].connections[j].weight
+
         if self.debug.count("Circuit.create_weight_matrices"):
             print '-------debugging output-----------------'
             print '-------function: Circuit.create_weight_matrices()-------'
@@ -78,7 +80,7 @@ class Circuit:
             print 'sensors_weight_matrix:'
             print sensors_weight_matrix
             print '----------------------------------------'
-            
+
 
         self.components_weight_matrix=csr_matrix(components_weight_matrix)
         self.sensors_weight_matrix=csr_matrix(sensors_weight_matrix)
@@ -305,6 +307,7 @@ Current limitations:
     def get_component_outputs(self):
         return self.component_outputs_array
 
+    
 def low_pass(x,current_value,time_const,dt):
     alpha=dt/(time_const+dt)
     return current_value*(1-alpha)+alpha*x

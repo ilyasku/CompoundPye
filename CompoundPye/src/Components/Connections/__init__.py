@@ -4,7 +4,8 @@
 
 """
 @package CompoundPye.src.Components.Conections
-Provides Connection classes, that defines strength and target from one component or sensor to another component.
+Provides Connection classes, that defines strength and target from one 
+component or sensor to another component.
 """
 
 import connection
