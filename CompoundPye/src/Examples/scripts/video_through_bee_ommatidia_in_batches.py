@@ -5,13 +5,15 @@ import os
 import numpy as np
 
 HERE=os.path.dirname(os.path.abspath(__file__))
-DATA_PATH_PREFIX = "/home/ilyas/Data/CompoundPye/360video/apis/0s_to_0.1s/"
+DATA_PATH_PREFIX = "/home/ilyas/Data/CompoundPye/360video/apis/in_chunks/"
 
 DT = 0.0005
 RELAX_TIME = 0.0
 RELAX_INTENSITY = 0.5
 
-T_END = 0.001
+#T_END = 0.001
+CHUNK_SIZE_IN_SECONDS = 0.1
+N_CHUNKS = 3
 
 #######################################################
 # > Create surroundings with video                    #
@@ -38,6 +40,10 @@ sys.stdout.write("Creating circuit ...\n")
 
 
 circ = CP.Circuits.circuit.Circuit(*circ_lists[:2])
+
+
+
+
 
 #######################################################
 # > Create System                                     #
@@ -73,50 +79,57 @@ sensor_save_indices = np.random.choice(len(S.circuit.sensors), n_sensors_save)
 # > run simulation                                    #
 #######################################################
 
-t = np.arange(0,T_END, DT) # array of time stamps
-
 #######################################################
-# >> prepare arrays to store the outputs              #
-#######################################################
-sys.stdout.write("Preparing data output arrays ...\n")
-
-components_output_array = np.zeros((t.shape[0], len(neuron_save_indices)))
-sensors_output_array = np.zeros((t.shape[0], n_sensors_save))
-
-i = 0
-
-from tqdm import tqdm
-
-sys.stdout.write("Starting simulation ...\n")
-
-for i in tqdm(range(t.shape[0])):
-    t_i = t[i]
-
-    new_comp_values=np.zeros(len(neuron_save_indices))
-
-    for j in range(len(neuron_save_indices)):
-        new_comp_values[j]=S.circuit.components[neuron_save_indices[j]].get_output()
-
-    new_sens_values=np.zeros(len(sensor_save_indices))
-    for k in range(len(sensor_save_indices)):
-        new_sens_values[k]=S.circuit.sensors[sensor_save_indices[k]].get_value()
-
-    components_output_array[i,:]=new_comp_values
-    sensors_output_array[i,:]=new_sens_values
-
-    S.update()
-
-
-
-#######################################################
-# > save data arrays                                  #
+# >> for-loop over chunks                             #
 #######################################################
 
-sys.stdout.write("Saving arrays ...\n")
+for j in range(N_CHUNKS):
+    sys.stdout.write("In loop for chunk "+str(j)+" ...\n")
+    t = np.arange(j*CHUNK_SIZE_IN_SECONDS, (j+1)*CHUNK_SIZE_IN_SECONDS, DT)  # array of time stamps
 
-np.save(DATA_PATH_PREFIX + "components.npy", components_output_array)
-np.save(DATA_PATH_PREFIX + "sensors.npy", sensors_output_array)
-np.save(DATA_PATH_PREFIX + "t.npy", t)
+    #######################################################
+    # >>> prepare arrays to store the outputs             #
+    #######################################################
+    sys.stdout.write("Preparing data output arrays ...\n")
+
+    components_output_array = np.zeros((t.shape[0], len(neuron_save_indices)))
+    sensors_output_array = np.zeros((t.shape[0], n_sensors_save))
+
+    i = 0
+
+    from tqdm import tqdm
+
+    sys.stdout.write("Starting simulation ...\n")
+
+    for i in tqdm(range(t.shape[0])):
+        t_i = t[i]
+
+        new_comp_values = np.zeros(len(neuron_save_indices))
+
+        for j in range(len(neuron_save_indices)):
+            new_comp_values[j] = S.circuit.components[neuron_save_indices[j]].get_output()
+
+        new_sens_values = np.zeros(len(sensor_save_indices))
+        for k in range(len(sensor_save_indices)):
+            new_sens_values[k] = S.circuit.sensors[sensor_save_indices[k]].get_value()
+
+        components_output_array[i, :] = new_comp_values
+        sensors_output_array[i, :] = new_sens_values
+
+        S.update()
+
+    #######################################################
+    # >>> save data arrays                                #
+    #######################################################
+
+    chunk_folder_path = DATA_PATH_PREFIX + "%.2f_to_%.2f_s" % (t[0], t[-1])
+
+    os.mkdir(chunk_folder_path)
+    
+    sys.stdout.write("Saving arrays ...\n")
+    np.save(chunk_folder_path + "/components.npy", components_output_array)
+    np.save(chunk_folder_path + "/sensors.npy", sensors_output_array)
+    np.save(chunk_folder_path + "/t.npy", t)
 
 
 del components_output_array
@@ -139,7 +152,7 @@ labels = []
 
 for i in range(len(neuron_save_indices)):
     c = S.circuit.components[neuron_save_indices[i]]
-    component_positions[i,:] = c.graph_pos
+    component_positions[i, :] = c.graph_pos
     directions.append(c.direction)
     labels.append(c.label)
 
@@ -154,7 +167,7 @@ sensor_positions = np.zeros((n_sensors_save, 2))
 for i in range(n_sensors_save):
     pos = S.circuit.sensors[sensor_save_indices[i]].receptive_field
     pos = pos / np.array(S.surroundings.n_pixel)
-    sensor_positions[i,:] = pos
+    sensor_positions[i, :] = pos
 
 np.save(DATA_PATH_PREFIX + "sensor_positions.npy", sensor_positions)
 

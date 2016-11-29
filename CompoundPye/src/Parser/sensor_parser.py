@@ -9,9 +9,6 @@
 Parses sensor information from a sensor-file or save sensor information (also from the GUI) to a sensor-file.
 """
 
-
-#from ..ErrorHandling import handle
-#import CompoundPye.src.ErrorHandling as EH
 from ...src import EH
 
 def save_file(fname,settings,variables,defaults,sensors):
@@ -73,7 +70,7 @@ def parse_file(fname):
         if sections[i][0]=='sensors':
             sensors=parse_sensor_section(sections[i][1])
     if sensors==None:
-        EH.handle(1,'Did not find the sensors-section in file '+str(fname))
+        raise Exception("Did not find the sensors-section in file " + str(fname))
         
     return settings,variables,defaults,sensors
 

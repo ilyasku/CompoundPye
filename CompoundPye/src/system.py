@@ -144,3 +144,7 @@ class System:
             import pickle
             with open(self.save_path_prefix + "circuit_on_last_time_step.pkl", 'wb') as f:
                 pickle.dump(self.circuit, f, pickle.HIGHEST_PROTOCOL)
+
+
+    def set_t(self, t):
+        self.t = t

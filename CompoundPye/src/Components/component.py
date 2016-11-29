@@ -84,7 +84,7 @@ Updates the Component's internal value and output based on the provided input.
         """
 
         self.value += dt / self.time_const_input * (-self.value + input)
-        self.output += dt / self.time_const_output * (-self.output + \ self.activation_func(self.value,*self.param))
+        self.output += dt / self.time_const_output * (-self.output + self.activation_func(self.value,*self.param))
 
     def get_output(self):
         """
