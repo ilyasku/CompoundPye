@@ -33,11 +33,27 @@ def get_response(dt, intensities_array, relaxation_time, neuron_types_to_be_reco
     sensor_file_parsed = Parser.sp.parse_file(sensor_file)
     circuit_file_parsed = Parser.cp.parse_file(circuit_file)
 
+    print("-------------------------------------------")
+    print("in `get_response_EMD.get_response`: circuit_file_parsed`:")
+    print("type: " + str(type(circuit_file_parsed)))
+    print("number of items: " + str(len(circuit_file_parsed)))
+    for item in circuit_file_parsed:
+        print(item)
+    print("-------------------------------------------")
+
     kwargs = {'show_nhood_plot': False}
 
     circuit_object = circuit.Circuit(
         *Parser.creator.create_circ_lists(2, *(sensor_file_parsed + circuit_file_parsed),
                                           **kwargs)[: 2])
+
+    print("---------------------------------------------")
+    print("created circuit in `get_response_EMD.get_response`:")
+    for component in circuit_object.components:
+        print(component.label)
+        for connection in component.connections:
+            print(" " * 5 + connection.target.label)
+    print("---------------------------------------------")
 
     photoreceptor_0 = circuit_object.sensors[0]
     photoreceptor_1 = circuit_object.sensors[1]
@@ -50,13 +66,13 @@ def get_response(dt, intensities_array, relaxation_time, neuron_types_to_be_reco
     store_output_indices = []
     _dtype = []
     for i in range(0, len(circuit_object.sensors)):
-        _dtype.append(('s' + str(i), np.float32))
+        _dtype.append(('s' + str(i), np.float64))
 
     for i in range(0, len(circuit_object.components)):
         neuron = circuit_object.components[i]
         if neuron_types_to_be_recorded.count(neuron.label):
             store_output_indices.append(i)
-            _dtype.append((neuron.group_label + neuron.label, np.float32))        
+            _dtype.append((neuron.group_label + neuron.label, np.float64))        
     
     t = np.arange(0, intensities_array.shape[0]) * dt
     

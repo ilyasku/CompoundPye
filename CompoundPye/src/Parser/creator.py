@@ -97,10 +97,10 @@ for _file in pt.paths_to_component_objects + pt.paths_to_transfer_functions + pt
 # ---------------------------------------------------------
 
 
-def create_circ_lists_GUI_interface(px, s_settings, s_variables, s_defaults,
+def create_circ_lists_GUI_interface(pixel, sensor_settings, sensor_variables, sensor_defaults,
                                     sensors, arrangement, variables,
                                     components, connections, receiver,
-                                    neighbour_kw_params, show_nhood_plot):
+                                    neighbour_keyword_parameters, show_nhood_plot):
     """
     Create circuit lists (a list of components and a list of sensors) with information from the GUI.
 
@@ -131,39 +131,40 @@ def create_circ_lists_GUI_interface(px, s_settings, s_variables, s_defaults,
                              'tangential_to_connections': connections['tangential_to'],
                              'tangential_from_connections': connections['tangential_from']}
 
-    return create_circ_lists(px, s_settings, s_variables, s_defaults, corrected_sensors,
+    return create_circ_lists(pixel, sensor_settings, sensor_variables, sensor_defaults, corrected_sensors,
                              arrangement, variables, corrected_components,
-                             corrected_connections, receiver, neighbour_kw_params,
+                             corrected_connections, receiver, neighbour_keyword_parameters,
                              show_nhood_plot)
 
 
-def create_circ_lists(px, s_settings, s_variables, s_defaults, sensors, arrangement,
-                      variables, components, connections, receiver,
-                      neighbour_kw_params={'manually': False, 'range': 0.0255, 'max_n': 6},
+def create_circ_lists(pixel, 
+                      sensor_settings, sensor_variables, sensor_defaults, sensors, 
+                      arrangement, variables, 
+                      components, connections, receiver,
+                      neighbour_keyword_parameters={'manually': False, 'range': 0.0255, 'max_n': 6},
                       show_nhood_plot=True):
     """
     Create circuit lists (a list of components and a list of sensors) with information
     from a circuit-file and a sensor-file.
-    @param px
-    @param s_settings
-    @param s_variables
-    @param s_defaults
+    @param pixel
+    @param sensor_settings
+    @param sensor_variables
+    @param sensor_defaults
     @param sensors
     @param arrangement
     @param variables
     @param components
     @param connections
     @param receiver
-    @param neighbour_kw_params
+    @param neighbour_keyword_parameters
     @param show_nhood_plot
     @return Tuple of 2-4 items:
             (1) A <list> of all created component objects.
             (2) <list> of all created sensor objects.
             (3) <np.ndarray> conntaining normalized (phi, theta) coordinates for all sensors.
             (4) <np.ndarray> containing angles in radian between all sensors.
-    """
-    
-    neighbourhood_manually = neighbour_kw_params['manually']
+    """    
+    neighbourhood_manually = neighbour_keyword_parameters['manually']
     
     components_list = []
     sensors_list = []
@@ -173,8 +174,8 @@ def create_circ_lists(px, s_settings, s_variables, s_defaults, sensors, arrangem
         This block is to create components with manually set neighbours.
         '''
         if neighbourhood_manually:
-            sensor_array = create_sensors(px, s_settings, s_variables,
-                                          s_defaults, sensors, neighbourhood_manually)
+            sensor_array = create_sensors(pixel, sensor_settings, sensor_variables,
+                                          sensor_defaults, sensors, neighbourhood_manually)
             for nhood in sensor_array.keys():
                 for i in range(0, len(sensor_array[nhood])):
 
@@ -213,7 +214,7 @@ def create_circ_lists(px, s_settings, s_variables, s_defaults, sensors, arrangem
             '''        
 
             ## get sensor objects and distances between sensors
-            nhood_dict = create_sensors(px, s_settings, s_variables, s_defaults,
+            nhood_dict = create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults,
                                         sensors, neighbourhood_manually)
             
             direction_dicts = {'left': {'HP': ([-np.pi * 5. / 36, np.pi * 5. / 36],),
@@ -240,13 +241,13 @@ def create_circ_lists(px, s_settings, s_variables, s_defaults, sensors, arrangem
                 c_list = []
                 if nhood == 'left' or nhood == 'right':
                     neighbours, distances, angles = Graph.sensors.determine_neighbours(coords,
-                                                                                       neighbour_kw_params['max_n'],
-                                                                                       neighbour_kw_params['range'],
+                                                                                       neighbour_keyword_parameters['max_n'],
+                                                                                       neighbour_keyword_parameters['range'],
                                                                                        directions_dict=direction_dicts[nhood])
                 else:
                     neighbours, distances, angles = Graph.sensors.determine_neighbours(coords,
-                                                                                       neighbour_kw_params['max_n'],
-                                                                                       neighbour_kw_params['range'])
+                                                                                       neighbour_keyword_parameters['max_n'],
+                                                                                       neighbour_keyword_parameters['range'])
 
                 G = Graph.sensors.coords_to_graph(coords, len(sensors_list))
                 Graph.sensors.neighbours_to_graph_edges(G, neighbours, len(sensors_list))
@@ -399,7 +400,7 @@ def get_components_via_label_and_attributes(components, name, parameters):
         return l
 
     
-def create_sensors(px, s_settings, s_variables, s_defaults, sensors, mode_manual):
+def create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults, sensors, mode_manual):
     """
     Create a list of sensors with information from a sensor-file.
     """    
@@ -407,23 +408,23 @@ def create_sensors(px, s_settings, s_variables, s_defaults, sensors, mode_manual
     # they will be grouped together in one list, and 
     # all list returned in a dictionary
     if mode_manual:
-        if not s_settings.keys().count('dimension'):
-            if s_settings['neighbours'] == 'x':
+        if not sensor_settings.keys().count('dimension'):
+            if sensor_settings['neighbours'] == 'x':
                 rows = {}
                 count = 0
                 for s in sensors.keys():
                     count += 1
-                    s_class = get_sensor_class(sensors[s]['sensor'], s_defaults)
+                    s_class = get_sensor_class(sensors[s]['sensor'], sensor_defaults)
                     obj_args, obj_kwargs = get_sensor_args(sensors[s]['obj_args'],
-                                                           s_variables, s_defaults)
-                    filter = get_filter_keyword(sensors[s]['filter'], s_defaults)
+                                                           sensor_variables, sensor_defaults)
+                    filter = get_filter_keyword(sensors[s]['filter'], sensor_defaults)
                     filter_args, filter_kwargs = get_filter_args(sensors[s]['filter_args'],
-                                                                 s_variables, s_defaults)
+                                                                 sensor_variables, sensor_defaults)
                     center = (float(sensors[s]['x']), float(sensors[s]['y']))
                     neighbourhood = sensors[s]['neighbourhood']
                     new_sensor = s_class(*obj_args, **obj_kwargs)
                     
-                    new_sensor.set_receptive_field(px, center, filter, filter_args, filter_kwargs)
+                    new_sensor.set_receptive_field(pixel, center, filter, filter_args, filter_kwargs)
                     new_sensor.label = s
                     if new_sensor.label == '-' or new_sensor.label == '':
                         new_sensor.label = '(' + sensors[s]['x'] + ',' + sensors[s]['y'] + ')'
@@ -447,14 +448,14 @@ def create_sensors(px, s_settings, s_variables, s_defaults, sensors, mode_manual
             if not nhood_dict.keys().count(nhood):
                 # 1. sensor objects; 2. x-coordinates; 3. y-coordinates
                 nhood_dict[nhood] = ([], [], [])
-            s_class = get_sensor_class(sensors[s]['sensor'], s_defaults)
-            obj_args, obj_kwargs = get_sensor_args(sensors[s]['obj_args'], s_variables, s_defaults)
-            filter = get_filter_keyword(sensors[s]['filter'], s_defaults)
+            s_class = get_sensor_class(sensors[s]['sensor'], sensor_defaults)
+            obj_args, obj_kwargs = get_sensor_args(sensors[s]['obj_args'], sensor_variables, sensor_defaults)
+            filter = get_filter_keyword(sensors[s]['filter'], sensor_defaults)
             filter_args, filter_kwargs = get_filter_args(sensors[s]['filter_args'],
-                                                         s_variables, s_defaults)
+                                                         sensor_variables, sensor_defaults)
             center = (float(sensors[s]['x']), float(sensors[s]['y']))
             new_sensor = s_class(*obj_args, **obj_kwargs)
-            new_sensor.set_receptive_field(px, center, filter, filter_args, filter_kwargs)
+            new_sensor.set_receptive_field(pixel, center, filter, filter_args, filter_kwargs)
             new_sensor.label = s
             if new_sensor.label == '-':
                 new_sensor.label = '(' + sensors[s]['x'] + ',' + sensors[s]['y'] + ')'
