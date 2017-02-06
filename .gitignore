@@ -5,10 +5,10 @@
 
 # Contents not ready for publication yet
 /_workspace/
-/CompoundPye/Examples/*.avi
-/CompoundPye/Examples/tunnel/
-/CompoundPye/Examples/circ_files/
-/CompoundPye/Examples/*.csv
+/Examples/*.avi
+/Examples/tunnel/
+/Examples/circ_files/
+/Examples/*.csv
 
 *~
 *.pyc
