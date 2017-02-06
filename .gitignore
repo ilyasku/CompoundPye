@@ -4,16 +4,11 @@
 
 
 # Contents not ready for publication yet
-/CompoundPye/_workspace/
-/CompoundPye/_TuningScripts/
-/CompoundPye/_tests_for_debugging/
-/CompoundPye/_tests_of_circuits/
-/CompoundPye/_PlotScripts/
-/CompoundPye/src/Examples/*.avi
-/CompoundPye/src/Examples/tunnel/
-/CompoundPye/src/Examples/circ_files/
-/CompoundPye/src/Examples/*.csv
-/CompoundPye/_old/
+/_workspace/
+/CompoundPye/Examples/*.avi
+/CompoundPye/Examples/tunnel/
+/CompoundPye/Examples/circ_files/
+/CompoundPye/Examples/*.csv
 
 *~
 *.pyc
