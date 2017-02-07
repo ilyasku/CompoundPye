@@ -1,0 +1,31 @@
+arrangement=column
+column_components{
+Tm1	Component	0.0432856,0.04334361	identity	-	None
+Tm2	Component	0.04333476,0.04329023	identity	-	None
+L2	Component	0.01,0.01	sigmoid	0.02066,-520	None
+}
+
+receiver{
+L1
+L2
+}
+
+column_connections{
+L2	1.0	Tm1
+L2	1.0	Tm2
+}
+
+between_next_neighbour_components{
+}
+
+tangential_components{
+}
+
+next_neighbour_connections{
+}
+
+tangential_connections{
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

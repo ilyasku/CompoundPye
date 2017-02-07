@@ -1,0 +1,53 @@
+arrangement=column
+column_components{
+Tm1	HighpassFilter2	0.2,0.9	power_law	3,1.7,-0.07,0.5	None
+Tm2	HighpassFilter2	0.2,0.2	power_law	4.,0.9,0.08,0.5	None
+Tm3	Component	0.01,0.01	sigmoid	-0.5,-5,5.,0.13	None
+L2	Component	0.01,0.01	sigmoid	0.01033,-250	None
+L1	Component	0.01,0.05	sigmoid	0.01033,-200	None
+Mi1	Component	-	sigmoid	-0.5,-5,5.,0.13	None
+}
+
+receiver{
+L1
+L2
+}
+
+column_connections{
+L2	1.0	Tm1
+L2	1.0	Tm2
+L1	1.0	Mi1
+L1	1.0	Tm3
+}
+
+between_next_neighbour_components{
+T4	Component	-	power_law	8	None	axis,direction
+T5	Component	-	power_law	8	None	axis,direction
+}
+
+tangential_components{
+GC1	Component	-	linear	0,0.25	None	-
+HS	Component	1.0,1.0	identity	-	None	-
+}
+
+next_neighbour_connections{
+Mi1	1.0,0.0	T4
+Tm3	0.0,1.0	T4
+Tm1	1.0,0.0	T5
+Tm2	0.0,1.0	T5
+}
+
+tangential_to_connections{
+T4	1.0	HS	axis=horizontal,direction=positive
+T4	-1.0	HS	axis=horizontal,direction=negative
+T5	1.0	HS	axis=horizontal,direction=positive
+T5	-1.0	HS	axis=horizontal,direction=negative
+}
+
+tangential_from_connections{
+GC1	1.0	T4
+GC1	1.0	T5
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

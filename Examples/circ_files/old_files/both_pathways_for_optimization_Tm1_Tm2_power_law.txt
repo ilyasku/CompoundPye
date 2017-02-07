@@ -1,0 +1,48 @@
+arrangement=column
+column_components{
+Tm1	Component	0.0432856,0.04334361	power_law	20	None
+Tm2	Component	0.001,0.01	power_law	20	None
+Tm3	Component	0.04333476,0.04329023	identity	-	None
+L2	Component	0.01,0.01	sigmoid	0.01033,-250	None
+L1	Component	0.01,0.1	sigmoid	0.01033,-200	None
+Mi1	Component	0.0432856,0.04334361	identity	-	None
+}
+
+receiver{
+L1
+L2
+}
+
+column_connections{
+L1	1.0	Tm3
+L1	1.0	Mi1
+L2	1.0	Tm1
+L2	1.0	Tm2
+}
+
+between_next_neighbour_components{
+T4	Component	-	power_law	8	None	axis,direction
+T5	Component	-	power_law	8	None	axis,direction
+}
+
+tangential_components{
+HS_OFF	Component	-	identity	-	None	-
+HS_ON	Component	-	identity	-	None	-
+}
+
+next_neighbour_connections{
+Tm3	0.0,1.0	T4
+Mi1	1.0,0.0	T4
+Tm1	1.0,0	T5
+Tm2	0,1	T5
+}
+
+tangential_connections{
+T5	1.0	HS_OFF	axis=horizontal,direction=positive
+T5	-1.0	HS_OFF	axis=horizontal,direction=negative
+T4	1.0	HS_ON	axis=horizontal,direction=positive
+T4	-1.0	HS_ON	axis=horizontal,direction=negative
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

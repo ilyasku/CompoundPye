@@ -1,0 +1,36 @@
+arrangement=column
+column_components{
+Mi1	Component	0.0432856,0.04334361	identity	-	None
+Tm3	Component	0.04333476,0.04329023	identity	-	None
+L1	Component	0.01,0.01	sigmoid	0.02066,520.0	None
+}
+
+receiver{
+L1
+}
+
+column_connections{
+L1	1.0	Tm3
+L1	1.0	Mi1
+}
+
+between_next_neighbour_components{
+T4	Component	-	power_law	8	None	axis,direction
+}
+
+tangential_components{
+HS	Component	-	identity	-	None	-
+}
+
+next_neighbour_connections{
+Mi1	1.0,0.0	T4
+Tm3	0.0,1.0	T4
+}
+
+tangential_connections{
+T4	1.0	HS	axis=horizontal,direction=positive
+T4	-1.0	HS	axis=horizontal,direction=negative
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

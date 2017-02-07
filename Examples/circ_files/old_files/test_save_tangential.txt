@@ -1,0 +1,30 @@
+arrangement=column
+column_components{
+new_neuron_4	Component	-	identity	-	None
+new_neuron_0	Component	-	identity	-	None
+}
+
+receiver{
+}
+
+column_connections{
+}
+
+between_next_neighbour_components{
+new_neuron_1	Component	-	identity	-	None	direction
+}
+
+tangential_components{
+new_neuron_3	Component	-	identity	-	None	-
+new_neuron_2	Component	-	identity	-	None	-
+}
+
+next_neighbour_connections{
+}
+
+tangential_connections{
+new_neuron_1	1.0	new_neuron_2	axis=horizontal,direction=positive
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

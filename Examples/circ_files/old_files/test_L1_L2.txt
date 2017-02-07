@@ -1,0 +1,32 @@
+arrangement=column
+column_components{
+L2	Component	0.01,0.01	sigmoid	0.0155,-520	None
+L1	Component	0.01,0.01	sigmoid	0.0155,520.0	None
+}
+
+receiver{
+L1
+L2
+}
+
+column_connections{
+}
+
+between_next_neighbour_components{
+}
+
+tangential_components{
+}
+
+next_neighbour_connections{
+Mi1	1.0,0.0	T4
+Tm3	0.0,1.0	T4
+}
+
+tangential_connections{
+T4	1.0	HS	axis=horizontal,direction=positive
+T4	-1.0	HS	axis=horizontal,direction=negative
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}

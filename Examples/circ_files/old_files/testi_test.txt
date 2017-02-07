@@ -1,0 +1,35 @@
+arrangement=column
+column_components{
+n_column	Component	-	identity	-	None
+this_gets_silenced	Component	-	identity	-	None
+}
+
+receiver{
+n_column
+this_gets_silenced
+}
+
+column_connections{
+}
+
+between_next_neighbour_components{
+between	Component	-	identity	-	None	-
+}
+
+tangential_components{
+feedback	Component	-	linear	1,-1	None	-
+}
+
+next_neighbour_connections{
+n_column	1,-1	between
+}
+
+tangential_to_connections{
+}
+
+tangential_from_connections{
+feedback	1.0	False
+}
+
+between_next_next_neighbour_components{}
+next_next_neighbour_connections{}
