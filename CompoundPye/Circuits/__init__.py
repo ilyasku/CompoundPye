@@ -7,6 +7,4 @@
 Provides Circuit-objects, which handle the complete network of
 Component-objects (components or neurons).
 """
-from ..settings import cv
-
 import circuit

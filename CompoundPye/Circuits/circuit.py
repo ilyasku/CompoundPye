@@ -45,28 +45,27 @@ class Circuit:
         """
         self.n_comp = len(self.components)
 
-        #create components_weight_matrix ...
+        # create components_weight_matrix ...
 
         for i in range(0, self.n_comp):
             self.components[i].index_in_circuit_list = i
 
-        # components_weight_matrix=np.zeros((self.n_comp,self.n_comp))
-        # components_weight_matrix = csr_matrix((self.n_comp, self.n_comp), dtype = np.float64)
-        components_weight_matrix = lil_matrix((self.n_comp, self.n_comp), dtype = np.float64)
+        components_weight_matrix = lil_matrix((self.n_comp, self.n_comp), dtype=np.float64)
         
         for i in range(0, self.n_comp):
             for j in range(0, len(self.components[i].connections)):
-                components_weight_matrix[self.components[i].connections[j].target.index_in_circuit_list, i] = \
-                    self.components[i].connections[j].weight
+                components_weight_matrix[self.components[i].
+                                         connections[j].target.
+                                         index_in_circuit_list, i] = self.components[i].connections[j].weight
 
-        #create sensors_weight_matrix ...
+        # create sensors_weight_matrix ...
         n_sens = len(self.sensors)
 
         for i in range(0, n_sens):
             self.sensors[i].index_in_circuit_list = i
 
         # sensors_weight_matrix=np.zeros((self.n_comp,n_sens))
-        sensors_weight_matrix = lil_matrix((self.n_comp, n_sens), dtype = np.float64)
+        sensors_weight_matrix = lil_matrix((self.n_comp, n_sens), dtype=np.float64)
 
         for i in range(0, n_sens):
             for j in range(0, len(self.sensors[i].connections)):
@@ -82,41 +81,28 @@ class Circuit:
             print '----------------------------------------'
 
 
-        self.components_weight_matrix=csr_matrix(components_weight_matrix)
-        self.sensors_weight_matrix=csr_matrix(sensors_weight_matrix)
-
-
+        self.components_weight_matrix = csr_matrix(components_weight_matrix)
+        self.sensors_weight_matrix = csr_matrix(sensors_weight_matrix)
     
-    def update(self,dt,intensities):
+    def update(self, dt, intensities):
         """
         Updates the circuit's components (in self.components) and its sensors (in self.sensors).
         @param dt Time step for the update.
         @param intensities Intensities of stimuli (provides input for the detectors).
-        """
-        
-        outputs=np.empty(self.n_comp)
-        for i in range(0,self.n_comp):
-            outputs[i]=self.components[i].get_output()
+        """        
+        outputs = np.empty(self.n_comp)
+        for i in range(0, self.n_comp):
+            outputs[i] = self.components[i].get_output()                
+        sensor_values = np.empty(len(self.sensors))
                 
-        #if n_processes==1:
-        sensor_values=np.empty(len(self.sensors))
-        
-        
-        for i in range(0,len(self.sensors)):
+        for i in range(0, len(self.sensors)):
             self.sensors[i].update(intensities)
-            sensor_values[i]=self.sensors[i].get_value()
-        '''
-        else:
-            pool=mp.Pool(n_processes)
-            l=[pool.apply(_mp_update_single,args=(self,i, intensities)) for i in range(0,len(self.sensors))]
-            sensor_values=np.array(l)
-        ''' 
-        inputs=self.sensors_weight_matrix.dot(sensor_values)+self.components_weight_matrix.dot(outputs)
+            sensor_values[i] = self.sensors[i].get_value()
+        inputs = self.sensors_weight_matrix.dot(sensor_values)
+        + self.components_weight_matrix.dot(outputs)                
         
-        
-        
-        for i in range(0,self.n_comp):
-            self.components[i].update(inputs[i],dt)
+        for i in range(0, self.n_comp):
+            self.components[i].update(inputs[i], dt)
         
         if self.debug.count("Circuit.update"):
             print '-------debugging output-----------------'
@@ -129,15 +115,14 @@ class Circuit:
             print inputs
             print '--------------------------------------'
 
-
     def get_sensor_values(self):
-        out=[]
+        out = []
         for i in range(len(self.sensors)):
             out.append(self.sensors[i].get_value())
         return np.array(out)
 
     def get_component_outputs(self):
-        out=[]
+        out = []
         for i in range(len(self.components)):
             out.append(self.components[i].get_output())
         return np.array(out)

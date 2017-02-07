@@ -9,9 +9,6 @@ Creates CompoundPye.src.Surroundings.Stimuli.stimulus.Stimulus objects with para
 """
 
 import sys
-from CompoundPye.src.settings import *
-
-from ...src import EH
 
 import paths_to as pt
 

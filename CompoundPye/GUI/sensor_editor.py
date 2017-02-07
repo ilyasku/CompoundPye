@@ -6,12 +6,13 @@
 @package CompoundPye.src.GUI.sensor_editor
 
 This package provides a graphical editor for the user to add/remove/edit sensors 
-(interface between surroundings and the circuit of neurons, sensors are considered as part of Circuit-objects, though).
+(interface between surroundings and the circuit of neurons, 
+sensors are considered as part of Circuit-objects, though).
 """
 
 from PyQt4 import QtCore,QtGui
 
-from ...src.Parser import *
+from ..Parser import *
 from styles import *
 
 import os

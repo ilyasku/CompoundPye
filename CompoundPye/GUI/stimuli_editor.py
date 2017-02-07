@@ -5,19 +5,17 @@
 """
 @package CompoundPye.src.GUI.stimuli_editor
 
-Provides a stimuli-editor widget (StimuliWidget) that allows the user to add/remove/edit stimuli of the agent's Surroundings.
+Provides a stimuli-editor widget (StimuliWidget) that allows the user 
+to add/remove/edit stimuli of the agent's Surroundings.
 
-@todo How nice a stimulus preview would be! shouldn't be so hard, just need an animation of surroundings' intensities in a pop-up window.
+@todo How nice a stimulus preview would be! shouldn't be so hard, 
+just need an animation of surroundings' intensities in a pop-up window.
 """
 
+from PyQt4 import QtGui
 
+from ..Parser import sc
 
-from PyQt4 import QtCore,QtGui
-
-from CompoundPye.settings import *
-from ...src import EH
-
-from ...src.Parser import sc
 
 class StimuliWidget(QtGui.QScrollArea):
     """

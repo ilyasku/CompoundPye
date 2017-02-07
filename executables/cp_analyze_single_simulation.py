@@ -5,17 +5,11 @@ Run this file with an output folder as first argument to see
 the surroundings' intensities at 6 timestamps and the output of one neuron.
 """
 
-from CompoundPye.src.Analyzer.analyzer import *
+from CompoundPye.Analyzer.analyzer import *
 import sys
 
-
-folder=sys.argv[1]
-a=Analyzer(folder)
-#f,ax=a.plot_intensities([3,2])
-
-#f.suptitle("Intensities at 6 different time steps",fontsize=17)
-#f.canvas.draw()
-
+folder = sys.argv[1]
+a = Analyzer(folder)
 
 ## from here on analysis designed for an EMD 
 # designed in Behnia's fashion

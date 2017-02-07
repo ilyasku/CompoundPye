@@ -32,7 +32,7 @@ def power_law(x, arg_array):
     @return Output produced by the power law defined through b*x^a+c.
     """
     return arg_array[:, 1] * \
-        (x + arg_array[:, 3])**arg_array[:, 0]+arg_array[:, 2]
+        (x + arg_array[:, 3]) ** arg_array[:, 0] + arg_array[:, 2]
 
 
 assign_functions_dict = {'sigmoid': sigmoid, 'linear': linear,

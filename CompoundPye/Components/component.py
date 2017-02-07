@@ -129,7 +129,7 @@ def identity(x, gain=1.0):
     Linear function that can be used as a Component's transfer function.
     @return x*gain == input times gain
     """
-    return x*gain
+    return x * gain
 
 
 def quadratic(x, a=1, b=0):
@@ -145,4 +145,4 @@ def power_law(x, a, b=1, c=0):
     Power law that can be used as a Component's transfer function.
     @return Output produced by the power law defined through b*x^a+c.
     """
-    return b*x**a+c
+    return b * x ** a + c

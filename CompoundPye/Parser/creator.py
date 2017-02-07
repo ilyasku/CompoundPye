@@ -13,7 +13,7 @@ connected sensors and components. The central function to use here is create_cir
 
 import sys
 
-from ...src import Graph
+from .. import Graph
 
 import numpy as np
 

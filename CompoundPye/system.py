@@ -54,13 +54,13 @@ class System:
         ## NOT IN USE YET
         self.components_to_track = []
         ## NOT IN USE YET
-        self.track_data = {'components':{},'sensors':{}}
+        self.track_data = {'components': {}, 'sensors': {}}
 
         for s in self.circuit.sensors:
             s.set_dt(dt)
 
         # Run initial relaxation
-        self.initial_relaxation(relaxation_time, relaxation_intensity,relax_calculation)
+        self.initial_relaxation(relaxation_time, relaxation_intensity, relax_calculation)
 
         # <boolean> If True, circuit will be pickled on destruction of
         # this system.
@@ -144,7 +144,6 @@ class System:
             import pickle
             with open(self.save_path_prefix + "circuit_on_last_time_step.pkl", 'wb') as f:
                 pickle.dump(self.circuit, f, pickle.HIGHEST_PROTOCOL)
-
 
     def set_t(self, t):
         self.t = t

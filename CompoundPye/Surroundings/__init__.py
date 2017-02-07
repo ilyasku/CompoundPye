@@ -9,9 +9,6 @@ Provides classes to handle the Surroundings of an agent, and classes to create s
 import surroundings
 import one_dim
 
-from CompoundPye import settings as _settings
-if _settings.cv==True:
-    import video
-
+import video
 
 import Stimuli

@@ -5,31 +5,36 @@
 """
 @package CompoundPye.src.GUI.circuit_editor
 
-This package contains a graphical circuit editor (QTabWidget), enabling the user to add/remove neurons and specify parameters and connections.
+This package contains a graphical circuit editor (QTabWidget), 
+enabling the user to add/remove neurons and specify parameters and connections.
 """
+from PyQt4 import QtCore, QtGui
 
-
-
-from PyQt4 import QtCore,QtGui
-
-## @todo understand that warning: "RuntimeWarning: PyOS_InputHook is not available for interactive use of PyGTK set_interactive(1)" which appeared after i added this import:
-from ...src.Parser import *
+## @todo understand that warning: "RuntimeWarning: PyOS_InputHook is
+# not available for interactive use of PyGTK set_interactive(1)"
+# which appeared after i added this import:
+from ..Parser import *
 
 import help_widget
 from styles import *
 
 import os
-here=os.path.dirname(os.path.abspath(__file__))
+here = os.path.dirname(os.path.abspath(__file__))
 
-list_of_comps=creator.comp_dict.keys()
-list_of_tfs=creator.transf_func_dict.keys()
+list_of_comps = creator.comp_dict.keys()
+list_of_tfs = creator.transf_func_dict.keys()
 
-## @todo for connections from 'column' to 'between' components I need 2 weights, one coming from left one from right.
+## @todo for connections from 'column' to 'between' components I need
+# 2 weights, one coming from left one from right.
+
 
 class EditorTabs(QtGui.QTabWidget):
     """
-    This class is a QTabWidget whose tabs contain two similar editor-widgets, in which the user can build up and edit a circuit of neurons/components.
-    Only 'column'-mode is implemented so far, which basically means that the user adds/removes/edits neurons that appear in each column (one column per sensor) or connecting two neighbouring columns.
+    This class is a QTabWidget whose tabs contain two similar editor-widgets, 
+    in which the user can build up and edit a circuit of neurons/components.
+    Only 'column'-mode is implemented so far, which basically means that the 
+    user adds/removes/edits neurons that appear in each column 
+    (one column per sensor) or connecting two neighbouring columns.
     """
     def __init__(self,fname=None):
         """

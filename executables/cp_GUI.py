@@ -8,26 +8,27 @@
 """
 @package CompoundPye.executables.GUI
 
-This module holds the RunGUI-class, which initializes the whole graphical user interface and stores the parameters the user enters. 
-When creating a RunGUI-object, the QtGui-Application (and the GUI) will be started automatically. You can execute this file with *python GUI.py* to start the GUI.
+This module holds the RunGUI-class, which initializes the whole graphical 
+user interface and stores the parameters the user enters. 
+When creating a RunGUI-object, the QtGui-Application (and the GUI) will 
+be started automatically. You can execute this file with *python GUI.py* to start the GUI.
 """
-
-
 import numpy as np
 import sys
-from PyQt4 import QtGui,QtCore
+from PyQt4 import QtGui
 import pickle
 from PIL import Image
 
 import CompoundPye as CP
 
+from CompoundPye.Parser import sc, creator
 
-
-from CompoundPye.src.Parser import sc,creator
 
 class RunGUI:
     """
-    RunGUI initializes the graphical user interface, which enables the user to set all simulation parameters using this interface. The user can then run the simulation by pressing the run-button.
+    RunGUI initializes the graphical user interface, which enables the 
+    user to set all simulation parameters using this interface. 
+    The user can then run the simulation by pressing the run-button.
     """
     def __init__(self,args=[]):
         """
