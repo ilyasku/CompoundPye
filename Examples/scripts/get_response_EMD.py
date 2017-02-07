@@ -6,8 +6,8 @@ and the normal set of neuron types.
 import numpy as np
 import os
 
-from CompoundPye.src import Parser
-from CompoundPye.src.Circuits import circuit
+from CompoundPye import Parser
+from CompoundPye.Circuits import circuit
 
 here = os.path.dirname(os.path.abspath(__file__))
 
@@ -52,7 +52,7 @@ def get_response(dt, intensities_array, relaxation_time, neuron_types_to_be_reco
     for component in circuit_object.components:
         print(component.label)
         for connection in component.connections:
-            print(" " * 5 + connection.target.label)
+            print(" " * 5 + connection.target.label + " " * 2 + str(connection.weight))
     print("---------------------------------------------")
 
     photoreceptor_0 = circuit_object.sensors[0]

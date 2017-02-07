@@ -131,8 +131,8 @@ def create_circ_lists_GUI_interface(pixel, sensor_settings, sensor_variables, se
                              'tangential_to_connections': connections['tangential_to'],
                              'tangential_from_connections': connections['tangential_from']}
 
-    return create_circ_lists(pixel, sensor_settings, sensor_variables, sensor_defaults, corrected_sensors,
-                             arrangement, variables, corrected_components,
+    return create_circ_lists(pixel, sensor_settings, sensor_variables, sensor_defaults, 
+                             corrected_sensors, arrangement, variables, corrected_components,
                              corrected_connections, receiver, neighbour_keyword_parameters,
                              show_nhood_plot)
 
@@ -166,170 +166,184 @@ def create_circ_lists(pixel,
     """    
     neighbourhood_manually = neighbour_keyword_parameters['manually']
     
+    if arrangement != 'column':
+        msg = "In CompoundPye.Parser.creator.create_circ_lists: \n"
+        msg += "`arrangement` was: \"" + arrangement + "\". Handling of this arrangement\n"
+        msg += "is not implemented yet. (Only accepted keyword is \"column\" so far!)"
+        raise NotImplementedError(msg)
+
+    if neighbourhood_manually:        
+        return _create_circ_lists_manually(pixel,
+                                           sensor_settings, sensor_variables, 
+                                           sensor_defaults, sensors,
+                                           variables, 
+                                           components, connections, receiver) 
+    else:
+        return _create_circ_lists_automatically(pixel,
+                                                sensor_settings, sensor_variables,
+                                                sensor_defaults, sensors,
+                                                variables, components, connections, receiver,
+                                                show_nhood_plot, neighbour_keyword_parameters)
+
+
+def _create_circ_lists_manually(pixel, 
+                                sensor_settings, sensor_variables, sensor_defaults, sensors,
+                                variables, components, connections, receiver):
+
     components_list = []
     sensors_list = []
-    if arrangement == 'column': 
-        '''
-        ======================================================================================
-        This block is to create components with manually set neighbours.
-        '''
-        if neighbourhood_manually:
-            sensor_array = create_sensors(pixel, sensor_settings, sensor_variables,
-                                          sensor_defaults, sensors, neighbourhood_manually)
-            for nhood in sensor_array.keys():
-                for i in range(0, len(sensor_array[nhood])):
 
-                    col_components = create_components(variables, components['column_components'],
-                                                       nhood + ',' + str(i), [0, 0])
-                    connect_receiver(sensor_array[nhood][i][1], col_components, receiver)
-                    connect_components(col_components, connections['column_connections'])
-                    if i > 0:
-                        nn_components = create_components(variables,
-                                                          components['between_next_neighbour_components'],
-                                                          'nn ' + nhood + ',' + str(i), [0, 0])
-                        nnn_components = create_components(variables,
-                                                           components['between_next_next_neighbour_components'],
-                                                           'nnn ' + nhood + ',' + str(i), [0, 0])
-                        cross_connect_next_neighbours(col_components_pre, nn_components,
-                                                      col_components,
-                                                      connections['next_neighbour_connections'],
-                                                      True, None)
-                        ## @todo implement connection of next next neighbours
-                        # cross_connect_next_next_neighbours()
-                        components_list = components_list + col_components + nn_components + nnn_components
-                    else:
-                        components_list = components_list + col_components
-                    col_components_pre = col_components
-                sensors_list = sensors_list + [s[1] for s in sensor_array[nhood]]
+    sensor_array = create_sensors(pixel, sensor_settings, sensor_variables,
+                                  sensor_defaults, sensors)
+    col_components_pre = None
+    for nhood in sensor_array.keys():
+        for i in range(0, len(sensor_array[nhood])):
 
-            return components_list, sensors_list
-            '''
-            ======================================================================================
-            '''
+            col_components = create_components(variables, components['column_components'],
+                                               nhood + ',' + str(i), [0, 0])
+            connect_receiver(sensor_array[nhood][i][1], col_components, receiver)
+            connect_components(col_components, connections['column_connections'])
+            if i > 0:
+                nn_components = create_components(variables,
+                                                  components['between_next_neighbour_components'],
+                                                  'nn ' + nhood + ',' + str(i), [0, 0])
+                nnn_components = create_components(variables,
+                                                   components['between_next_next_neighbour_components'],
+                                                   'nnn ' + nhood + ',' + str(i), [0, 0])
+                cross_connect_next_neighbours(col_components_pre, nn_components,
+                                              col_components,
+                                              connections['next_neighbour_connections'],
+                                              True, None)
+                ## @todo implement connection of next next neighbours
+                # cross_connect_next_next_neighbours()
+                components_list = components_list + col_components + nn_components + nnn_components
+            else:
+                components_list = components_list + col_components
+            col_components_pre = col_components
+        sensors_list = sensors_list + [s[1] for s in sensor_array[nhood]]
 
+    return components_list, sensors_list
+
+
+def _create_circ_lists_automatically(pixel, 
+                                     sensor_settings, sensor_variables, sensor_defaults, sensors,
+                                     variables, components, connections, receiver, 
+                                     show_nhood_plot, neighbour_keyword_parameters):
+    components_list = []
+    sensors_list = []
+
+    ## get sensor objects and distances between sensors
+    nhood_dict = create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults,
+                                sensors, False)
+
+    direction_dicts = {'left': {'HP': ([-np.pi * 5. / 36, np.pi * 5. / 36],),
+                                'HN': ([31. / 36 * np.pi, np.pi],
+                                       [-np.pi, -31. / 36 * np.pi]),
+                                'VP': ([np.pi * 13. / 36., 23. / 36 * np.pi],),
+                                'VN': ([-23. / 36 * np.pi, -np.pi * 13. / 36.],)},
+                       'right': {'HN': ([-np.pi * 5. / 36, np.pi * 5. / 36],),
+                                 'HP': ([31. / 36 * np.pi, np.pi],
+                                        [-np.pi, -31. / 36 * np.pi]),
+                                 'VP': ([np.pi * 13. / 36., 23. / 36 * np.pi],),
+                                 'VN': ([-23. / 36 * np.pi, -np.pi * 13. / 36.],)}}
+
+    node_color_dict = {'left': 'pink', 'right': 'lightblue'}
+
+    if show_nhood_plot:
+        import matplotlib.pyplot as plt
+        f, ax = plt.subplots(1, 1)
+
+    for nhood in nhood_dict.keys():
+        coords = nhood_dict[nhood][1]
+        s_list = nhood_dict[nhood][0]
+
+        c_list = []
+        if nhood == 'left' or nhood == 'right':
+            neighbours, distances, angles = Graph.sensors.determine_neighbours(coords,
+                                                                               neighbour_keyword_parameters['max_n'],
+                                                                               neighbour_keyword_parameters['range'],
+                                                                               directions_dict=direction_dicts[nhood])
         else:
-            '''
-            ======================================================================================
-            Create block with automatic neighbour detection
-            '''        
+            neighbours, distances, angles = Graph.sensors.determine_neighbours(coords,
+                                                                               neighbour_keyword_parameters['max_n'],
+                                                                               neighbour_keyword_parameters['range'])
 
-            ## get sensor objects and distances between sensors
-            nhood_dict = create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults,
-                                        sensors, neighbourhood_manually)
-            
-            direction_dicts = {'left': {'HP': ([-np.pi * 5. / 36, np.pi * 5. / 36],),
-                                        'HN': ([31. / 36 * np.pi, np.pi],
-                                               [-np.pi, -31. / 36 * np.pi]),
-                                        'VP': ([np.pi * 13. / 36., 23. / 36 * np.pi],),
-                                        'VN': ([-23. / 36 * np.pi, -np.pi * 13. / 36.],)},
-                               'right': {'HN': ([-np.pi * 5. / 36, np.pi * 5. / 36],),
-                                         'HP': ([31. / 36 * np.pi, np.pi],
-                                                [-np.pi, -31. / 36 * np.pi]),
-                                         'VP': ([np.pi * 13. / 36., 23. / 36 * np.pi],),
-                                         'VN': ([-23. / 36 * np.pi, -np.pi * 13. / 36.],)}}
-        
-            node_color_dict = {'left': 'pink', 'right': 'lightblue'}
+        G = Graph.sensors.coords_to_graph(coords, len(sensors_list))
+        Graph.sensors.neighbours_to_graph_edges(G, neighbours, len(sensors_list))
 
-            if show_nhood_plot:
-                import matplotlib.pyplot as plt
-                f, ax = plt.subplots(1, 1)
+        if show_nhood_plot:
+            if nhood == 'right' or nhood == 'left':
+                Graph.sensors.plot_neighbourhood(ax, G, {'HP': 'g',
+                                                         'HN': 'r',
+                                                         'VP': 'goldenrod',
+                                                         'VN': 'blue'},
+                                                 node_color_dict[nhood])
+            else:
+                Graph.sensors.plot_neighbourhood(ax, G, {'HP': 'g',
+                                                         'HN': 'r',
+                                                         'VP': 'goldenrod',
+                                                         'VN': 'blue'})
 
-            for nhood in nhood_dict.keys():
-                coords = nhood_dict[nhood][1]
-                s_list = nhood_dict[nhood][0]
+        sensors_list = sensors_list + s_list
 
-                c_list = []
-                if nhood == 'left' or nhood == 'right':
-                    neighbours, distances, angles = Graph.sensors.determine_neighbours(coords,
-                                                                                       neighbour_keyword_parameters['max_n'],
-                                                                                       neighbour_keyword_parameters['range'],
-                                                                                       directions_dict=direction_dicts[nhood])
-                else:
-                    neighbours, distances, angles = Graph.sensors.determine_neighbours(coords,
-                                                                                       neighbour_keyword_parameters['max_n'],
-                                                                                       neighbour_keyword_parameters['range'])
+        ## list to hold lists of components for each column
+        col_components_list = []
+        ## create components for each column
+        for i in range(0, len(s_list)):
+            col_components = create_components(variables, components['column_components'],
+                                               s_list[i].label, coords[i, :])
+            connect_receiver(s_list[i], col_components, receiver)
+            connect_components(col_components, connections['column_connections'])
+            col_components_list.append(col_components)
 
-                G = Graph.sensors.coords_to_graph(coords, len(sensors_list))
-                Graph.sensors.neighbours_to_graph_edges(G, neighbours, len(sensors_list))
+        ## create components between next neighbours and connect them                
+        for i in G:
+            _i = i - G.node.keys()[0]                    
+            c_list = c_list + col_components_list[_i]                    
+            for j in G[i]:
+                j = int(j)
+                edge_i_j = G[i][j]
 
-                if show_nhood_plot:
-                    if nhood == 'right' or nhood == 'left':
-                        Graph.sensors.plot_neighbourhood(ax, G, {'HP': 'g',
-                                                                 'HN': 'r',
-                                                                 'VP': 'goldenrod',
-                                                                 'VN': 'blue'},
-                                                         node_color_dict[nhood])
-                    else:
-                        Graph.sensors.plot_neighbourhood(ax, G, {'HP': 'g',
-                                                                 'HN': 'r',
-                                                                 'VP': 'goldenrod',
-                                                                 'VN': 'blue'})
+                _j = j - G.node.keys()[0]
 
-                sensors_list = sensors_list+s_list
-                
-                ## list to hold lists of components for each column
-                col_components_list = []
-                ## create components for each column
-                for i in range(0, len(s_list)):
-                    col_components = create_components(variables, components['column_components'],
-                                                       s_list[i].label, coords[i,:])
-                    connect_receiver(s_list[i], col_components, receiver)
-                    connect_components(col_components, connections['column_connections'])
-                    col_components_list.append(col_components)
+                ## fixed labels for sensors!
+                nn_j = create_components(variables,
+                                         components['between_next_neighbour_components'],
+                                         's' + str(i) + ' ' + 'nn' + str(j) + ' ' + nhood,
+                                         np.array((G.node[i]['phi'], G.node[i]['theta'])))
+                nnn_j = create_components(variables,
+                                          components['between_next_next_neighbour_components'],
+                                          's' + str(i) + ' ' + 'nnn' + str(j) + ' ' + nhood,
+                                          np.array((G.node[i]['phi'], G.node[i]['theta'])))
 
-                ## create components between next neighbours and connect them                
-                for i in G:
-                    _i = i - G.node.keys()[0]                    
-                    c_list = c_list + col_components_list[_i]                    
-                    for j in G[i]:
-                        j = int(j)
-                        edge_i_j = G[i][j]
+                cross_connect_next_neighbours(col_components_list[_i],
+                                              nn_j,
+                                              col_components_list[_j],
+                                              connections['next_neighbour_connections'],
+                                              False,
+                                              edge_i_j)
+                ## @todo implement connection of next next neighbours
+                # cross_connect_next_next_neighbours()                        
+                c_list = c_list + nn_j + nnn_j               
 
-                        _j = j - G.node.keys()[0]
+        tangential_components = create_components(variables,
+                                                  components['tangential_components'],
+                                                  nhood + ' tangential',
+                                                  nhood + ' tangential')
+        connect_tangential_components(tangential_components,
+                                      c_list,
+                                      connections['tangential_to_connections'],
+                                      connections['tangential_from_connections'])
 
-                        ## fixed labels for sensors!
-                        nn_j = create_components(variables,
-                                                 components['between_next_neighbour_components'],
-                                                 's' + str(i) + ' ' + 'nn' + str(j) + ' ' + nhood,
-                                                 np.array((G.node[i]['phi'], G.node[i]['theta'])))
-                        nnn_j = create_components(variables,
-                                                  components['between_next_next_neighbour_components'],
-                                                  's' + str(i) + ' ' + 'nnn' + str(j) + ' ' + nhood,
-                                                  np.array((G.node[i]['phi'], G.node[i]['theta'])))
+        c_list = c_list + tangential_components
 
-                        cross_connect_next_neighbours(col_components_list[_i],
-                                                      nn_j,
-                                                      col_components_list[_j],
-                                                      connections['next_neighbour_connections'],
-                                                      False,
-                                                      edge_i_j)
-                        ## @todo implement connection of next next neighbours
-                        # cross_connect_next_next_neighbours()                        
-                        c_list = c_list + nn_j + nnn_j                                                
-                                    
-                tangential_components = create_components(variables,
-                                                          components['tangential_components'],
-                                                          nhood + ' tangential',
-                                                          nhood + ' tangential')
-                connect_tangential_components(tangential_components,
-                                              c_list,
-                                              connections['tangential_to_connections'],
-                                              connections['tangential_from_connections'])
-                
-                c_list = c_list + tangential_components
+        components_list = components_list + c_list
 
-                components_list = components_list + c_list
-            
-                '''
-                =====================================================================================
-                '''
+    if show_nhood_plot:
+        f.show()
 
-            if show_nhood_plot:
-                f.show()
-        
-            return components_list, sensors_list, coords, angles
+    return components_list, sensors_list, coords, angles
 
-        
 def connect_tangential_components(tangential_components, non_tangential_components,
                                   connections_to, connections_from):
     """
@@ -537,21 +551,18 @@ def cross_connect_next_neighbours(left, between, right, connections, manually, e
             connection_ipsi = True
             connection_contra = True
 
-
-
-        s = 'connection: ' + connection[0] + ' ' + str(connection[1]) + ' ' + connection[2] 
         w = parse_nn_weight(connection[1])
         
         source = get_component_via_label(left, connection[0])
-        if source is None:
+        if source is not None:
             ## case left <--> right
-            target = get_component_via_label(right,connection[2])
+            target = get_component_via_label(right, connection[2])
             if target is not None:
                 source.add_connection(w[0], target)
                 source = get_component_via_label(right, connection[0])
                 target = get_component_via_label(left, connection[2])
                 source.add_connection(w[0], target)
-            else:
+            else:                
                 ## case left and/or right --> between
                 target = get_component_via_label(between, connection[2])
                 if target is not None:
@@ -577,6 +588,7 @@ def cross_connect_next_neighbours(left, between, right, connections, manually, e
                         source.add_connection(w[1], target)
         else:
             source = get_component_via_label(between, connection[0])
+            
             if source is not None:
                 target = get_component_via_label(left, connection[2])
                 if target is not None:
@@ -620,7 +632,8 @@ def cross_connect_next_next_neighbours(left, between, right, connections):
                     source.add_connection(w[0], target)
                     target = get_component_via_label(right, connection[2])
                     source.add_connection(w[1], target)
-        
+    
+    
 def parse_nn_weight(s):
     """
     Parse the 'weight' parameter of a connection between next-neighbours.    
