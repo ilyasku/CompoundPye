@@ -13,6 +13,7 @@ On Ubuntu, open a command line and type:
 
 > sudo pip install CompoundPye
 
+BETTER USE PIP FOR NOW, CURRENTLY REFACTORING A LOT OF CODE AND SOMETIMES PUSHING INCOMPLETE CHANGES TO THE MASTER BRANCH ...  
 If you downloaded the source (e.g. from github [FULL URL?]), open a command line, navigate to the top source directory
 (it should contain the file "setup.py"), and type:
 
