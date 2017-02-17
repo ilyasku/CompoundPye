@@ -80,7 +80,6 @@ class Circuit:
             print sensors_weight_matrix
             print '----------------------------------------'
 
-
         self.components_weight_matrix = csr_matrix(components_weight_matrix)
         self.sensors_weight_matrix = csr_matrix(sensors_weight_matrix)
     
@@ -94,12 +93,11 @@ class Circuit:
         for i in range(0, self.n_comp):
             outputs[i] = self.components[i].get_output()                
         sensor_values = np.empty(len(self.sensors))
-                
+        
         for i in range(0, len(self.sensors)):
             self.sensors[i].update(intensities)
             sensor_values[i] = self.sensors[i].get_value()
-        inputs = self.sensors_weight_matrix.dot(sensor_values)
-        + self.components_weight_matrix.dot(outputs)                
+        inputs = self.sensors_weight_matrix.dot(sensor_values) + self.components_weight_matrix.dot(outputs)                
         
         for i in range(0, self.n_comp):
             self.components[i].update(inputs[i], dt)
