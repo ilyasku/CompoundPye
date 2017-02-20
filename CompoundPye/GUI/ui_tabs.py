@@ -5,14 +5,11 @@
 """
 @package CompoundPye.src.GUI.ui_tabs
 
-This package contains several QWidgets which are integrated into the main graphical user interface MotionDetectorModel.GUI.mdm_gui.MDM_GUI as tabs.
+This package contains several QWidgets which are integrated into the main 
+graphical user interface MotionDetectorModel.GUI.mdm_gui.MDM_GUI as tabs.
 """
 
-
-
-
 from PyQt4 import QtGui
-
 
 import circuit_editor as ce2
 
@@ -24,7 +21,7 @@ import help_widget
 
 
 import os
-here=os.path.dirname(os.path.abspath(__file__))
+here = os.path.dirname(os.path.abspath(__file__))
 
 
 class TabOutput(QtGui.QWidget):

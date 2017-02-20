@@ -7,15 +7,24 @@ e.g. to run the simulation several times with different stimulus speeds.
 Intended to be used with circuit_object.pkl and surroundings_object.pkl as created
 by the GUI (run.py).
 
-USAGE: cp_non_GUI_wrapper.py <path-to-parent-folder-that-contains-a-"template"-folder> <list-of-stimulus-speeds-in-fractions-of-surroundings> <additional-options-specified-below>
+USAGE: cp_non_GUI_wrapper.py <path-to-parent-folder-that-contains-a-"template"-folder> \
+<list-of-stimulus-speeds-in-fractions-of-surroundings> <additional-options-specified-below>
 
 Options:
-    -n <number-of-processors-to-use>        Specifies number of processors on which simulations will be run.
-    -i <index>                              Index of stimulus of which to change speed in horizontal direction in simulations.
-    --neurons-by-labels <list-of-labels>    Specify which neurons' outputs to store by labels.
-    --neurons <list-of-indices>             Specify which neurons' outputs to store by their indices.
-    --sensors <list-of-indices>             Specify which sensors' outputs to store by their indices.
-    --run-relaxation                        If this argument is provided, relexations will be run previous to the actual simulations.
+    -n <number-of-processors-to-use>        
+           Specifies number of processors on which simulations will be run.
+    -i <index>                              
+           Index of stimulus of which to change speed in horizontal 
+           direction in simulations.
+    --neurons-by-labels <list-of-labels>    
+           Specify which neurons' outputs to store by labels.
+    --neurons <list-of-indices>             
+           Specify which neurons' outputs to store by their indices.
+    --sensors <list-of-indices>             
+           Specify which sensors' outputs to store by their indices.
+    --run-relaxation                        
+           If this argument is provided, relexations will be run previous 
+           to the actual simulations.
 '''
 
 from CompoundPye import system
