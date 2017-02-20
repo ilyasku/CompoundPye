@@ -71,8 +71,6 @@ top-level folder
 |   ...
 ...
 ```
-
-
-Generate the data or copy it ... 
+To get the initial folder structure, you can either download it from zenodo
 
 Adjust the `path_prefix` variable in the script `tuning_curve_EMD.py` and run it. This should produce the desired plot. Ignore the initial 15 seconds of the upper right plot before annealing (zoom into it starting at around 15 s to see the same slice as in figure 4 of the publication).
