@@ -22,9 +22,8 @@ Options:
            Specify which neurons' outputs to store by their indices.
     --sensors <list-of-indices>             
            Specify which sensors' outputs to store by their indices.
-    --run-relaxation                        
-           If this argument is provided, relexations will be run previous 
-           to the actual simulations.
+    --skip-relaxation                        
+           If this argument is provided, relexations will be skipped 
 '''
 
 from CompoundPye import system
@@ -211,9 +210,9 @@ if __name__ == "__main__":
         if sys.argv.count('--intensities'):
             exec("intensities_save_interval=" + sys.argv[sys.argv.index('--intensities') + 1])
 
-        skip_relax = True
-        if sys.argv.count('--run-relaxation'):
-            skip_relax = False
+        skip_relax = False
+        if sys.argv.count('--skip-relaxation'):
+            skip_relax = True
 
         import multiprocessing as mp
 
