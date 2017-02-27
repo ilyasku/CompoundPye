@@ -35,9 +35,9 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
 here = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(here + '/../../../Examples/scripts/')
+sys.path.append(here + '/../Examples/scripts/')
 
-import get_response_EMD as gr
+import get_response_EMD
 
 
 def create_stimulus_fischer_silies(t, step_delay_between_sensors, stimulus_duration=0.5,                                   
@@ -121,8 +121,8 @@ if __name__ == "__main__":
     name_indices = [2, 4]
     differences = np.zeros(len(delta))
 
-    sensor_file = gr.default_sensor_file
-    circuit_file = gr.default_circuit_file
+    sensor_file = get_response_EMD.default_sensor_file
+    circuit_file = get_response_EMD.default_circuit_file
     if len(sys.argv) > 1:
         if sys.argv.count('-s'):
             sensor_file = sys.argv[sys.argv.index('-s') + 1]
@@ -142,7 +142,7 @@ if __name__ == "__main__":
         # If you use the line above, comment out the following one.
         intensities = create_stim_ilyas(t, delta_i, 0.05)
 
-        t, data_array, circuit = gr.get_response(dt, intensities, 20,
+        t, data_array, circuit = get_response_EMD.get_response(dt, intensities, 20,
                                                  neurons_to_store_output_of,
                                                  sensor_file, circuit_file)
         names = data_array.dtype.names

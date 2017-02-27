@@ -1,5 +1,27 @@
 # How to reproduce the data of publication XY
 
+There are several python scripts in this folder, all of them generate plots.
+I recommend using `ipython` to run the scripts, i.e. start ipython
+and type `%run script_name.py`. Otherwise, you will need to add ?!?!?! after
+the `f.show()` commands at the end of the scripts to keep the figures from
+closing immediately after they pop up.  
+It is assumed that you installed (LINK) the CompoundPye module (make sure
+the executable script `cp_non_GUI_wrapper.py` is at your PATH, so that
+you can run it from command line). It is furher assumed that you have the
+`reproduce_data` folder next to the `Example` folder as in the github
+repository (LINK!). Otherwise, you will need to adjust some paths to import
+scripts found in the `Examples/scripts` folder (used to reproduce plots
+in figure 2 and figure 3).
+
+## Plots in **figure 2** - Parameter tuning of selected cells
+
+To compare our model's output to physiological data, I tried to qualitatively
+reconstruct response curves published by Clark et al. (2011) and Behnia et al. (2014).
+You find data points for these reconstructed curves in the folder
+`reproduce_data/reconstructed_data`.
+To reconstruct the plots comparing our model's response to response recorded by them
+run the script `tuning_comparison_L1_L2_Tm1_Tm2.py`. Have a look into it to see basic usage of the CompoundPye module.
+
 ## Plots in **figure 3** - T4 response to pseudo motion
 
 Execute the script `T4_response_to_pseudo_motion.py`. This will generate the same plot as seen in the publication. Have a look into the script to see how the data is generated.
@@ -98,4 +120,8 @@ If you downloaded the templates from zenodo ... TODO! ... you find the templates
 
 #### Plot the data
 
-Adjust the `path_prefix` variable in the script `tuning_curve_HS.py` and run it. This should produce the desired plot. You might need to zoom in a bit to see the exact same excerpt of the plots shown in the publication.
+Adjust the `path_prefix` variable in the script `tuning_curve_HSE.py` and run it. This should produce the desired plot. You might need to zoom in a bit to see the exact same excerpt of the plots shown in the publication.
+
+## Plots in **figure 7** and **figure 9** - Tuning curves of the L4 and the LPi networks
+
+Follow the same steps as above, but use the templates in `tuning_curve_HSE_L4_network` and `tuning_curve_HSE_LPi_network` and plot scripts named `tuning_curve_HSE_L4_network.py` and `tuning_curve_HSE_LPi_network.py` instead.

@@ -12,7 +12,7 @@ from CompoundPye.Circuits import circuit
 here = os.path.dirname(os.path.abspath(__file__))
 
 default_sensor_file = here + '/../sensor_files/two_photoreceptors_HRC_pixel.txt'
-default_circuit_file = here + '/../circ_files/L4_network_with_GC1_larger_time_const_HS.txt'
+default_circuit_file = here + '/../circ_files/Tm1_Tm2_as_HPF_larger_time_const_HS.txt'
 
 
 def get_response(dt, intensities_array, relaxation_time, neuron_types_to_be_recorded,
