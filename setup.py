@@ -6,7 +6,7 @@ Modified from https://wiki.python.org/moin/Distutils/Tutorial.
 from setuptools import setup
 
 setup(name = "CompoundPye",
-      version = "0.94",
+      version = "0.95",
       description = "Modelling and simulation framework for neural nets of compound eyes.",
       author = "Ilyas Kuhlemann",
       author_email = "ilyasp.ku@gmail.com",
