@@ -10,8 +10,8 @@ Provides functions to create arrays of sensors
 """
 
 
-import sensor
-import photoreceptor
+from . import sensor
+from . import photoreceptor
 import numpy as np
 import multiprocessing as mp
 

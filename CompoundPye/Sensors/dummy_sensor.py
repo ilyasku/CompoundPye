@@ -11,7 +11,7 @@ skip the Stimulus and Sensor steps and directly provide values to the circuit
 of Components.
 """
 
-import sensor
+from . import sensor
 
 
 class DummySensor(sensor.Sensor):

@@ -9,5 +9,5 @@ Initializes the Analyzer package.
 It provides modules for analysis of data generated with the CompoundPye framework.
 """
 
-import analyzer
-import analyze_compare
+from . import analyzer
+from . import analyze_compare

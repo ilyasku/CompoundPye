@@ -9,4 +9,4 @@ The GUI is a good starting point to see what the module is supposed to do.
 Start it by using the file CompoundPye/executables/GUI.py
 """
 
-import main_gui
+from . import main_gui

@@ -7,7 +7,7 @@
 Provides the class OneDimSine, a Stimulus with a predefined sine-shape of given length.
 """
 
-import stimulus
+from . import stimulus
 import numpy as np
 
 class OneDimSine(stimulus.Stimulus):

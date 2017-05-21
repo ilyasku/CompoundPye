@@ -2,7 +2,7 @@
 
 
 import sys
-print sys.argv
+print(sys.argv)
 
 '''
 @package CompoundPye.executables.cp_replace_T4_T5_inhibitory_with_LPis

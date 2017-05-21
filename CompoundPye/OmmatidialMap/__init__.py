@@ -10,4 +10,4 @@ Initializes the OmmatidialMap module, which provides spherical coordinates of om
 """
 
 
-from read_ommatidia import *
+from .read_ommatidia import *

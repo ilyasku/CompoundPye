@@ -567,7 +567,7 @@ Will be auto-filled in when creating the stimulus''')
         """
         Close the pop-up keeping all changes.
         """
-        for key in self.parent_StimLine.values.keys():
+        for key in list(self.parent_StimLine.values.keys()):
             self.parent_StimLine.values[key]=self.copy_values[key]
         self.parent_StimLine.btn_name.setText(self.copy_values['name'])
         self.close()
@@ -578,7 +578,7 @@ Will be auto-filled in when creating the stimulus''')
 ##### USER: Avaris
 ##### DATE OF POST: Feb 21 '12 at 9:45
 def clearLayout(layout):
-    for i in reversed(range(layout.count())):
+    for i in reversed(list(range(layout.count()))):
         item = layout.itemAt(i)
 
         if isinstance(item, QtGui.QWidgetItem):

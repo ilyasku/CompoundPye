@@ -19,7 +19,7 @@ if __name__.count('.') == 0 and __package__ is None:
 else:
     from ..Components.Connections import connection
 
-import filter_funcs as ff
+from . import filter_funcs as ff
 
 import numpy as np
 
@@ -78,7 +78,7 @@ class Sensor:
         """
         
         if self.receptive_field_set==False:
-            print 'WARNING: Sensor not set! (It does not know where to look for inputs.)'
+            print('WARNING: Sensor not set! (It does not know where to look for inputs.)')
         else:     
             if self.receptive_field.shape[0]==1:
                 self._update_one_dim(intensities)
@@ -87,9 +87,9 @@ class Sensor:
             else:
                 pass
         if self.debug.count('Sensor.update'):
-            print '---- debugging Sensor.update ----'
-            print self.value
-            print '-----------------'
+            print('---- debugging Sensor.update ----')
+            print(self.value)
+            print('-----------------')
         
     def get_value(self):
         """
@@ -174,14 +174,14 @@ class Sensor:
         """
 
         if self.debug.count('Sensor.update'):
-            print '---- debugging Sensor._update_one_dim ----'
+            print('---- debugging Sensor._update_one_dim ----')
             #print field.sum()
             #print int(self.receptive_field[0])
             #print int(self.receptive_field[0])+self.filter.shape[0]
-            print intensities.shape
+            print(intensities.shape)
             #print intensities
-            print intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],0]
-            print '----------------------'
+            print(intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],0])
+            print('----------------------')
 
 
         field=intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],0]*self.filter        
@@ -215,17 +215,17 @@ class Sensor:
         """
         
         if self.debug.count('Sensor.update'):
-            print '----------------------------------------------------------------'
-            print 'enter function Sensor._update_two_dim'
+            print('----------------------------------------------------------------')
+            print('enter function Sensor._update_two_dim')
 
         self.value=self._compute_input_two_dim(intensities)
 
         if self.normalize:
             self.value=self.value/self.normalization_factor
         if self.debug.count('Sensor.update'):
-            print '\tvalue:'
-            print '\t\t'+str(self.value)
-            print '----------------------------------------------------------------'
+            print('\tvalue:')
+            print('\t\t'+str(self.value))
+            print('----------------------------------------------------------------')
         
         
         

@@ -4,19 +4,19 @@ This file initializes all sub-packages.
 
 Usage examples will be added soon.
 """
-import Components
-import Circuits
-import Sensors
-import Surroundings
+from . import Components
+from . import Circuits
+from . import Sensors
+from . import Surroundings
 
-import system
+from . import system
 
-import Parser
+from . import Parser
 
-import OmmatidialMap
+from . import OmmatidialMap
 
-import Graph
+from . import Graph
 
-import Analyzer
+from . import Analyzer
 
-import GUI
+from . import GUI

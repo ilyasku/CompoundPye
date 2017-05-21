@@ -9,7 +9,7 @@ Provides the class OneDim, to create one-dimensional Surroundings.
 
 import numpy as np
 
-import Stimuli
+from . import Stimuli
 
 class OneDim:
     """

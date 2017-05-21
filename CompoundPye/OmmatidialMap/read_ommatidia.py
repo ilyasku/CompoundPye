@@ -20,7 +20,7 @@ def write_sphere_coords_spheric_to_sensor_file_buffer(phi_range=[-np.pi,np.pi],t
     gauss_coeffs_fit=np.load(here+'/'+animal+'_gauss_coeffs.npy')
     coords_shape = sphere_coords_spheric.shape
 
-    print("creating photoreceptors for %s" % animal)
+    print(("creating photoreceptors for %s" % animal))
     
     
     _eyes=np.array(['left']*(coords_shape[0]/2)+['right']*(coords_shape[0]/2))
@@ -59,7 +59,7 @@ def write_sphere_coords_spheric_to_sensor_file_buffer(phi_range=[-np.pi,np.pi],t
         
     s=s+'}'
 
-    print("Number of photoreceptors created: %i" % photor_coords.shape[0])
+    print(("Number of photoreceptors created: %i" % photor_coords.shape[0]))
 
     if fname_prefix==None:
         return s

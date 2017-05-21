@@ -7,7 +7,7 @@
 Provides the class OneDimBox, a Stimulus with a predefined box-shape of given length.
 """
 
-import stimulus
+from . import stimulus
 import numpy as np
 
 

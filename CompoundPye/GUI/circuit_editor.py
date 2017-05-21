@@ -15,14 +15,14 @@ from PyQt4 import QtCore, QtGui
 # which appeared after i added this import:
 from ..Parser import *
 
-import help_widget
-from styles import *
+from . import help_widget
+from .styles import *
 
 import os
 here = os.path.dirname(os.path.abspath(__file__))
 
-list_of_comps = creator.comp_dict.keys()
-list_of_tfs = creator.transf_func_dict.keys()
+list_of_comps = list(creator.comp_dict.keys())
+list_of_tfs = list(creator.transf_func_dict.keys())
 
 ## @todo for connections from 'column' to 'between' components I need
 # 2 weights, one coming from left one from right.
@@ -76,31 +76,31 @@ class EditorTabs(QtGui.QTabWidget):
         #print components
         #print 'connections:'
         #print connections
-        print 'receiver:'
-        print receiver
-        for name in components['column_components'].keys():
+        print('receiver:')
+        print(receiver)
+        for name in list(components['column_components'].keys()):
             new_dict=components['column_components'][name]
             new_dict['name']=name
             self.neurons['column'].append(new_dict)
 
-        print 'after first for loop:'
-        print new_dict
+        print('after first for loop:')
+        print(new_dict)
 
-        for name in components['between_next_neighbour_components'].keys():
+        for name in list(components['between_next_neighbour_components'].keys()):
             new_dict=components['between_next_neighbour_components'][name]
             new_dict['name']=name
             self.neurons['between'].append(new_dict)
 
-        print 'after second for loop:'
-        print new_dict
+        print('after second for loop:')
+        print(new_dict)
             
-        for name in components['tangential_components'].keys():
+        for name in list(components['tangential_components'].keys()):
             new_dict=components['tangential_components'][name]
             new_dict['name']=name
             self.neurons['tangential'].append(new_dict)
 
-        print 'after third for loop:'
-        print new_dict
+        print('after third for loop:')
+        print(new_dict)
 
 
         for c in connections['column_connections']:
@@ -215,7 +215,7 @@ class Editor(QtGui.QFrame):
         for i in range(len(self.neurons[self.mode])):
             self.neurons[self.mode][i].index=i
 
-        for key in self.connections.keys():
+        for key in list(self.connections.keys()):
             need_to_pop=[]
             for i in range(0,len(self.connections[key])):
                 c=self.connections[key][i]
@@ -233,7 +233,7 @@ class Editor(QtGui.QFrame):
         @param old Old name of the neuron (CompWidget).
         @param new New name of the neuron (CompWidget).
         """
-        for key in self.connections.keys():
+        for key in list(self.connections.keys()):
             for i in range(0,len(self.connections[key])):
                 c=self.connections[key][i]
                 if c[0]==old:
@@ -596,7 +596,7 @@ But here's a list of the constructor function's parameters:<br>"""
         """
         Copies the PopupNeurons.new_values-dictionary to replace the old values-dictionary in the parent ComponentWidget's list of values if the 'done'-button is clicked.
         """
-        for key in self.CW.values.keys():
+        for key in list(self.CW.values.keys()):
             self.CW.values[key]=self.new_values[key]
         #print self.CW.values
         self.CW.edited()
@@ -973,7 +973,7 @@ class ConnectionWidget(QtGui.QWidget):
         """
         if not (type(connection)==list or type(connection)==tuple):
             connection=('',1.0,self.target,'')
-        print connection
+        print(connection)
         new_ConnectionEdit=ConnectionEditTangential(self,*connection)
         new_ConnectionEdit.index=self.n
         self.vbox.insertWidget(self.n,new_ConnectionEdit)
@@ -1055,7 +1055,7 @@ class ConnectionEdit(QtGui.QWidget):
         super(ConnectionEdit,self).__init__()
         self.parent_ConnectionWidget=parent_ConnectionWidget
         
-        print id(self.parent_ConnectionWidget.parent_editor.connections)
+        print(id(self.parent_ConnectionWidget.parent_editor.connections))
 
         self.index=0
         self.init_UI(default_target,default_weight)

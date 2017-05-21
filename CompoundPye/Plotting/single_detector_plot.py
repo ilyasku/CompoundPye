@@ -34,8 +34,8 @@ def plot(data,tlim=None,plot_args=[],plot_kw_args={}):
     if tlim==None:
         tlim=data.shape[1]
     
-    print 'shape:'
-    print data.shape
+    print('shape:')
+    print(data.shape)
     
     gs=gridspec.GridSpec(6,4)
     f=plt.figure()

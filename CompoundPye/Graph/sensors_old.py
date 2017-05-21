@@ -51,13 +51,13 @@ def plot_neighbourhood(ax,coords,neighbours,angles=None,directions_dict={}):
 
     edge_colors='black'
 
-    if len(directions_dict.keys())>0:
+    if len(list(directions_dict.keys()))>0:
         if angles!=None:
             edge_colors=[]
-            for edge_origin in G.edge.keys():
-                for edge_target in G.edge[edge_origin].keys():
+            for edge_origin in list(G.edge.keys()):
+                for edge_target in list(G.edge[edge_origin].keys()):
                     angle=angles[edge_target,edge_origin]
-                    print("angle="+str(angle))
+                    print(("angle="+str(angle)))
                     interval_found=False
                     for key in directions_dict:
                         if interval_found:
@@ -68,17 +68,17 @@ def plot_neighbourhood(ax,coords,neighbours,angles=None,directions_dict={}):
                             if angle>=interval[0] and angle<=interval[1]:
                                 edge_colors.append(directions_dict[key][0])
                                 interval_found=True
-                                print "found! "+key
+                                print("found! "+key)
                                 break
 
-                        print "checked "+str(count)+" intervals"
+                        print("checked "+str(count)+" intervals")
                                 
 
 
 
-    print edge_colors
-    print len(edge_colors)
-    print G.number_of_edges()
+    print(edge_colors)
+    print(len(edge_colors))
+    print(G.number_of_edges())
 
 
     nx.draw(G,pos_dict,ax,with_labels=True,edge_color=edge_colors)
@@ -111,17 +111,17 @@ def _determine_neighbours_single(distances,max_neighbours,neighbour_range):
             d.sort()
             neighbour_list=[k[1] for k in d[:max_neighbours]]
         if len(neighbour_list)==0:
-            print 'WARNING: sensor (node) '+str(i)+' has no neighbours in range!'
+            print('WARNING: sensor (node) '+str(i)+' has no neighbours in range!')
         neighbours.append(neighbour_list)
 
     return neighbours
 
 #should return only neighbours
 def _determine_neighbours_bi(distances,max_neighbours,neighbour_range):
-    print "!--!"*10
-    print "WARNING: bi directional neighbour detection not implemented yet!" 
-    print "Using single directional detection instead"
-    print "!--!"*10
+    print("!--!"*10)
+    print("WARNING: bi directional neighbour detection not implemented yet!") 
+    print("Using single directional detection instead")
+    print("!--!"*10)
 
     return _determine_neighbours_single(distances,max_neighbours,neighbour_range)
 

@@ -17,7 +17,7 @@ from .. import Graph
 
 import numpy as np
 
-import paths_to as pt
+from . import paths_to as pt
 
 
 def get_comp_dict():
@@ -196,7 +196,7 @@ def _create_circ_lists_manually(pixel,
     sensor_array = create_sensors(pixel, sensor_settings, sensor_variables,
                                   sensor_defaults, sensors)
     col_components_pre = None
-    for nhood in sensor_array.keys():
+    for nhood in list(sensor_array.keys()):
         for i in range(0, len(sensor_array[nhood])):
 
             col_components = create_components(variables, components['column_components'],
@@ -253,7 +253,7 @@ def _create_circ_lists_automatically(pixel,
         import matplotlib.pyplot as plt
         f, ax = plt.subplots(1, 1)
 
-    for nhood in nhood_dict.keys():
+    for nhood in list(nhood_dict.keys()):
         coords = nhood_dict[nhood][1]
         s_list = nhood_dict[nhood][0]
 
@@ -298,13 +298,13 @@ def _create_circ_lists_automatically(pixel,
 
         ## create components between next neighbours and connect them                
         for i in G:
-            _i = i - G.node.keys()[0]                    
+            _i = i - list(G.node.keys())[0]                    
             c_list = c_list + col_components_list[_i]                    
             for j in G[i]:
                 j = int(j)
                 edge_i_j = G[i][j]
 
-                _j = j - G.node.keys()[0]
+                _j = j - list(G.node.keys())[0]
 
                 ## fixed labels for sensors!
                 nn_j = create_components(variables,
@@ -422,11 +422,11 @@ def create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults, se
     # they will be grouped together in one list, and 
     # all list returned in a dictionary
     if mode_manual:
-        if not sensor_settings.keys().count('dimension'):
+        if not list(sensor_settings.keys()).count('dimension'):
             if sensor_settings['neighbours'] == 'x':
                 rows = {}
                 count = 0
-                for s in sensors.keys():
+                for s in list(sensors.keys()):
                     count += 1
                     s_class = get_sensor_class(sensors[s]['sensor'], sensor_defaults)
                     obj_args, obj_kwargs = get_sensor_args(sensors[s]['obj_args'],
@@ -442,12 +442,12 @@ def create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults, se
                     new_sensor.label = s
                     if new_sensor.label == '-' or new_sensor.label == '':
                         new_sensor.label = '(' + sensors[s]['x'] + ',' + sensors[s]['y'] + ')'
-                    if rows.keys().count(sensors[s]['neighbourhood']):
+                    if list(rows.keys()).count(sensors[s]['neighbourhood']):
                         rows[neighbourhood].append((center[0], new_sensor))
                     else:
                         rows[neighbourhood] = [(center[0], new_sensor)]
 
-                for row in rows.keys():
+                for row in list(rows.keys()):
                     rows[row].sort()
 
                 return rows
@@ -457,9 +457,9 @@ def create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults, se
         # the distance between any pair of sensors will be returned
         # in addition to the list of sensor objects
         nhood_dict = {}
-        for s in sensors.keys():
+        for s in list(sensors.keys()):
             nhood = str(sensors[s]['neighbourhood'])
-            if not nhood_dict.keys().count(nhood):
+            if not list(nhood_dict.keys()).count(nhood):
                 # 1. sensor objects; 2. x-coordinates; 3. y-coordinates
                 nhood_dict[nhood] = ([], [], [])
             s_class = get_sensor_class(sensors[s]['sensor'], sensor_defaults)
@@ -477,7 +477,7 @@ def create_sensors(pixel, sensor_settings, sensor_variables, sensor_defaults, se
             nhood_dict[nhood][1].append(float(sensors[s]['x']))
             nhood_dict[nhood][2].append(float(sensors[s]['y']))
             
-        for nhood in nhood_dict.keys():
+        for nhood in list(nhood_dict.keys()):
             coords = np.zeros((len(nhood_dict[nhood][0]), 2))
             coords[:, 0] = nhood_dict[nhood][1]
             coords[:, 1] = nhood_dict[nhood][2]
@@ -492,7 +492,7 @@ def create_components(variables, components, group_str, coords):
     Create a list of components with information from a circuit-file.
     """
     l = []
-    for comp in components.keys():
+    for comp in list(components.keys()):
         comp_class = get_comp_class(components[comp]['component_object'])
         obj_args, obj_kwargs = get_obj_args(components[comp]['object_args'], variables)
         transf_func = get_transfer_func(components[comp]['transfer_func'])
@@ -727,7 +727,7 @@ def get_comp_class(s):
     if s == '-':
         exec('r=Component')
         return r
-    if comp_dict.keys().count(s):
+    if list(comp_dict.keys()).count(s):
         exec('r=' + str(s))
         return r
     else:
@@ -753,7 +753,7 @@ def get_transfer_func(s):
         exec('r=identity')
         return r
     else:
-        if transf_func_dict.keys().count(s):
+        if list(transf_func_dict.keys()).count(s):
             exec('r=' + s)
             return r
         else:
@@ -780,7 +780,7 @@ def get_args(s, v):
     @param s String of arguments.
     @param v Dictionary of variables.
     """
-    for key in v.keys():
+    for key in list(v.keys()):
         exec(key + '=' + str(v[key]))
     s_dict = ''
     s_list = ''
@@ -848,12 +848,12 @@ def get_sensor_class(s, default):
     @return Sensor object.
     """
     if s == '-':
-        if default.keys().count('sensor'):
+        if list(default.keys()).count('sensor'):
             s = default['sensor']
         else:
             exec('r = Photoreceptor')
             return r
-    if sensor_dict.keys().count(s):
+    if list(sensor_dict.keys()).count(s):
         exec('r = ' + str(s))
         return r
     else:
@@ -869,7 +869,7 @@ def get_sensor_args(s, variables, default):
     @return Tuple: [0] list of parameters, [1] dictionary of keyword parameters.
     """
     if s == '-':
-        if default.keys().count('obj_args'):
+        if list(default.keys()).count('obj_args'):
             s = default['obj_args']
         else:
             return [], {}
@@ -883,7 +883,7 @@ def get_filter_keyword(s, defaults):
     return the appropriate filter key.
     """
     if s == '-':
-        if defaults.keys().count('filter'):
+        if list(defaults.keys()).count('filter'):
             s = defaults['filter']
         else:
             return ''
@@ -901,7 +901,7 @@ def get_filter_args(s, variables, defaults):
     from a string of parameters for a filter function.
     """
     if s == '-':
-        if defaults.keys().count('filter_args'):
+        if list(defaults.keys()).count('filter_args'):
             s = defaults['filter_args']
         else:
             return [], {}

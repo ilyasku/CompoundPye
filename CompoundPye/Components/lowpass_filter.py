@@ -10,8 +10,8 @@ function turning it into a low-pass filter.
 @todo Somehow get rid of the dependency on dt.
 """
 
-from component import Component
-from component import identity
+from .component import Component
+from .component import identity
 
 
 class LowpassFilter(Component):

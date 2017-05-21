@@ -7,13 +7,13 @@
 Provides some functions and classes to handle plotting of Circuits and its Components.
 """
 
-import single_detector_plot
+from . import single_detector_plot
 
-import plot_surroundings
+from . import plot_surroundings
 
-import plot_sensor
+from . import plot_sensor
 
-import animation
+from . import animation
 
 
 #def plot_output_history(ax,data,plot_kw_args={}):

@@ -9,7 +9,7 @@ Provides the class TwoDimBox, a Stimulus with predefined box-shape.
 
 import numpy as np
 
-import stimulus
+from . import stimulus
 
 class TwoDimBox(stimulus.Stimulus):
     def __init__(self,px_x,px_y,relative_extend,relative_starting_point,relative_velocity,amplitude=0.5):

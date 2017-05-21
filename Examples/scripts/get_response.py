@@ -44,9 +44,9 @@ def get_response(dt, intensities_array, t_relax, store_output,
     for i in range(0, len(circ.sensors)):
         _dtype.append(('s' + str(i), np.float32))
 
-    print "=" * 30
-    print "#\tlabel\toutput index"
-    print '=' * 30
+    print("=" * 30)
+    print("#\tlabel\toutput index")
+    print('=' * 30)
     for i in range(0, len(circ.components)):
         c = circ.components[i]
         if store_output.count(c.label):
@@ -55,8 +55,8 @@ def get_response(dt, intensities_array, t_relax, store_output,
             _dtype.append((c.label, np.float32))
         else:
             array_column = None
-        print str(i) + "\t" + c.label + '\t' + str(array_column)
-        print '-' * 30
+        print(str(i) + "\t" + c.label + '\t' + str(array_column))
+        print('-' * 30)
     
     t = np.arange(0, intensities_array.shape[0]) * dt
 

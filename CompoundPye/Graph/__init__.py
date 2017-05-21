@@ -9,4 +9,4 @@
 This file initializes the Graph module.
 """
 
-import sensors
+from . import sensors

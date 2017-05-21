@@ -88,11 +88,11 @@ def plot_neighbourhood(ax, G, direction_colors={}, node_color='white',
 
     edge_colors = 'black'
 
-    if len(direction_colors.keys()) > 0:
+    if len(list(direction_colors.keys())) > 0:
         edge_colors = []
-        for edge_origin in G.edge.keys():
-            for edge_target in G.edge[edge_origin].keys():
-                if direction_colors.keys().count(G.edge[edge_origin][edge_target]['direction']):
+        for edge_origin in list(G.edge.keys()):
+            for edge_target in list(G.edge[edge_origin].keys()):
+                if list(direction_colors.keys()).count(G.edge[edge_origin][edge_target]['direction']):
                     edge_colors.append(direction_colors[G.edge[
                         edge_origin][edge_target]['direction']])
                 else:
@@ -193,12 +193,12 @@ def _determine_neighbours_single(angles, distances, neighbours_per_direction,
         neighbours.append(neighbours_i)
 
     avg_distances = avg_distances / count_added_distances
-    print '=' * 30
+    print('=' * 30)
     s = ['right', 'left', 'up', 'down']
     for i in range(4):
-        print s[i]
-        print "\tnumber of connections: " + str(count_added_distances[i])
-        print "\taverage distance: " + str(avg_distances[i])
+        print(s[i])
+        print("\tnumber of connections: " + str(count_added_distances[i]))
+        print("\taverage distance: " + str(avg_distances[i]))
 
     return neighbours
 
@@ -206,10 +206,10 @@ def _determine_neighbours_single(angles, distances, neighbours_per_direction,
 # should return only neighbours
 def _determine_neighbours_bi(angles, distances, neighbours_per_direction,
                              neighbour_range, directions_dict):
-    print "!--!" * 10
-    print "WARNING: bi directional neighbour detection not implemented yet!" 
-    print "Using single directional detection instead"
-    print "!--!" * 10
+    print("!--!" * 10)
+    print("WARNING: bi directional neighbour detection not implemented yet!") 
+    print("Using single directional detection instead")
+    print("!--!" * 10)
     return _determine_neighbours_single(angles, distances, neighbours_per_direction,
                                         neighbour_range, directions_dict)
 

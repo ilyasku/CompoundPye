@@ -11,8 +11,8 @@ transfer function to turn it into a high-pass filter.
 dt! Need to change this! Same for the low pass.
 """
 
-from component import Component
-from component import identity
+from .component import Component
+from .component import identity
 
 
 class HighpassFilter(Component):

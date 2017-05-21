@@ -14,7 +14,7 @@ the job to somehow normalize the Sensor's output. A tool for normalization is
 not provided in the Sensor unit itself yet.
 """
 
-import sensor
-import dummy_sensor
+from . import sensor
+from . import dummy_sensor
 
-import photoreceptor
+from . import photoreceptor

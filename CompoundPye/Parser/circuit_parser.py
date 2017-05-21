@@ -15,7 +15,7 @@ def save_file(fname, arrangement, variables, neurons, connections, receiver):
     Save circuit-data from the GUI's circuit-editor to file.
     """
     fstring = 'arrangement=' + arrangement + '\n'
-    for var in variables.keys():
+    for var in list(variables.keys()):
         fstring = fstring + 'variable ' + var + '=' + str(variables[var]) + '\n'
     if arrangement == 'column':
         fstring = fstring + 'column_components{\n'
@@ -290,10 +290,10 @@ def parse_header(h):
                         if line[:11] == 'arrangement':
                             arrangement = line.split('=')[1]
                         else:
-                            print 'invalid input "' + line + '"'
+                            print('invalid input "' + line + '"')
                     else:
-                        print 'invalid input "' + line + '"'
+                        print('invalid input "' + line + '"')
 
             else:
-                print 'invalid input "' + line + '"'
+                print('invalid input "' + line + '"')
     return arrangement, variables

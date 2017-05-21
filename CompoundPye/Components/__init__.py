@@ -8,13 +8,13 @@ Provides Component and Connection classes, from which the user can build
 a circuit/network.
 """
 
-import Connections
+from . import Connections
 
-import highpass_filter as hpf
-import lowpass_filter as lpf
-import linear_input_filter as lif
+from . import highpass_filter as hpf
+from . import lowpass_filter as lpf
+from . import linear_input_filter as lif
 
-import component
+from . import component
 
-import transfer_functions
-import array_transfer_functions
+from . import transfer_functions
+from . import array_transfer_functions

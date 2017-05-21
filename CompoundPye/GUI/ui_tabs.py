@@ -11,13 +11,13 @@ graphical user interface MotionDetectorModel.GUI.mdm_gui.MDM_GUI as tabs.
 
 from PyQt4 import QtGui
 
-import circuit_editor as ce2
+from . import circuit_editor as ce2
 
-import sensor_editor as se
+from . import sensor_editor as se
 
-import stimuli_editor as stim
+from . import stimuli_editor as stim
 
-import help_widget
+from . import help_widget
 
 
 import os
@@ -731,7 +731,7 @@ class ProjectionPopup(QtGui.QWidget):
         self.close()
 
     def do_done(self):
-        for key in self.copy_values.keys():
+        for key in list(self.copy_values.keys()):
             self.parent_surr_tab.parent_GUI.values['surroundings_values']['projection_values'][key]=self.copy_values[key]
         self.close()
 
@@ -869,7 +869,7 @@ def clearLayout(layout):
 ##### DATE OF POST: Feb 21 '12 at 9:45    
     @param layout Layout that is to be cleared.
     """
-    for i in reversed(range(layout.count())):
+    for i in reversed(list(range(layout.count()))):
         item = layout.itemAt(i)
 
         if isinstance(item, QtGui.QWidgetItem):

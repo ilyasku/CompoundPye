@@ -10,7 +10,7 @@ VIDEO SUPPORT?
 
 import cv2
 
-import surroundings
+from . import surroundings
 
 
 class VideoSurroundings(surroundings.Surroundings):

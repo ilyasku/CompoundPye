@@ -13,7 +13,7 @@ sensors are considered as part of Circuit-objects, though).
 from PyQt4 import QtCore,QtGui
 
 from ..Parser import *
-from styles import *
+from .styles import *
 
 import os
 #here=os.path.dirname(os.path.abspath(__file__))
@@ -233,7 +233,7 @@ class EditorScrollArea(QtGui.QScrollArea):
             sensors=[]
             self.settings,self.variables,self.defaults,s=self.do_load(initial_file)
             # adding and removing widgets will be easier with a list than a dictionary --> put name inside dict
-            for key in s.keys():
+            for key in list(s.keys()):
                 new_dict=s[key]
                 new_dict['name']=key
                 sensors.append(new_dict)
@@ -420,7 +420,7 @@ class SensorPopup(QtGui.QWidget):
 
         lbl_sensor=QtGui.QLabel('sensor object')
         self.combo_sensor=QtGui.QComboBox()
-        for s in dict_of_sensors.keys():
+        for s in list(dict_of_sensors.keys()):
             self.combo_sensor.addItem(s)
         index=self.combo_sensor.findText(self.copy_values['sensor'])
         self.combo_sensor.setCurrentIndex(index)
@@ -524,7 +524,7 @@ class SensorPopup(QtGui.QWidget):
         """
         Close this SensorPopup, saving all changes in the appropriate dictionaries and lists.
         """
-        for key in self.parent_SensorLine.values.keys():
+        for key in list(self.parent_SensorLine.values.keys()):
             self.parent_SensorLine.values[key]=self.copy_values[key]
         self.parent_SensorLine.edit_name()
         self.close()

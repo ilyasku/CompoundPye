@@ -121,7 +121,7 @@ class System:
         # centrally here, instead of doing it manually for each simulation
         # script again and again.
         for i in self.sensors_to_track:
-            if self.track_data['sensors'].keys().count(i):
+            if list(self.track_data['sensors'].keys()).count(i):
                 self.track_data['sensors'][i][:-1] = self.track_data['sensors'][i][1:]
                 self.track_data['sensors'][i][-1] = self.circuit.sensors[i].get_value()
             else:
@@ -130,7 +130,7 @@ class System:
                 self.track_data['sensors'][i] = new_array
 
         for i in self.components_to_track:
-            if self.track_data['components'].keys().count(i):
+            if list(self.track_data['components'].keys()).count(i):
                 self.track_data['components'][i][:-1] = self.track_data['components'][i][1:]
                 self.track_data['components'][i][-1] = self.circuit.components[i].get_output()
             else:

@@ -12,7 +12,7 @@ linear transfer function.
 """
 
 import numpy as np
-import component
+from . import component
 
 
 class LinearInputFilter(component.Component):

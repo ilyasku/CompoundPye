@@ -78,7 +78,7 @@ for i in range(phi_pos.shape[0]):
         else:
             nodes.append(node)
 
-print("Nodes thrown away: ", nodes_thrown_away)
+print(("Nodes thrown away: ", nodes_thrown_away))
             
 node_positions = np.array([item[0] for item in nodes])
 
@@ -191,7 +191,7 @@ def update_plot(num, Q, I, components_output):
     
     t_num = t_frames[num]
     
-    print num
+    print(num)
     
     node_arrows = compute_arrows(components_output[num,:], nodes)
     C = direction_to_color(node_arrows)

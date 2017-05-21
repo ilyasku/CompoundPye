@@ -94,7 +94,7 @@ def one_dim_gauss(cut_off,px,rel_sigma,amplitude=1,search_step=10):
             r=x_i
         else:
             pass
-    print r
+    print(r)
     gauss=np.exp(-np.arange(-r,r+1)**2/2./sigma**2)
     #print gauss
     filter=np.ones(2*r+1)*amplitude*gauss

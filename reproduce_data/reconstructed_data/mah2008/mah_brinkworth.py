@@ -74,9 +74,9 @@ if __name__=='__main__':
     resp_stim_pairs=[]
 
     for bg in background:
-        print bg
+        print(bg)
         for intens in intensities:
-            print intens
+            print(intens)
             resp_stim_pairs.append(get_response(bg,intens,t_stim,t_relax,dt,time_const_lp3))
         
     i=0

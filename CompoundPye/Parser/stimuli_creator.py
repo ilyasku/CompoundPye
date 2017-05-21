@@ -10,7 +10,7 @@ Creates CompoundPye.src.Surroundings.Stimuli.stimulus.Stimulus objects with para
 
 import sys
 
-import paths_to as pt
+from . import paths_to as pt
 
 def get_two_dim_dict():
     """
@@ -62,7 +62,7 @@ def create_single_stim(obj,extend,start,velocity,args,px_x,px_y):
     #print 'args'
     #print args
     exec('stim='+str(obj)+'('+str(px_x)+','+str(px_y)+','+str(extend)+','+str(start)+','+str(velocity)+','+str(args)+')')
-    print stim.intensities
+    print(stim.intensities)
     return stim
 
 def create_stim(px_x,px_y,stim):

@@ -10,7 +10,7 @@ Provides the class TwoDimSine, a Stimulus with predefined sines in each of the t
 
 import numpy as np
 
-import stimulus
+from . import stimulus
 
 
 

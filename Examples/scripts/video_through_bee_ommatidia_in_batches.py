@@ -101,7 +101,7 @@ for j in range(N_CHUNKS):
 
     sys.stdout.write("Starting simulation ...\n")
 
-    for i in tqdm(range(t.shape[0])):
+    for i in tqdm(list(range(t.shape[0]))):
         t_i = t[i]
 
         new_comp_values = np.zeros(len(neuron_save_indices))

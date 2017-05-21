@@ -91,9 +91,9 @@ def create_stim_ilyas(t, step_delay_between_sensors, stim_duration=0.5, offset=2
 
 
 if __name__ == "__main__":    
-    print("=" * 80)
+    print(("=" * 80))
     print("Running CompoundPye: script `T4_response_to_pseudo_motion`")
-    print("=" * 80)
+    print(("=" * 80))
 
     dt = 0.0005
     t = np.arange(0, 10, dt)
@@ -129,14 +129,14 @@ if __name__ == "__main__":
         if sys.argv.count('-c'):
             circuit_file = sys.argv[sys.argv.index('-c') + 1]
 
-    print("will use sensor file at: " + sensor_file)
-    print("will use circuit file at: " + circuit_file)
-    print("-" * 80)
-    print("will run simulations for " + str(len(delta))
-          + " deltas (delay between step appearance at the two different sensors) ...")
+    print(("will use sensor file at: " + sensor_file))
+    print(("will use circuit file at: " + circuit_file))
+    print(("-" * 80))
+    print(("will run simulations for " + str(len(delta))
+          + " deltas (delay between step appearance at the two different sensors) ..."))
     i = 0
     for delta_i in delta:
-        print("[%i/%i] ---- delta = %f" % (i + 1, len(delta), delta_i))
+        print(("[%i/%i] ---- delta = %f" % (i + 1, len(delta), delta_i)))
         # uncomment the next line to create a stimulus that is more like that used in Fischer et al. 
         # intensities = create_stimulus_fischer_silies(t, delta_i, 0.05, up=0.7)
         # If you use the line above, comment out the following one.
@@ -150,8 +150,8 @@ if __name__ == "__main__":
         differences[i] = data_array[names[name_indices[0]]].max() / data_array[
             names[name_indices[1]]].max()
 
-        print("ratio of maximum responses of cells '%s' and '%s': %f" %
-              (names[name_indices[0]], names[name_indices[1]], differences[i]))
+        print(("ratio of maximum responses of cells '%s' and '%s': %f" %
+              (names[name_indices[0]], names[name_indices[1]], differences[i])))
 
         if delta_i == examples[0]:
             ax_ex1.plot(t, data_array[names[name_indices[0]]], label='preferred', lw=2.2)
@@ -167,7 +167,7 @@ if __name__ == "__main__":
             ax_ex3.set_title(r'$\Delta$t=' + str(delta_i) + r'$\/$s', fontsize=16)
         i += 1
     
-    print("-" * 80)
+    print(("-" * 80))
     print("simulations done")
         
     ax_ex1.legend(fontsize=16)
@@ -205,4 +205,4 @@ if __name__ == "__main__":
     f.show()
 
     print("finished with script `T4_response_to_pseudo_motion`")
-    print("=" * 80)
+    print(("=" * 80))

@@ -16,8 +16,8 @@ here = os.path.dirname(os.path.abspath(__file__))
 home = os.path.expanduser("~")
 import pickle
 
-from ui_tabs import TabSystem, TabSurroundings, TabCircuit, TabSensors, TabOutput
-from styles import blue_tooltips
+from .ui_tabs import TabSystem, TabSurroundings, TabCircuit, TabSensors, TabOutput
+from .styles import blue_tooltips
 
 
 class Main_GUI(QtGui.QWidget):
@@ -117,4 +117,4 @@ class Main_GUI(QtGui.QWidget):
 
     def toggle_show_neighbourhood_plot(self):
         self.values['output']['show_neighbourhood_plot'] = self.checkbox_show_neighbourhood_plot.isChecked()
-        print self.values['output']['show_neighbourhood_plot']
+        print(self.values['output']['show_neighbourhood_plot'])

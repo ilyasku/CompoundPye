@@ -15,7 +15,7 @@ created with cp_non_GUI_wrapper.py .
 import glob
 import numpy as np
 
-import analyzer as a
+from . import analyzer as a
 
 
 class AnalyzeCompare:

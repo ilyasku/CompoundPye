@@ -8,10 +8,10 @@ Provides classes to create stimuli of different shapes and velocities.
 """
 
 
-from one_dim_box import *
+from .one_dim_box import *
 
-from one_dim_sine import *
+from .one_dim_sine import *
 
-from two_dim_sine import *
+from .two_dim_sine import *
 
-from two_dim_box import *
+from .two_dim_box import *

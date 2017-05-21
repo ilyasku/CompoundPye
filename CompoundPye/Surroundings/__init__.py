@@ -6,9 +6,9 @@
 @package CompoundPye.src.Surroundings
 Provides classes to handle the Surroundings of an agent, and classes to create stimuli in these Surroundings.
 """
-import surroundings
-import one_dim
+from . import surroundings
+from . import one_dim
 
-import video
+from . import video
 
-import Stimuli
+from . import Stimuli

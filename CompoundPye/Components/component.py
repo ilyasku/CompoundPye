@@ -10,7 +10,7 @@ Holds the basic Component class.
 """
 
 
-from Connections import connection
+from .Connections import connection
 
 
 class Component:

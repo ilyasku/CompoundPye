@@ -24,7 +24,7 @@ def save_file(fname, settings, variables, defaults, sensors):
     for key in settings:
         line = key + '=' + settings[key] + '\n'
         fstring = fstring + line
-    for var in variables.keys():
+    for var in list(variables.keys()):
         line = 'variable ' + var + '=' + str(variables[var]) + '\n'
         fstring = fstring + line
     for d in defaults:
@@ -34,7 +34,7 @@ def save_file(fname, settings, variables, defaults, sensors):
     fstring = fstring + 'sensors{\n'
 
     for s in sensors:
-        for key in s.keys():
+        for key in list(s.keys()):
             if s[key] == '' or str(s[key]).isspace():
                 s[key] = '-'
         sline = s['x'] + '\t' + s['y'] + '\t' + str(s['name']).replace(' ', '_') + '\t'

@@ -9,7 +9,7 @@ Provides classes (Sensors) that emulate a photoreceptor cell as in van Hateren a
 'Information theoretical evaluation of parametric models of gain control in blowfly photoreceptor cells',2001.
 """
 
-import sensor
+from . import sensor
 import numpy as np
 
 #import MotionDetectorModel.EH as EH
@@ -71,8 +71,8 @@ class Photoreceptor(SensorWiener):
     def update(self,intensities):
         sensor.Sensor.update(self,intensities)
         if self.debug.count('Photoreceptor.update'):
-            print '--- debugging Photoreceptor.update() ---'
-            print("value = "+str(self.value))
+            print('--- debugging Photoreceptor.update() ---')
+            print(("value = "+str(self.value)))
         output=M_DWM(self.value, self.current_DWM_values, self.dt,time_const_lp3=self.time_const_lp3)
         self.value=output[0]
         self.current_DWM_values=output[1:]
@@ -85,8 +85,8 @@ class Photoreceptor(SensorWiener):
         
         if self.debug.count('Photoreceptor.update'):
             print("DWM output:")
-            print output
-            print '---------------------------------'
+            print(output)
+            print('---------------------------------')
         
         
         

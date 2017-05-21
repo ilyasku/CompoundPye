@@ -26,7 +26,7 @@ def evaluate_arg(arg, circ_object):
     arg_dict = {'-i': run_interactive, '--interactive': run_interactive,
                 '--count': count, '--functions': get_functions,
                 '--tau': get_time_consts, '--time-const': get_time_consts}
-    if arg_dict.keys().count(arg):
+    if list(arg_dict.keys()).count(arg):
         arg_dict[arg](circ_object)
         return 1
     else:
@@ -35,7 +35,7 @@ def evaluate_arg(arg, circ_object):
 
 def evaluate_tuple(arg, arg_follow, circ_object):
     arg_dict = {'--connections': get_connections}
-    if arg_dict.keys().count(arg):
+    if list(arg_dict.keys()).count(arg):
         arg_dict[arg](arg_follow, circ_object)
         return 2
     else:
@@ -46,13 +46,13 @@ def get_time_consts(circ_object):
     comps = {}
 
     for c in circ_object.components:
-        if comps.keys().count(c.label):
+        if list(comps.keys()).count(c.label):
             pass
         else:
             comps[c.label] = [c.activation_func, c.param, c.time_const_input, c.time_const_output]
 
     for label in comps:
-        print len(comps[label])
+        print(len(comps[label]))
         f_handle.write(label + ":\n\ttau_input: " + str(comps[label][2]) +
                        '\n\ttau_output: ' + str(comps[label][3]) + '\n\n')
 
@@ -64,7 +64,7 @@ def get_connections(component_name, circ_object):
 def get_functions(circ_object):
     comps = {}
     for c in circ_object.components:
-        if comps.keys().count(c.label):
+        if list(comps.keys()).count(c.label):
             pass
         else:
             comps[c.label] = [c.activation_func, c.param, c.time_const_input, c.time_const_output]
@@ -77,7 +77,7 @@ def get_functions(circ_object):
 def count(circ_object):
     counts = {}
     for c in circ_object.components:
-        if counts.keys().count(c.label):
+        if list(counts.keys()).count(c.label):
             counts[c.label] = counts[c.label] + 1
         else:
             counts[c.label] = 1
@@ -102,12 +102,12 @@ if __name__ == "__main__":
 """ + ENDC)
         sys.exit(1)
     else:
-        print(WARNING + "loading file ..." + ENDC)
+        print((WARNING + "loading file ..." + ENDC))
         circ_obj = pickle.load(open(sys.argv[1], 'rb'))
         if len(sys.argv) < 3:
-            print(WARNING + "default output: displaying names of " 
+            print((WARNING + "default output: displaying names of " 
                   + "components and \nnames of components they connect to with " 
-                  + "some indentation" + ENDC)
+                  + "some indentation" + ENDC))
             for c in circ_obj.components:
                 f_handle.write(c.label + '\n')
                 for conn in c.connections:

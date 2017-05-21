@@ -8,4 +8,4 @@ Provides Connection classes, that defines strength and target from one
 component or sensor to another component.
 """
 
-import connection
+from . import connection

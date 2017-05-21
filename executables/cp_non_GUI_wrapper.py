@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
             if neuron_save_indices == [] and neuron_save_labels == []:
                 comps = s.circuit.components
-                neuron_save_indices = range(len(s.circuit.components))
+                neuron_save_indices = list(range(len(s.circuit.components)))
             else:
                 comps = []
                 if neuron_save_indices != []:
@@ -118,7 +118,7 @@ if __name__ == "__main__":
                         
             if sensor_save_indices == []:
                 sensors = s.circuit.sensors
-                sensor_save_indices = range(len(s.circuit.sensors))
+                sensor_save_indices = list(range(len(s.circuit.sensors)))
             else:
                 sensors = [s.circuit.sensors[sen] for sen in sensor_save_indices]
 
@@ -228,4 +228,4 @@ if __name__ == "__main__":
 
         os.system("rm " + path + "/log_*")
 
-        print results
+        print(results)
