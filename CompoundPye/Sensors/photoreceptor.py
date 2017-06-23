@@ -3,7 +3,7 @@
 # @date 14.11.14
 
 """
-@package CompoundPye.src.Sensors.photoreceptor
+@package CompoundPye.Sensors.photoreceptor
 
 Provides classes (Sensors) that emulate a photoreceptor cell as in van Hateren and Snippe's paper 
 'Information theoretical evaluation of parametric models of gain control in blowfly photoreceptor cells',2001.
@@ -11,8 +11,8 @@ Provides classes (Sensors) that emulate a photoreceptor cell as in van Hateren a
 
 import sensor
 import numpy as np
-
-#import MotionDetectorModel.EH as EH
+import logging
+logger = logging.getLogger("CompoundPye.Sensors.photoreceptor")
 
 class SensorWiener(sensor.Sensor):
     """
@@ -70,9 +70,10 @@ class Photoreceptor(SensorWiener):
 
     def update(self,intensities):
         sensor.Sensor.update(self,intensities)
-        if self.debug.count('Photoreceptor.update'):
-            print '--- debugging Photoreceptor.update() ---'
-            print("value = "+str(self.value))
+        if logger.isEnabledFor(logging.DEBUG):
+            msg = '--- debugging Photoreceptor.update() ---\n'
+            msg += "value = " + str(self.value)
+            logger.debug(msg)
         output=M_DWM(self.value, self.current_DWM_values, self.dt,time_const_lp3=self.time_const_lp3)
         self.value=output[0]
         self.current_DWM_values=output[1:]
@@ -83,13 +84,11 @@ class Photoreceptor(SensorWiener):
         
         self.value=(self.history*self.wiener).sum()*self.dt#*self.history.shape[0]
         
-        if self.debug.count('Photoreceptor.update'):
-            print("DWM output:")
-            print output
-            print '---------------------------------'
-        
-        
-        
+        if logger.isEnabledFor(logging.DEBUG):
+            msg = "DWM output:\n"
+            msg += str(output) 
+            logger.debug(msg)
+            
         
 def M_DWM_Wiener(dt,A=3.13*10**-6,tau=0.000535,n=11):
     t_end=0.025

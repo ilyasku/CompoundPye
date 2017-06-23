@@ -1,6 +1,6 @@
 from PyQt4 import QtGui
 from sensor_line import SensorLine
-from ...Parser import sp
+from ...Parser import sensor_parser as sp
 
 
 class EditorScrollArea(QtGui.QScrollArea):

@@ -8,6 +8,8 @@
 Provides functions to generate circuit information from a circuit-file (text-file) 
 to be passed on to MotionDetectorModel.Parser.creator.create_circ_lists.
 """
+import logging
+logger = logging.getLogger("CompoundPye.Parser.circuit_parser")
 
 
 def save_file(fname, arrangement, variables, neurons, connections, receiver):
@@ -290,10 +292,12 @@ def parse_header(h):
                         if line[:11] == 'arrangement':
                             arrangement = line.split('=')[1]
                         else:
-                            print 'invalid input "' + line + '"'
+                            msg = 'invalid input "' + line + '"'
+                            logger.warning(msg)
                     else:
-                        print 'invalid input "' + line + '"'
-
+                        msg = 'invalid input "' + line + '"'
+                        logger.warning(msg)
             else:
-                print 'invalid input "' + line + '"'
+                msg = 'invalid input "' + line + '"'
+                logger.warning(msg)
     return arrangement, variables

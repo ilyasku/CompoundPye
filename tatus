@@ -1,0 +1,437 @@
+[33mcommit 31ed2868c67301cecc4ea8f3cc90e826e6785bc8[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Wed May 10 13:14:59 2017 +0200
+
+    Gauss coefficient for photoreceptors of drosophila were
+    in a wrong format in the `.npy` file. Corrected that now.
+    Refactored some files of the sensor editor working towards that.
+    Should refactor all files in that style: one file per class ...
+
+[33mcommit 360ff8c3ef70b4331100fb9c3581b3e5207fde1c[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun May 7 22:34:11 2017 +0200
+
+    refactored one file. incremented version number.
+
+[33mcommit 6d8992df6f6c293ef0910781f1635b4872d9bded[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 27 10:19:32 2017 +0100
+
+    added plot scripts for tuning curves to
+
+[33mcommit 72e5b285766d22cd91533eca51876e56521bbd7d[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Tue Feb 21 14:25:41 2017 +0100
+
+    adjusted new import structure on non_GUI_wrapper. updated README on how to reproduce data.
+
+[33mcommit 5c33aded04d60c969a3419deebaebaf3c5973d09[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 20 21:45:36 2017 +0100
+
+    implemented  button in GUI
+
+[33mcommit c052dd17ac609aee25e9f0ce5781b19987c5c0a4[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 20 16:56:59 2017 +0100
+
+    added first example of how to reproduce data
+
+[33mcommit f5164193bb0025c3d959c6459db130502a102853[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 20 15:44:42 2017 +0100
+
+    want to see how the README looks on github
+
+[33mcommit 9dda093ebbca4f19bb09d09089549ceebc46c9c2[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Fri Feb 17 14:06:16 2017 +0100
+
+    found an annoying error in  that I introduced while refactoring ...
+
+[33mcommit be61af5be6e6fedf8477b44517a98c28ed7e1103[m
+Author: ilyasku <ilyasp.ku@gmail.com>
+Date:   Thu Feb 16 08:49:42 2017 +0100
+
+    Update README.md
+
+[33mcommit 256e7dfc8059d9fb7a5299b90df29d5ff9b10e5f[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Tue Feb 7 16:22:46 2017 +0100
+
+    finally figured out why connections to T4 and T5 did not form. Now need to figure out why output from L1/L2 is not passed on properly!
+
+[33mcommit f5bb27c516a416a012c94f91b0a039ce3928d4ea[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Tue Feb 7 11:28:06 2017 +0100
+
+    added circ_files to tracked files
+
+[33mcommit 7e8835544afd680864ddcaabb100f924ae5ef2e9[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Tue Feb 7 10:02:55 2017 +0100
+
+    Adjusted imports to the new folder structure of the last commit.
+    Applied PEP8 formatting in some code that I have scanned through.
+
+[33mcommit 35d8ce8ebbe80a37e3f9730902eccb7c6a149493[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 6 12:34:05 2017 +0100
+
+    Moved the  folder to the top level directory
+
+[33mcommit 8f906f74c7792852ffd6e5c0504ba609db461ece[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 6 12:25:29 2017 +0100
+
+    sorted out the structure: removed `src` dir inside `CompoundPye` dir.
+    I think the python way is to treat `CompoundPye` dir as the source/package
+    directory. I moved all other folders like `Documentation` and `executables`
+    to the top level directory.
+
+[33mcommit aaeeefcf5780d9e70dee71cf8481d203d45ec04c[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Wed Feb 1 16:37:12 2017 +0100
+
+    Added some prints to figure out what I destroyed in Parser.creator the
+    last time I touched it ...
+    Added a `tests` folder
+
+[33mcommit 34fd5f46e9502d9e34179eb389226d98e0cd499c[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Jan 22 18:10:06 2017 +0100
+
+    Refactored the  script. While on it, refactored some of the  modules.
+
+[33mcommit 53d292492bc716cd240bea51182e53a701a54d13[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Jan 22 08:44:23 2017 +0100
+
+    minor changes
+
+[33mcommit affbf75e2b01091419e0e387e7ab8455f92f0404[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Tue Nov 29 17:37:21 2016 +0100
+
+    Updated the script for 360 degree video to save data in chunks.
+    Tried to refactor a bit to make flake8 happy.
+
+[33mcommit b622fd5bcf7a25db44b998884351bc7d75bfb557[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Tue Nov 22 09:13:43 2016 +0100
+
+    startet refactoring ...
+
+[33mcommit 6e2849430d076ab89b39dff995668e6a28c590e0[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Thu Nov 10 12:10:19 2016 +0100
+
+    visualization of T4/T5 quiver plot almost working now
+
+[33mcommit 128c8f6e3e2e3ea7bcba581cdc86ba0430ec815b[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Nov 6 16:30:02 2016 +0100
+
+    made use of the video example script a bit more handy to use ...
+
+[33mcommit 89f222810087a8be7641f74456917e5be618b5c6[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Nov 6 10:00:06 2016 +0100
+
+    another little mistake in Surroundings/video.py
+
+[33mcommit ec35c752a0c13a6517240092a099fc04bb5e576b[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Nov 6 09:53:37 2016 +0100
+
+    turned out I removed an essential line in Surroundings/video.py
+
+[33mcommit 7e765fd16d4a07479248e67b7f629086a8ee47a9[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Nov 6 00:49:03 2016 +0100
+
+    completed the video script
+
+[33mcommit bbec039249090720024985f3b7922bd0f9261904[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Oct 30 22:00:33 2016 +0100
+
+    just forgot to save one file
+
+[33mcommit 45c2a3df0bc296642620d3b6002464b423ff8c6a[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Oct 30 21:59:26 2016 +0100
+
+    removed some files in Examples folder from gitignore ...
+
+[33mcommit 25647bf5b9ae212f18e9e9eed565643e2ea66305[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Oct 30 18:33:25 2016 +0100
+
+    fixed up some errors due to different format of bee ommatidial data
+
+[33mcommit 6ba0707d8b848440871a284a32ca1ffb96376823[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Fri Oct 28 16:15:42 2016 +0200
+
+    starting to integrate bee ommatidia ...
+
+[33mcommit 7f4c7a1a2502f528e96624c2d66527aa41d17a54[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Mon Oct 17 16:23:33 2016 +0200
+
+    added empty reproduce_data folder, need to fill before any publication ...
+
+[33mcommit 8d6386e6f0fba36697012b8f79f7463376a619ca[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Tue Sep 27 17:56:50 2016 +0200
+
+    updated help texts and buttons
+
+[33mcommit 65a8b2b711a20f3590dd3dcc448050689fc08bbe[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon May 30 14:07:55 2016 +0200
+
+    fixed non_GUI_wrapper
+
+[33mcommit 138c356e2e327e56222bd743d32db9e80fb43c16[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Thu May 26 11:46:30 2016 +0200
+
+    added exceptions for simulation runs
+
+[33mcommit b4523240b623a3f595ce3d3cfa876a23f3f3cca9[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun May 22 23:37:55 2016 +0200
+
+    updated help texts
+
+[33mcommit 17279d5182c9c606d033234bb9c41011d851bcc9[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun May 15 11:09:14 2016 +0200
+
+    updated gitignore
+
+[33mcommit 1304dc842cd0675dfd01bc2e0ace011b335acb40[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Mon Apr 25 16:24:32 2016 +0200
+
+    tooltips and whatnot
+
+[33mcommit e8c473277f7d4e8a896316163bee9a0e89762c55[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Fri Apr 22 08:11:07 2016 +0200
+
+    tooltips
+
+[33mcommit b08258f9a999ec2b415810b5e0ec3ca785cd5931[m
+Merge: ed7bfcd d2b35bb
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Thu Apr 21 10:34:27 2016 +0200
+
+    Merge branch 'master' of github.com:ilyasku/CompoundPye
+
+[33mcommit ed7bfcdae2512672e12611a3c9ce8bc75d585c8a[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Thu Apr 21 10:34:23 2016 +0200
+
+    some minor change?
+
+[33mcommit d2b35bb1f3cf34d25a538c64a1c5b2546b05ac2c[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Wed Apr 20 16:38:25 2016 +0200
+
+    still: GUI usability
+
+[33mcommit 59143c210c6fd5e7a9e5f5af51b68d8e2ee46073[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Wed Apr 20 11:16:43 2016 +0200
+
+    continued the quest of userfriendliness
+
+[33mcommit 02ccbf94c1c693dec3a6a2a07e56d63d9baa4029[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Tue Apr 19 15:49:42 2016 +0200
+
+    added tool tipts and style of help pop-up windows
+
+[33mcommit cc42ad2bc93358d7f7f8fc511cb4be6aedf1c203[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Fri Apr 15 13:28:39 2016 +0200
+
+    Added help and wiki (link) buttons. Help not working properly so far!
+
+[33mcommit d9f7736e9bfe03ead88f54862f90d498a467245e[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Thu Apr 14 16:47:22 2016 +0200
+
+    experimenting with styles of tooltips
+
+[33mcommit 66e1857938d293f7385f2219a9b5fdeee059f76b[m
+Merge: 2ffc2ca 02a71de
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Wed Apr 13 10:47:26 2016 +0200
+
+    Merge branch 'arrayize_circuit'
+    
+    Merging all changes to master, since changes done to 'arrayize_circuit' do not touch
+    the old Circuit class. They rather include a new class, CircuitArray.
+    => Changes can me merged safely.
+
+[33mcommit 02a71de0ef3f5d149964b3015d2c5f5ea2ff26c0[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Fri Apr 8 21:53:18 2016 +0200
+
+    updated cp_get_circuit_info
+
+[33mcommit e70e3793d5a8ab231f5d181bd6fbddade8392d6a[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Thu Apr 7 15:14:47 2016 +0200
+
+    minor changes in circuit.py
+
+[33mcommit 5721533911b074c57d6aa9077d4f81df77713dbe[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Tue Apr 5 23:22:16 2016 +0200
+
+    added time-const parameter to executable cp_get_circuit_info.py
+
+[33mcommit b271aee06b2d8a72fe93eaf6a884321485e947ef[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Tue Apr 5 23:15:29 2016 +0200
+
+    added optional normalization parameter to AnalyzeCompare.plot_mean_response
+
+[33mcommit 2cd84dafb7e8c8c9e58e6cabf42cf1c93d12dec0[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Tue Apr 5 10:11:14 2016 +0200
+
+    I think I pinned down what causes the difference in Circuit and CircuitArray:
+    Forgot to use history and Wiener filter in CircuitArray!
+
+[33mcommit 2ffc2ca9f9a141d20cc07a825ec2d6cc5094bde1[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Wed Mar 30 21:14:34 2016 +0200
+
+    updated setup.py
+
+[33mcommit 8bd060d4c18f7f6d6fe80e54b3dd9adc0aeda06d[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Wed Mar 30 17:23:31 2016 +0200
+
+    Working on an alternative, hopefully faster, version of Circuit.
+    All of the update steps of sensors and components require for loops
+    and individual function calls at the moment. Most of these computations
+    are, however, identical. Thus, the idea is to implement these
+    computations as array computations.
+    * I added the class CircuitArray in the circuit.py file.
+    * All changes are not tested so far.
+    * Need to implement CircuitArray.update_components() before I can test.
+
+[33mcommit 06a02744d7ff80587b70513acd639ce881be41ca[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Thu Mar 24 08:15:31 2016 +0100
+
+    finally tried to work around the initial warning "comparison to None will result in ..."
+
+[33mcommit a4ea6558595022690adcb362e720453a1c3286b9[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Wed Mar 23 18:19:01 2016 +0100
+
+    worked on some plotting functions
+
+[33mcommit b313dcaa9a90c4052ce83c21f2c995a8803ff49f[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Mon Mar 21 15:42:03 2016 +0100
+
+    Added TwoDimSineRender in addition to the old TwoDimSine
+
+[33mcommit 81bdc4c78f0ea89575de5a85ea2812c827318add[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Mar 20 21:25:13 2016 +0100
+
+    Started reshaping the Stimulus classes.
+    There now are `RenderStimulus` classes. They didn't work out the way I wanted, since I can't pickle
+    Surroundings objects anymore, if I use pointers to methods. So, every RenderStimulus
+    has to have its own class that directly inherits the Stimulus class.
+
+[33mcommit f37d0411c2f5eb88dc52b37c46a713d312e2eb8e[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Mar 20 14:24:28 2016 +0100
+
+    start working on new branch (test branching...)
+
+[33mcommit a579acbea7df89f0c7075d33ff337dd7864247ef[m
+Merge: 4e46b45 4ef02a0
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sat Mar 5 01:44:49 2016 +0100
+
+    Merge branch 'master' of github.com:ilyasku/CompoundPye
+    Had some problems: couldnt overwrite local *.egg-info, so I removed it from git
+    and put it into .gitignore
+
+[33mcommit 4e46b455b1eac779fbe4cac3b9ad9962cd8d1da4[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sat Mar 5 01:44:45 2016 +0100
+
+    some changes?
+
+[33mcommit 4ef02a03ef8428d70eef9ff5f07596fb0bbfd5c4[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Fri Mar 4 20:14:46 2016 +0100
+
+    should ignore CompoundPye.egg-info in future commits
+
+[33mcommit c116f475c5ce67057a5075a8d714b890987afbb2[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Fri Mar 4 17:31:48 2016 +0100
+
+    quick
+
+[33mcommit 111c586f375d371fa1cd3917ca6273ff5c6d0b7e[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Thu Mar 3 16:53:29 2016 +0100
+
+    output of GUI run saves component file and sensor file as well now
+
+[33mcommit 052ebd9a64767426ef071e2d82ec7ade3576fccc[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Mon Feb 29 21:29:29 2016 +0100
+
+    changed reading of ommatidial coordinates from matlab files to .npy files
+
+[33mcommit 1875763a5e973c82748ad2c75270f314c13f4211[m
+Author: Ilyas Kuhlemann <ilyasp.ku@gmail.com>
+Date:   Thu Feb 25 09:28:08 2016 +0100
+
+    closing session office
+
+[33mcommit 15ad818cbf9c024f687758f929811aaa1eb30884[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sun Feb 21 19:46:23 2016 +0100
+
+    updated README
+
+[33mcommit 73a8d6c0a876f3e0a921625606044ec74b123062[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sat Feb 20 15:52:45 2016 +0100
+
+    minor
+
+[33mcommit b64148c607456b0a3cca95a47a39c51a50cd5ba2[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Sat Feb 20 15:51:13 2016 +0100
+
+    changed README to markdown format
+
+[33mcommit a39e227daae9228a966845ba0b7c0ed68a467f16[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Fri Feb 19 10:05:20 2016 +0100
+
+    updated README
+
+[33mcommit 0b14960d8e50fd3569f2bfbc562fac56a88753bf[m
+Author: ilyas <ilyasp.ku@gmail.com>
+Date:   Wed Feb 17 16:40:57 2016 +0100
+
+    initializing

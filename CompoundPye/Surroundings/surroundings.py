@@ -136,7 +136,6 @@ unmoving stimuli)
             stim.index_in_space[0]=stim.index_in_space[0]%self.n_pixel[0]
             
             overshoot=stim.index_in_space[0]+stim.spatial_extend[0]-1-self.n_pixel[0]
-            #print overshoot
             if overshoot<0:
                 self.intensities[stim.index_in_space[0]:stim.index_in_space[0]+stim.spatial_extend[0]]+=stim.intensities
                 

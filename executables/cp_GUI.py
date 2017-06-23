@@ -1,6 +1,5 @@
 #! python
 
-
 ## @author Ilyas Kuhlemann
 # @contact ilyasp.ku@gmail.com
 # @date 15.01.15
@@ -19,7 +18,11 @@ from PyQt4 import QtGui
 import pickle
 from PIL import Image
 
-import CompoundPye as CP
+from CompoundPye.system import System
+from CompoundPye.GUI.main_gui import Main_GUI
+from CompoundPye.Circuits.circuit import Circuit
+from CompoundPye.Surroundings.surroundings import Surroundings
+from CompoundPye.Surroundings.video import VideoSurroundings
 
 from CompoundPye.Parser import sc, creator
 
@@ -49,7 +52,7 @@ class RunGUI:
         @param args Parameters to be passed on to QtGui.QApplication.
         """
         app = QtGui.QApplication(args)
-        self.GUI = CP.GUI.main_gui.Main_GUI(self)
+        self.GUI = Main_GUI(self)
         self.GUI.show()
         sys.exit(app.exec_())    
 
@@ -75,14 +78,14 @@ class RunGUI:
                                'range': self.GUI.values['sensor_values']['neighbourhood_range'],
                                'max_n': self.GUI.values['sensor_values']['max_neighbours']}
 
-
         if self.GUI.tab_list[1].current_combo_str == 'one dimensional array':
             px = [int(self.GUI.values['surroundings_values']['px_x'])]
         elif self.GUI.tab_list[1].current_combo_str == 'two dimensional array':
             px = [int(self.GUI.values['surroundings_values']['px_x']),
                   int(self.GUI.values['surroundings_values']['px_y'])]
         else:
-            self.surroundings = CP.Surroundings.video.VideoSurroundings(self.GUI.values['surroundings_values']['input_video'], 1, False)
+            self.surroundings = VideoSurroundings(self.GUI.values['surroundings_values']['input_video'],
+                                                  1, False)
             px = self.surroundings.n_pixel
             self.px_x, self.px_y = tuple(px)
         
@@ -108,15 +111,15 @@ class RunGUI:
         
         self.component_list, self.sensor_list, self.coords, self.angles = tmp_tuple
 
-        self.circuit = CP.Circuits.circuit.Circuit(self.component_list, self.sensor_list)
+        self.circuit = Circuit(self.component_list, self.sensor_list)
         if self.GUI.tab_list[1].current_combo_str == 'one dimensional array':
             self.px_x = int(self.GUI.values['surroundings_values']['px_x'])
-            self.surroundings = CP.Surroundings.surroundings.Surroundings((int(self.px_x)))
+            self.surroundings = Surroundings((int(self.px_x)))
         elif self.GUI.tab_list[1].current_combo_str == 'two dimensional array':
             self.px_x, self.px_y = (int(self.GUI.values['surroundings_values']['px_x']),
                                     int(self.GUI.values['surroundings_values']['px_y']))
-            self.surroundings = CP.Surroundings.surroundings.Surroundings((int(self.px_x),
-                                                                           int(self.px_y)))
+            self.surroundings = Surroundings((int(self.px_x),
+                                              int(self.px_y)))
         else:  # should be "video"
             pass
 
@@ -207,11 +210,11 @@ NO WAY TO SAVE VIDEOSURROUNDINGS IMPLEMENTED SO FAR!!!!
         relax_intensity = self.GUI.values['system_values']['relaxation_intensity']
         relax_calculation = self.GUI.values['system_values']['relax_calculation']
 
-        self.system = CP.system.System(self.circuit,
-                                       self.surroundings,
-                                       dt, relax_time,
-                                       relax_intensity,
-                                       relax_calculation)
+        self.system = System(self.circuit,
+                             self.surroundings,
+                             dt, relax_time,
+                             relax_intensity,
+                             relax_calculation)
     
         if relax_time > 0 and relax_calculation != 'none':
             with open(str(self.GUI.values['output']['dir']) + '/circuit_object_relaxed.pkl',

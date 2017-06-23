@@ -4,19 +4,6 @@ This file initializes all sub-packages.
 
 Usage examples will be added soon.
 """
-import Components
-import Circuits
-import Sensors
-import Surroundings
-
-import system
-
-import Parser
-
-import OmmatidialMap
-
-import Graph
-
-import Analyzer
-
-import GUI
+from logging import config
+from .logger_config import LOGGER_CONFIG_DICT
+config.dictConfig(LOGGER_CONFIG_DICT)

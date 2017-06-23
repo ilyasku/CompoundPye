@@ -44,11 +44,6 @@ def create_animation(t_window,ana_object,grid_size,axis_assignment,t_start_in_se
         global running
         global j
 
-        #print "="*20
-        #print n
-        #print j
-
-
         if j<len(ana_object.t):
             dt=ana_object.t[1]-ana_object.t[0]
             offset=j-t_window
@@ -85,10 +80,6 @@ def create_animation(t_window,ana_object,grid_size,axis_assignment,t_start_in_se
                         count+=1
 
                 j+=1
-                #print data_t.shape
-                #print data_y.shape
-                #print data_t.var()
-                #print data_y.var()
 
         else:
             pass
@@ -112,14 +103,7 @@ running=True
 
 def onclick(event):
     global running
-    #print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
-    #    event.button, event.x, event.y, event.xdata, event.ydata)
     if running:
         running=False
     else:
-        running=True
-
-
-    print running
-
-    
+        running=True    

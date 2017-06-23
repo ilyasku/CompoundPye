@@ -3,15 +3,16 @@
 # @date 09.10.14
 
 """
-@package CompoundPye.src.Sensors.sensor
+@package CompoundPye.Sensors.sensor
 Holds the basic Sensor class.
 
 @todo find a solution for adding the right path to sys.path
 """
+import numpy as np
+import logging
+logger = logging.getLogger("CompoundPye.Sensors.sensor")
 
-#import sys
-#sys.path.append('..')
-#sys.path.append('MotionDetectorModel/')
+import filter_funcs as ff
 if __name__.count('.') == 0 and __package__ is None:
     from os import sys, path
     sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
@@ -19,11 +20,8 @@ if __name__.count('.') == 0 and __package__ is None:
 else:
     from ..Components.Connections import connection
 
-import filter_funcs as ff
+cut_off = 0.01
 
-import numpy as np
-
-cut_off=0.01
 
 class Sensor:
     """
@@ -77,8 +75,8 @@ class Sensor:
         @note The actual calculation happens in separate one or two dimensional update-functions.
         """
         
-        if self.receptive_field_set==False:
-            print 'WARNING: Sensor not set! (It does not know where to look for inputs.)'
+        if self.receptive_field_set is False:
+            logger.warning("Sensor not set! (It does not know where to look for inputs.)")
         else:     
             if self.receptive_field.shape[0]==1:
                 self._update_one_dim(intensities)
@@ -86,10 +84,10 @@ class Sensor:
                 self._update_two_dim(intensities)
             else:
                 pass
-        if self.debug.count('Sensor.update'):
-            print '---- debugging Sensor.update ----'
-            print self.value
-            print '-----------------'
+        if logger.isEnabledFor(logging.DEBUG):
+            msg = '---- debugging Sensor.update ----\n'
+            msg += "value: " + str(self.value) + "\n"
+            logger.debug(msg)
         
     def get_value(self):
         """
@@ -98,7 +96,8 @@ class Sensor:
         """
         return self.value
     
-    def set_receptive_field(self,px,rel_center,filter='gaussian',filter_params=[],filter_kw_params={}):
+    def set_receptive_field(self, px, rel_center, filter='gaussian',
+                            filter_params=[], filter_kw_params={}):
         """
         Sets the receptive field of a sensor.
         
@@ -149,21 +148,8 @@ class Sensor:
             self.receptive_field[i]=max(self.receptive_field[i],0)
         
 
-        self.receptive_field_set=True
-        #print '------------set receptive field-----------------'
-        
-        #print 'center:'
-        #print center
-        #print 'filter shape:'
-        #print self.filter.shape
-        #print 'receptive field'
-        #print self.receptive_field
-
-        #print '------------------------------------------------'
-
-        
-        
-        
+        self.receptive_field_set=True        
+                
     def _update_one_dim(self,intensities):
         """
         Updates the sensory information that the Sensor provides (one-dimensional surroundings).
@@ -172,19 +158,7 @@ class Sensor:
         Before that is possible, though, one has to set what the Sensor can see, preferably using the function MotionDetectorModel.Surroundings.one_dim.OneDim.set_sensor or similar functions of more dimensional Surrounding-objects.
         @param intensities Intensities stored in a Surrounding-object (see MotionDetectorModel.Surroundings.one_dim.OneDim.intensities).
         """
-
-        if self.debug.count('Sensor.update'):
-            print '---- debugging Sensor._update_one_dim ----'
-            #print field.sum()
-            #print int(self.receptive_field[0])
-            #print int(self.receptive_field[0])+self.filter.shape[0]
-            print intensities.shape
-            #print intensities
-            print intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],0]
-            print '----------------------'
-
-
-        field=intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],0]*self.filter        
+        field = intensities[int(self.receptive_field[0]):int(self.receptive_field[0])+self.filter.shape[0],0]*self.filter        
 
         self.value=field.sum()
         if self.normalize:
@@ -214,22 +188,10 @@ class Sensor:
         @param intensities Intensities stored in a Surrounding-object (see MotionDetectorModel.Surroundings.one_dim.OneDim.intensities).
         """
         
-        if self.debug.count('Sensor.update'):
-            print '----------------------------------------------------------------'
-            print 'enter function Sensor._update_two_dim'
-
         self.value=self._compute_input_two_dim(intensities)
 
         if self.normalize:
             self.value=self.value/self.normalization_factor
-        if self.debug.count('Sensor.update'):
-            print '\tvalue:'
-            print '\t\t'+str(self.value)
-            print '----------------------------------------------------------------'
-        
-        
-        
-        
-    def set_dt(self,dummy):
-        pass
-        
+                                
+    def set_dt(self, dummy):
+        pass        

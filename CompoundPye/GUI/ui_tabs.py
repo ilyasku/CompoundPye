@@ -10,16 +10,10 @@ graphical user interface MotionDetectorModel.GUI.mdm_gui.MDM_GUI as tabs.
 """
 
 from PyQt4 import QtGui
-
-import circuit_editor as ce2
-
+from .circuit_editor.circuit_editor_tabs import CircuitEditorTabs
 import sensor_editor as se
-
 import stimuli_editor as stim
-
 import help_widget
-
-
 import os
 here = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,42 +21,38 @@ here = os.path.dirname(os.path.abspath(__file__))
 class TabOutput(QtGui.QWidget):
     """
     A tab (Widget) in which the user can specify the output parameters of the simulation.
-    """
-    
-
-    def __init__(self,parent):
+    """    
+    def __init__(self, parent):
         """
         Initializes a TabOutput-object.
 
-        @param parent Requires the parent MDM_GUI-object as parameter to access its dictionary in which all parameters are stored.
+        @param parent Requires the parent MDM_GUI-object as parameter 
+        to access its dictionary in which all parameters are stored.
         """
-        super(TabOutput,self).__init__()
-        self.parent_GUI=parent
-        #self.parent_GUI.values['output']={'dir':''}
+        super(TabOutput, self).__init__()
+        self.parent_GUI = parent
         self.init_UI()
 
     def init_UI(self):
         """
         Initializes all Widgets (labels,buttons,etc.) that are shown in this tab.
         """
-
-        vbox=QtGui.QVBoxLayout()
+        vbox = QtGui.QVBoxLayout()
         self.setLayout(vbox)
-
         # ---------output dir-------------
-        hbox_out=QtGui.QHBoxLayout()
-        lbl_out=QtGui.QLabel('output directory')
-        self.le_out=QtGui.QLineEdit()
+        hbox_out = QtGui.QHBoxLayout()
+        lbl_out = QtGui.QLabel('output directory')
+        self.le_out = QtGui.QLineEdit()
         self.le_out.setText(self.parent_GUI.values['output']['dir'])
-        self.le_out.editingFinished.connect(lambda: self.set_value('dir',self.le_out.text()))
-        btn_browse=QtGui.QPushButton('browse')
+        self.le_out.editingFinished.connect(lambda: self.set_value('dir', self.le_out.text()))
+        btn_browse = QtGui.QPushButton('browse')
         btn_browse.clicked.connect(self.choose_dir)
 
         hbox_out.addWidget(lbl_out)
         hbox_out.addWidget(self.le_out)
         hbox_out.addWidget(btn_browse)
 
-        for w in [lbl_out,self.le_out]:
+        for w in [lbl_out, self.le_out]:
             w.setToolTip("""Set where to save the output.
 Either type the (absolute) path here, or use the 'browse' button to the right.""")
         btn_browse.setToolTip("""Use file browser to specify output path.""")
@@ -71,9 +61,10 @@ Either type the (absolute) path here, or use the 'browse' button to the right.""
         
         # ------ line edits to specify which output to store ------
 
-        hbox_n_by_index=QtGui.QHBoxLayout()
-        lbl_n_by_index=QtGui.QLabel('indices of neurons of which to store the output\n(empty = all)')
-        le_n_by_index=QtGui.QLineEdit()
+        hbox_n_by_index = QtGui.QHBoxLayout()
+        lbl_n_by_index = QtGui.QLabel(
+            'indices of neurons of which to store the output\n(empty = all)')
+        le_n_by_index = QtGui.QLineEdit()
         le_n_by_index.setText(self.parent_GUI.values['output']['n_by_index'])
         le_n_by_index.editingFinished.connect(lambda: self.set_value('n_by_index',le_n_by_index.text()))
 
@@ -765,17 +756,9 @@ class TabCircuit(QtGui.QWidget):
         save.resize(save.sizeHint())
         save.clicked.connect(self.do_save)
 
+        self.editor = CircuitEditorTabs()
 
-        
-
-        #appl=QtGui.QPushButton('apply')
-        #appl.setToolTip('Apply changes to the circuit now\n(because it can take a few minutes and already start in the background)')
-        #appl.resize(appl.sizeHint())
-
-
-        self.editor=ce2.EditorTabs()
-
-        self.grid=QtGui.QGridLayout()
+        self.grid = QtGui.QGridLayout()
         self.setLayout(self.grid)
 
         self.grid.addWidget(load,0,0)
@@ -806,8 +789,8 @@ class TabCircuit(QtGui.QWidget):
         old_editor=self.grid.takeAt(self.grid.count()-1)
         old_editor.widget().deleteLater()
 
-        self.editor=ce2.EditorTabs(f)
-        self.grid.addWidget(self.editor,0,1,9,5)
+        self.editor = CircuitEditorTabs(f)
+        self.grid.addWidget(self.editor, 0, 1, 9, 5)
 
     def do_save(self):
         """
@@ -873,16 +856,11 @@ def clearLayout(layout):
         item = layout.itemAt(i)
 
         if isinstance(item, QtGui.QWidgetItem):
-            #print "widget" + str(item)
             item.widget().close()
-            # or
-            # item.widget().setParent(None)
+
         elif isinstance(item, QtGui.QSpacerItem):
             pass
-            #print "spacer " + str(item)
-            # no need to do extra stuff
-        else:
-            #print "layout " + str(item)
+        else:            
             clearLayout(item.layout())
 
         # remove the item from layout

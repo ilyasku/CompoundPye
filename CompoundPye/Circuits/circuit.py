@@ -6,9 +6,10 @@
 @package CompoundPye.src.Circuits.circuit
 Holds the basic Circuit class.
 """
-
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix
+import logging
+logger = logging.getLogger("CompoundPye.Circuits.circuit")
 from ..Components import array_transfer_functions
 
 
@@ -71,14 +72,13 @@ class Circuit:
             for j in range(0, len(self.sensors[i].connections)):
                 sensors_weight_matrix[self.sensors[i].connections[j].target.index_in_circuit_list, i]=self.sensors[i].connections[j].weight
 
-        if self.debug.count("Circuit.create_weight_matrices"):
-            print '-------debugging output-----------------'
-            print '-------function: Circuit.create_weight_matrices()-------'
-            print 'components_weight_matrix:'
-            print components_weight_matrix
-            print 'sensors_weight_matrix:'
-            print sensors_weight_matrix
-            print '----------------------------------------'
+        if logger.isEnabledFor(logging.DEBUG):
+            msg = '-------function: Circuit.create_weight_matrices()-------\n'
+            msg += 'components_weight_matrix:\n'
+            msg += str(components_weight_matrix) + "\n"
+            msg += 'sensors_weight_matrix:\n'
+            msg += str(sensors_weight_matrix) + "\n"
+            logger.debug(msg)
 
         self.components_weight_matrix = csr_matrix(components_weight_matrix)
         self.sensors_weight_matrix = csr_matrix(sensors_weight_matrix)
@@ -102,16 +102,15 @@ class Circuit:
         for i in range(0, self.n_comp):
             self.components[i].update(inputs[i], dt)
         
-        if self.debug.count("Circuit.update"):
-            print '-------debugging output-----------------'
-            print '-------function: Circuit.update()-------'
-            print 'sensor_values:'
-            print sensor_values
-            print 'outputs:'
-            print outputs
-            print 'inputs:'
-            print inputs
-            print '--------------------------------------'
+        if logger.isEnabledFor(logging.DEBUG):
+            msg = '-------function: Circuit.update()-------\n'
+            msg += 'sensor_values:\n'
+            msg += str(sensor_values) + "\n"
+            msg += 'outputs:\n'
+            msg += str(outputs) + "\n"
+            msg += 'inputs:\n' 
+            msg += str(inputs) + "\n"
+            logger.debug(msg)
 
     def get_sensor_values(self):
         out = []
@@ -196,15 +195,15 @@ Current limitations:
         
         self.M_DWM_for_arrays(dt,self.photoreceptor_time_consts_lp3)
 
-        if self.debug.count("CircuitArray.update"):
-            print("----- debug output of CircuitArray.update ------")
-            print("current DWM values:")
-            print(self.current_DWM_values)
-            print("sensor values:")
-            print(self.sensor_values_array)
-            print("------------------------------------------------")
+        if logger.isEnabledFor(logging.DEBUG):
+            msg = "----- debug output of CircuitArray.update ------\n"
+            msg += "current DWM values:\n"
+            msg += str(self.current_DWM_values) + "\n"
+            msg += "sensor values:\n"
+            msg += str(self.sensor_values_array) + "\n"
+            logger.debug(msg)
         
-        self.component_inputs_array=self.sensors_weight_matrix.dot(self.sensor_values_array)+self.components_weight_matrix.dot(self.component_outputs_array)
+        self.component_inputs_array = self.sensors_weight_matrix.dot(self.sensor_values_array)+self.components_weight_matrix.dot(self.component_outputs_array)
 
         self.update_components(dt)
 

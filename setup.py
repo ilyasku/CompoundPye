@@ -34,8 +34,8 @@ setup(name = "CompoundPye",
                'executables/cp_analyze_single_simulation.py',
                'executables/cp_replace_T4_T5_inhibitory_with_LPis.py',
                'executables/cp_get_circuit_info.py'],
-      long_description = """Modelling and simulation framework for neural networks of compound eyes.""" ,
+      long_description="""Modelling and simulation framework for neural networks of compound eyes.""",
       license="Creative Commons Attribution-ShareAlike 4.0 International License",
-      install_requires=['numpy', 'scipy', 'matplotlib', 'networkx'],
+      install_requires=['numpy', 'scipy', 'matplotlib', 'networkx', "pillow"],
       zip_safe=False
 ) 

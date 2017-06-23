@@ -59,10 +59,7 @@ def create_single_stim(obj,extend,start,velocity,args,px_x,px_y):
     @param px_y Pixel of the Surroundings on the second axis.
     @return Stimulus object.
     """
-    #print 'args'
-    #print args
     exec('stim='+str(obj)+'('+str(px_x)+','+str(px_y)+','+str(extend)+','+str(start)+','+str(velocity)+','+str(args)+')')
-    print stim.intensities
     return stim
 
 def create_stim(px_x,px_y,stim):

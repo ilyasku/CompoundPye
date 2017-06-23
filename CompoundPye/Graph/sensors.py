@@ -13,6 +13,9 @@ tools from networkx to do so.
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+import logging
+
+logger = logging.getLogger("CompoundPye.Graph.sensors")
 
 
 # should return neighbours,distances,angles
@@ -162,13 +165,12 @@ def _determine_neighbours_single(angles, distances, neighbours_per_direction,
         for key in directions_dict:
 
             neighbours_i[key] = []
-            candidates = np.array([])
+            candidates = np.array([], dtype=np.int64)
             d = []
             for _range in directions_dict[key]:
                 candidates = np.concatenate([candidates, 
                                              np.where((angles[:, i] >= _range[0]) 
-                                                      & (angles[:, i] <= _range[1]))[0]])
-                
+                                                      & (angles[:, i] <= _range[1]))[0]])                
                 d = d + [(distances[i, j], j, angles[i, j]) for j in candidates]
             d.sort()
 
@@ -193,23 +195,23 @@ def _determine_neighbours_single(angles, distances, neighbours_per_direction,
         neighbours.append(neighbours_i)
 
     avg_distances = avg_distances / count_added_distances
-    print '=' * 30
-    s = ['right', 'left', 'up', 'down']
-    for i in range(4):
-        print s[i]
-        print "\tnumber of connections: " + str(count_added_distances[i])
-        print "\taverage distance: " + str(avg_distances[i])
-
+    if logger.isEnabledFor(logging.INFO):
+        msg = '=' * 30 + "\n"
+        s = ['right', 'left', 'up', 'down']
+        for i in range(4):
+            msg += s[i]
+            msg += "\tnumber of connections: " + str(count_added_distances[i])
+            msg += "\taverage distance: " + str(avg_distances[i]) + "\n"
+        logger.info(msg)
     return neighbours
 
 
 # should return only neighbours
 def _determine_neighbours_bi(angles, distances, neighbours_per_direction,
                              neighbour_range, directions_dict):
-    print "!--!" * 10
-    print "WARNING: bi directional neighbour detection not implemented yet!" 
-    print "Using single directional detection instead"
-    print "!--!" * 10
+    msg = "bi directional neighbour detection not implemented yet!\n" 
+    msg += "Using single directional detection instead"
+    logger.warning(msg)    
     return _determine_neighbours_single(angles, distances, neighbours_per_direction,
                                         neighbour_range, directions_dict)
 

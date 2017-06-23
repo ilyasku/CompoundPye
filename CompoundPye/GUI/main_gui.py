@@ -117,4 +117,3 @@ class Main_GUI(QtGui.QWidget):
 
     def toggle_show_neighbourhood_plot(self):
         self.values['output']['show_neighbourhood_plot'] = self.checkbox_show_neighbourhood_plot.isChecked()
-        print self.values['output']['show_neighbourhood_plot']

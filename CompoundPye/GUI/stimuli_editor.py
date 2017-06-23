@@ -159,8 +159,6 @@ class StimuliSubWidget(QtGui.QWidget):
             self.stim_lines[i].index=i
         
 
-        #print self.layout.count()
-
 class StimLine(QtGui.QWidget):
     """
     A widget representing a stimulus in the graphical editor ('StimuliSubWidget'), consisting of buttons to edit/remove the stimulus.
@@ -582,17 +580,11 @@ def clearLayout(layout):
         item = layout.itemAt(i)
 
         if isinstance(item, QtGui.QWidgetItem):
-            #print "widget" + str(item)
-            #item.widget().close()
             item.widget().deleteLater()
-            # or
-            # item.widget().setParent(None)
+
         elif isinstance(item, QtGui.QSpacerItem):
             pass
-            #print "spacer " + str(item)
-            # no need to do extra stuff
         else:
-            #print "layout " + str(item)
             clearLayout(item.layout())
 
         # remove the item from layout

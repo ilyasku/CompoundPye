@@ -67,8 +67,6 @@ gauss_sigma_from_literature = np.array([2.5,2.7])/2. # First value is for horizo
                                                   # second for vertical direction.
                                                   # This is sigma in degree.
 
-print(gauss_coeffs_fit_H[0], gauss_coeffs_fit_V[0], gauss_sigma_from_literature)
-
 
 
 if __name__=="__main__":

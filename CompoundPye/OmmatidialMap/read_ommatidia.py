@@ -5,7 +5,7 @@
 # last_update: 29.02.16
 
 """
-@package CompoundPye.src.OmmatidialMap.read_droso
+@package CompoundPye.OmmatidialMap.read_ommatidia
 File to read Drosophila's ommatidia coordinates and 
 acceptance angles from .npy-files in this folder. 
 """
@@ -14,6 +14,8 @@ import numpy as np
 
 import os
 here = os.path.dirname(os.path.abspath(__file__))
+import logging
+logger = logging.getLogger("CompoundPye.OmmatidialMap.read_ommatidia")
 
 
 def write_sphere_coords_spheric_to_sensor_file_buffer(
@@ -28,7 +30,7 @@ def write_sphere_coords_spheric_to_sensor_file_buffer(
     gauss_coeffs_fit = np.load(here + '/' + animal + '_gauss_coeffs.npy')
     coords_shape = sphere_coords_spheric.shape
 
-    print("creating photoreceptors for %s" % animal)    
+    logger.info("creating photoreceptors for %s", animal)
     
     _eyes = np.array(['left'] * (coords_shape[0] / 2) + ['right'] * (coords_shape[0] / 2))
     
@@ -70,7 +72,7 @@ def write_sphere_coords_spheric_to_sensor_file_buffer(
         
     s = s + '}'
 
-    print("Number of photoreceptors created: %i" % photor_coords.shape[0])
+    logger.info("Number of photoreceptors created: %i", photor_coords.shape[0])
 
     if fname_prefix is None:
         return s

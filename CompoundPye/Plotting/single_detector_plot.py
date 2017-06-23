@@ -14,7 +14,6 @@ import matplotlib.gridspec as gridspec
 import numpy as np
 
 
-
 def plot(data,tlim=None,plot_args=[],plot_kw_args={}):
     """
     Plot output of a single detector unit.
@@ -33,10 +32,7 @@ def plot(data,tlim=None,plot_args=[],plot_kw_args={}):
     dt=data[0][1]-data[0][0]
     if tlim==None:
         tlim=data.shape[1]
-    
-    print 'shape:'
-    print data.shape
-    
+        
     gs=gridspec.GridSpec(6,4)
     f=plt.figure()
     
