@@ -4,6 +4,7 @@ from ..styles import blue_tooltips
 from ...Parser import creator
 
 list_of_transfer_functions = creator.transf_func_dict.keys()
+list_of_comps = creator.comp_dict.keys()
 
 
 class PopupNeuron(QtGui.QWidget):

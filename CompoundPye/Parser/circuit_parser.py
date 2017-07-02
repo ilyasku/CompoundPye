@@ -19,10 +19,11 @@ def save_file(fname, arrangement, variables, neurons, connections, receiver):
     fstring = 'arrangement=' + arrangement + '\n'
     for var in variables.keys():
         fstring = fstring + 'variable ' + var + '=' + str(variables[var]) + '\n'
-    if arrangement == 'column':
+    if arrangement == 'column':        
         fstring = fstring + 'column_components{\n'
-        for n in neurons['column']:
-            component = n.values
+        # neurons['column'] is a list of ComponentWidget instances!
+        for component_widget in neurons['column']:            
+            component = component_widget.values
             comp_line = component['name'].replace(' ', '_') + '\t'
             comp_line = comp_line + component['component_object'] + '\t'
             if str(component['object_args']).isspace() or len(str(component['object_args'])) == 0:
@@ -51,8 +52,8 @@ def save_file(fname, arrangement, variables, neurons, connections, receiver):
 
         fstring = fstring + 'between_next_neighbour_components{\n'
         ## write neurons between next neighbours
-        for n in neurons['between']:
-            component = n.values
+        for component_widget in neurons['between']:
+            component = component_widget.values
             # replace whitespaces in names
             comp_line = component['name'].replace(' ', '_') + '\t'
             comp_line = comp_line + component['component_object'] + '\t'
@@ -76,11 +77,11 @@ def save_file(fname, arrangement, variables, neurons, connections, receiver):
 
         fstring = fstring + 'tangential_components{\n'
         ## write neurons between next neighbours
-        for neuron in neurons['tangential']:
-            component = neuron.values
+        for component_widget in neurons['tangential']:
+            component = component_widget.values
             # replace whitespaces in names
             comp_line = component['name'].replace(' ', '_') + '\t'
-            comp_line = comp_line + component['component_object'] + '\t'
+            comp_line = comp_line + component['component_object'] + '\t'            
             if str(component['object_args']).isspace() or len(str(component['object_args'])) == 0:
                 comp_line = comp_line + '-\t'
             else:
@@ -146,7 +147,7 @@ def parse_file(fname):
             (1) arrangement-keyword (currently only 'column' allowed)
             (2) Dictionary of variables defined in circuit file header.
             (3) Dictionary of components, separated into 4 categories:
-                (I) 'column_components' -> Components inside one columnd
+                (I) 'column_components' -> Components inside one column
                 (II) 'between_next_neighbour_components' -> Components considered to be
                      inbetween two columns.
                 (III) 'tangential_components' -> Not in columns, global/tangential components.
@@ -231,18 +232,20 @@ def parse_component_section(content):
     """
     lines = content.split('\n')
     components = {}
-    for line in lines:        
-        if line:
-            if not line.lstrip()[0] == '#':                
-                parse_component_line(components, line)
+    for line in lines:
+        if not line:
+            continue
+        if line.lstrip()[0] == '#':
+            continue
+        parse_component_line(components, line)
     return components
 
 
-def parse_component_line(d, line):
+def parse_component_line(component_dict, line):
     """
     Parse a single line of a 'components'-section (one line = information of one component) 
     to a dictionary; add this dictionary to given d.
-    @param d Dictionary holding one dictionary (with information of a component)
+    @param component_dict Dictionary holding one dictionary (with information of a component)
     per component in the whole 'components'-section.
     @param line Single line to be parsed.
     """
@@ -252,8 +255,7 @@ def parse_component_line(d, line):
     object_args = split[2]
     transfer_func = split[3]
     func_args = split[4]
-    graph_pos = split[5]
-    
+    graph_pos = split[5]    
     attributes = None
     single_time = None
 
@@ -262,9 +264,10 @@ def parse_component_line(d, line):
         if len(split) > 7:
             single_time = split[7]
             
-    d[name] = {'component_object': component_object, 'object_args': object_args,
-               'transfer_func': transfer_func, 'func_args': func_args,
-               'graph_pos': graph_pos, 'attributes': attributes, 'single_time': single_time}
+    component_dict[name] = {'component_object': component_object, 'object_args': object_args,
+                            'transfer_func': transfer_func, 'func_args': func_args,
+                            'graph_pos': graph_pos, 'attributes': attributes,
+                            'single_time': single_time}
 
     
 def parse_header(h):

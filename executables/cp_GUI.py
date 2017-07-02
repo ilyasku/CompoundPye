@@ -12,6 +12,7 @@ user interface and stores the parameters the user enters.
 When creating a RunGUI-object, the QtGui-Application (and the GUI) will 
 be started automatically. You can execute this file with *python GUI.py* to start the GUI.
 """
+import logging
 import numpy as np
 import sys
 from PyQt4 import QtGui
@@ -25,6 +26,7 @@ from CompoundPye.Surroundings.surroundings import Surroundings
 from CompoundPye.Surroundings.video import VideoSurroundings
 
 from CompoundPye.Parser import sc, creator
+from CompoundPye.logger_config import LOGGER_CONFIG_DICT
 
 
 class RunGUI:
@@ -336,4 +338,7 @@ NO WAY TO SAVE VIDEOSURROUNDINGS IMPLEMENTED SO FAR!!!!
         
                 
 if __name__ == '__main__':
+    if sys.argv.count("--debug"):
+        logger = logging.getLogger("CompoundPye")
+        logger.setLevel(logging.DEBUG)
     run = RunGUI(sys.argv)
