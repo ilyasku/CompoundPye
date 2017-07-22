@@ -17,7 +17,6 @@ def create_json_dict(arrangement, variables, neurons, connections, receiver):
                             "tangential": neuron_list_tangential}
 
     
-
 def _get_neuron_list(list_of_component_widgets):
     components_list = []
     for component_widget in list_of_component_widgets:
